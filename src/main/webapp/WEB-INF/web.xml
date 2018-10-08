@@ -4,4 +4,14 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>MangaSession</servlet-name>
+  	<display-name>MangaSession</display-name>
+  	<description></description>
+  	<servlet-class>servlets.MangaSession</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MangaSession</servlet-name>
+  	<url-pattern>/MangaSession</url-pattern>
+  </servlet-mapping>
 </web-app>
