@@ -1,6 +1,7 @@
+/target/
 
-MangaReader/\.settings/
+\.settings/
 
-MangaReader/\.classpath
+\.classpath
 
-MangaReader/\.project
+\.project
