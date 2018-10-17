@@ -10,8 +10,10 @@ public class DBAccess {
     private static PropertiesReader props = PropertiesReader.getInstance();
     public static Connection getConnection() {
         try {
-            Class.forName(props.getValue("dbDriver"));
-            Connection con = DriverManager.getConnection(props.getValue("dbURL"),props.getValue("dbUser"),props.getValue("dbPassword"));
+            if (connection == null) {
+                Class.forName(props.getValue("dbDriver"));
+                connection = DriverManager.getConnection(props.getValue("dbURL"),props.getValue("dbUser"),props.getValue("dbPassword"));
+            }
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println(props.getValue("dbError") + " " + e.getMessage());
         }

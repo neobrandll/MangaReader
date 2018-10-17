@@ -1,16 +1,10 @@
 package models;
 
-public class Response<T> {
+public class ResponseLogin {
     private String message;
     private Integer status;
-    private T data;
-
-    public Object getData() {
-        return data;
-    }
-    public void setData(T data) {
-        this.data = data;
-    }
+    private boolean isAdmin;
+    private String name;
 
     public String getMessage() {
         return message;
@@ -28,4 +22,19 @@ public class Response<T> {
         this.status = status;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.isAdmin = admin;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

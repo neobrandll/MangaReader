@@ -1,11 +1,11 @@
 package com.NitroReader;
 
-import java.sql.DriverManager;
 import com.NitroReader.utilities.DBAccess;
 import com.NitroReader.utilities.NitroEncrypted;
+import com.NitroReader.utilities.ValidateField;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.Response;
-import models.User;
+import models.ResponseRegister;
+import models.UserRegister;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,84 +15,98 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
-import java.util.Calendar;
 import java.util.stream.Collectors;
 import com.NitroReader.utilities.PropertiesReader;
 
 @WebServlet("/Register")
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        registerUser(request, response);
+        validateTheFields(request, response);
     }
 
 
     //METHOD FOR USER REGISTER
-    public void registerUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void registerUser(HttpServletRequest request, HttpServletResponse response, UserRegister userR, ObjectMapper objM) throws IOException {
         PropertiesReader props = PropertiesReader.getInstance();
-        ObjectMapper objM = new ObjectMapper();
-        Connection con = null;
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
+        Connection con;
+        PreparedStatement pstm;
+        ResultSet rs;
         java.util.Date date = new java.util.Date();
         java.sql.Date finaldate = new java.sql.Date(date.getTime());
-        Boolean registrado = null;
         String r = "";
         PrintWriter out = response.getWriter();
-        Response<User> res = new Response<>();
-        User user = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), User.class);
-        String nitroP = NitroEncrypted.getNitroPassword(user.getPassword());
+        ResponseRegister<UserRegister> res = new ResponseRegister<>();
+        String encryptedPass = NitroEncrypted.getNitroPassword(userR.getPassword());
 
         try {
-            Class.forName(props.getValue("dbDriver"));
-            con = DriverManager.getConnection(props.getValue("dbURL"), props.getValue("dbUser"), props.getValue("dbPassword"));
-            pstm = con.prepareStatement(props.getValue("queryLogin"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            pstm.setString(1, user.getUser());
+            con = DBAccess.getConnection();
+            pstm = con.prepareStatement(props.getValue("qryCheckUser"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pstm.setString(1, userR.getUser());
             rs = pstm.executeQuery();
-//            System.out.println(rs);
+
             if (rs.next()){ // Se verifica si ya el usuario se encuentra registrado si no, lo registra
-                registrado = false;
                 System.out.println(props.getValue("datedRegister"));
+                res.setData(userR);
+                res.setMessage(props.getValue("datedRegister"));
+                res.setStatus(404);
+                res.setValidUser(true);
+                res.setValidName(true);
+                res.setValidEmail(true);
+                res.setValidPassword(true);
+                r = objM.writeValueAsString(res);
             } else {
-                registrado = true;
                 System.out.println(props.getValue("newRegister"));
                 pstm = con.prepareStatement(props.getValue("queryRegister"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 pstm.setInt(1,0);
-                pstm.setString(2, nitroP);
-                pstm.setString(3, user.getUser());
-                pstm.setString(4, user.getName());
-                pstm.setString(5, user.getMail());
-                pstm.setDate(6, finaldate );
-                pstm.executeQuery();
-            }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-
-            try {
-                pstm.close();
-                con.close();
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            if (registrado) {
-                res.setData(user);
+                pstm.setString(2, encryptedPass);
+                pstm.setString(3, userR.getUser());
+                pstm.setString(4, userR.getName());
+                pstm.setString(5, userR.getMail());
+                pstm.setDate(6, finaldate);
+                pstm.executeUpdate();
+                res.setData(userR);
                 res.setMessage(props.getValue("newRegister"));
                 res.setStatus(200);
-            } else {
-                res.setData(user);
-                res.setMessage(props.getValue("datedRegister"));
-                res.setStatus(404);
+                res.setValidUser(true);
+                res.setValidName(true);
+                res.setValidEmail(true);
+                res.setValidPassword(true);
+                r = objM.writeValueAsString(res);
             }
 
-        }
-
-            r = objM.writeValueAsString(res);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
             System.out.println(r);
             out.print(r);
+        }
+
+
 
     }
-//    public boolean queryRegister (PreparedStatement pstm, User user, Connection )
+
+    //METHOD TO VALIDATE THE FIELDS OF THE REGISTER
+    private void validateTheFields(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ObjectMapper objM = new ObjectMapper();
+        UserRegister userR = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), UserRegister.class);
+        boolean validEmail = ValidateField.ValidateF(1, userR.getMail());
+        boolean validPassword = ValidateField.ValidateF(2, userR.getPassword());
+        boolean validName = ValidateField.ValidateF(3, userR.getName());
+        boolean validUsername = ValidateField.ValidateF(4, userR.getUser());
+
+        if (validEmail && validPassword && validName && validUsername){
+            registerUser(request, response, userR, objM);
+        } else {
+            PrintWriter out = response.getWriter();
+            ResponseRegister<UserRegister> res = new ResponseRegister<>();
+            res.setMessage("Some of the fields are not filled correctly");
+            res.setStatus(404);
+            res.setValidEmail(validEmail);
+            res.setValidPassword(validPassword);
+            res.setValidName(validName);
+            res.setValidUser(validUsername);
+            out.print(objM.writeValueAsString(res));
+
+        }
+    }
 }
