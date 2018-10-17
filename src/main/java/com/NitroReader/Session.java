@@ -1,5 +1,6 @@
 package com.NitroReader;
 
+
 import com.NitroReader.utilities.AttrSession;
 import com.NitroReader.utilities.DBAccess;
 import com.NitroReader.utilities.NitroEncrypted;
@@ -7,7 +8,6 @@ import com.NitroReader.utilities.PropertiesReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.ResponseLogin;
 import models.UserLogin;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -111,6 +111,5 @@ public class Session extends HttpServlet {
         r = objM.writeValueAsString(res);
         System.out.println(r);
         out.print(r);
-
     }
 }

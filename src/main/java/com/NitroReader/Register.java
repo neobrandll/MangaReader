@@ -1,12 +1,12 @@
 package com.NitroReader;
 
+
 import com.NitroReader.utilities.DBAccess;
 import com.NitroReader.utilities.NitroEncrypted;
 import com.NitroReader.utilities.ValidateField;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.ResponseRegister;
 import models.UserRegister;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+
 import java.util.stream.Collectors;
 import com.NitroReader.utilities.PropertiesReader;
+
 
 @WebServlet("/Register")
 public class Register extends HttpServlet {
