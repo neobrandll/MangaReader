@@ -5,5 +5,8 @@
 \.classpath
 
 \.project
-.idea
-MangaReader.iml
+
+\.idea/
+
+MangaReader\.iml
+
