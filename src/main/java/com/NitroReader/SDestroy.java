@@ -1,3 +1,5 @@
+package com.NitroReader;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.ResponseLogin;
 
@@ -10,8 +12,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "SessionDestroy")
-public class SessionDestroy extends HttpServlet {
+@WebServlet("/SDestroy")
+public class SDestroy extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
