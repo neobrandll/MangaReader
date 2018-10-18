@@ -1,6 +1,7 @@
 document.getElementById("registerbtn").addEventListener("click", function(){window.location.href ="Nitroregister.html"})
 document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"})
 document.getElementById("loginbtn").addEventListener("click", function(){window.location.href ="Nitrologin.html"})
+document.getElementById("relogin").addEventListener("click", function(){window.location.href ="Nitrologin.html"})
 
 document.getElementById("create").addEventListener("click", function(){
     var pwd = document.getElementById("pwd").value
