@@ -1,12 +1,12 @@
 #container{
-    padding-top: 50px
+    padding-top: 50px;
+    
   }
   .card { background-color: rgba(245, 245, 245, 0.6); }
   .card-header, .card-footer { opacity: 1}
   #card{
-    width: 500px;
-    position: relative;
-    left: 300px;
+  
+    margin: 0%;
   
   }
   #NitroRegister{

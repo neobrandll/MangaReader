@@ -12,36 +12,42 @@
    <link rel="stylesheet" href="assets/css/NitroCSS.css">
    <link rel="stylesheet" href="assets/css/NitroRegister.css">
   </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#"><i class="fa fa-bolt" aria-hidden="true"></i> NitroReader</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item ">
-          <a class="nav-link" href="#">Home </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
-        </li>
-       
-        <li class="nav-item">
-          <a class="nav-link " href="#">Register</a>
-        </li>
-      </ul>
-      
-    </div>
-  </nav>
+  <body onload="main();">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a id="gohome" class="navbar-brand" href="#"><i class="fa fa-bolt" aria-hidden="true"></i> NitroReader</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <span class="nav-link" id="userspan"></span>
+                  </li>
+              <li class="nav-item ">
+                <a id="homebtn" class="nav-link" href="#">Home </a>
+              </li>
+              <li class="nav-item">
+                <a  id="loginbtn" class="nav-link" href="#">Login</a>
+              </li>
+             
+              <li class="nav-item">
+                <a id="registerbtn" class="nav-link " href="#">Register</a>
+              </li>
+              <li class="nav-item">
+                  <a id="logoutbtn" class="nav-link " href="#">Logout</a>
+                </li>
+            </ul>
+            
+          </div>
+        </nav>
 
 
-  <div class="container" id="container">
-      <h1 id="NitroRegister">NitroRegister</h1>
+  <div class="container d-flex flex-column justify-content-center align-items-center" id="container">
+      <h1 style="font-size: 7.5vw" id="NitroRegister">NitroRegister</h1>
+      <div class="align-items-center">
       
-      
-      <div id="card" class="card  ">
+      <div id="card" class="card ">
       <article class="card-body mx-auto" style="max-width: 400px;">
 
         
@@ -50,46 +56,47 @@
           <div class="input-group-prepend">
               <span class="input-group-text"> <i class="fa fa-user"></i> </span>
            </div>
-              <input name="" class="form-control" placeholder="Name" type="text">
+              <input id="name" class="form-control" placeholder="Name" type="text">
           </div> 
           <div class="form-group input-group">
               <div class="input-group-prepend">
                   <span class="input-group-text"> <i class="fa fa-users"></i> </span>
                </div>
-                  <input  class="form-control" placeholder="Username" type="text">
+                  <input  class="form-control"  id="user" placeholder="Username" type="text">
               </div> 
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
            </div>
-              <input  class="form-control" placeholder="Email" type="email">
+              <input  class="form-control" placeholder="Email" id="email" type="email">
           </div>
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
           </div>
-              <input class="form-control" placeholder="Create password" type="password">
+              <input class="form-control" id="pwd" placeholder="Create password" type="password">
               <span class="text-dark" style="font-weight: 700">Make sure it's at least 8 characters, including a number, and a lowercase letter.</span>
           </div> 
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
           </div>
-              <input class="form-control" placeholder="Repeat password" type="password">
+              <input class="form-control" id="rpwd" placeholder="Repeat password" type="password">
           </div>                                     
           <div class="form-group">
-              <button type="submit" class="btn btn-danger btn-block"> Create Account  </button>
+              <button id="create" type="submit" class="btn btn-danger btn-block"> Create Account  </button>
           </div>       
-          <p class="text-light bg-dark text-center">Have an account? <a class="text-danger" href="">Log In</a> </p>                                                                 
+          <p class="text-light bg-dark text-center">Have an account? <a id="relogin" class="text-danger" href="#">Log In</a> </p>                                                                 
       </form>
       </article>
       </div> 
-      
+    </div>
       </div> 
               <script
                src="https://code.jquery.com/jquery-3.3.1.slim.js"
               integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA="
               crossorigin="anonymous"></script>
               <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-</body>
+              <script src="assets/js/NitroRegister.js"></script>
+   </body>
 </html>

@@ -4,9 +4,7 @@
   .card { background-color: rgba(245, 245, 245, 0.1); }
   .card-header, .card-footer { opacity: 1}
   #card{
-    width: 300px;
-    position: relative;
-    left: 400px;
+  margin: 0%
   
   }
   #NitroRegister{
