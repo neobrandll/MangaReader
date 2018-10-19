@@ -4,19 +4,22 @@ var logoutbtn = document.getElementById("logoutbtn")
 
 //los eventos para el redireccionado
 registerbtn.addEventListener("click", function(){window.location.href ="NitroRegister.html"})
+
+document.getElementById("rediregister").addEventListener("click", function(){window.location.href ="NitroRegister.html"})
+
 document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"})
 document.getElementById("gohome").addEventListener("click", function(){window.location.href ="index.html"})
 loginbtn.addEventListener("click", function(){window.location.href ="NitroLogin.html"})
 
 
 document.getElementById("gologin").addEventListener("click", function(){
-    var password = document.getElementById("pwd").value
+    var pwd = document.getElementById("pwd").value
     var user = document.getElementById("user").value
     var url = 'http://localhost:8080/NitroReader/Session';
-    var data = { password : password,
+    var data = { password : pwd,
                 user: user
                             };
-
+                            console.log(data)
     fetch(url, {
     method: 'POST', 
     body: JSON.stringify(data), 
@@ -24,13 +27,15 @@ document.getElementById("gologin").addEventListener("click", function(){
         'Content-Type': 'application/json'
     }
     }).then(res => res.json()).then(function(res){
+        if(res.status ==200){
             localStorage.setItem("user", res.name)
-            console.log("Register complete!")
-        
+            console.log("login complete!")
+            window.location.replace("index.html");
+        }
     })
     .catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response));
-    window.location.replace("index.html");
+    
+    
     })
 
 

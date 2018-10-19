@@ -3,6 +3,20 @@ var registerbtn= document.getElementById("registerbtn");
 var logoutbtn = document.getElementById("logoutbtn");
 
 //los eventos para el redireccionado
+
+registerbtn.addEventListener("click", function(){window.location.href ="NitroRegister.html"})
+document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"})
+document.getElementById("gohome").addEventListener("click", function(){window.location.href ="index.html"})
+loginbtn.addEventListener("click", function(){window.location.href ="NitroLogin.html"})
+document.getElementById("relogin").addEventListener("click", function(){window.location.href ="NitroLogin.html"})
+
+document.getElementById("create").addEventListener("click", function(){
+    var pwd = document.getElementById("pwd").value
+    var rpwd = document.getElementById("rpwd").value
+    var mail = document.getElementById("email").value
+    var user = document.getElementById("user").value
+    var name = document.getElementById("name").value
+
 registerbtn.addEventListener("click", function(){window.location.href ="NitroRegister.html"});
 document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"});
 document.getElementById("gohome").addEventListener("click", function(){window.location.href ="index.html"});
@@ -14,6 +28,7 @@ document.getElementById("create").addEventListener("click", function(){
     var mail = document.getElementById("email").value;
     var user = document.getElementById("user").value;
     var name = document.getElementById("name").value;
+
     if(pwd === rpwd){
     var url = 'http://localhost:8080/NitroReader/Register';
     var data = {name: name,
@@ -29,9 +44,17 @@ document.getElementById("create").addEventListener("click", function(){
         'Content-Type': 'application/json'
     }
     }).then(res => res.json()).then(function(res){
+
+        if(res.status ==200){
+            console.log("Register complete!")
+            window.location.href ="index.html"
+        }else{
+            alert("hubo un error en el registro, verifique sus datos")
+
         console.log("asdadwdawdadawdadw")
         if(res.status ==200 && res.validUser == true && res.validEmail == true && res.validPassword ==true && res.validName== true){
             console.log("Register complete!");
+
         }
     })
     .catch(error => console.error('Error:', error))
