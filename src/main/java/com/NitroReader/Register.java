@@ -74,6 +74,7 @@ public class Register extends HttpServlet {
                 res.setValidEmail(true);
                 res.setValidPassword(true);
                 r = objM.writeValueAsString(res);
+
             }
 
         } catch (SQLException e) {

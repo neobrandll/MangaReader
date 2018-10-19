@@ -14,6 +14,7 @@ document.getElementById("create").addEventListener("click", function(){
     var rpwd = document.getElementById("rpwd").value
     var mail = document.getElementById("email").value
     var user = document.getElementById("user").value
+    var name = document.getElementById("name").value
     if(pwd === rpwd){
     var url = 'http://localhost:8080/NitroReader/Register';
     var data = {name: name,
@@ -29,8 +30,9 @@ document.getElementById("create").addEventListener("click", function(){
         'Content-Type': 'application/json'
     }
     }).then(res => res.json()).then(function(res){
-        if(res.status ==200 && validUser == true && validEmail == true && validPassword ==true && validName== true){
+        if(res.status ==200 && res.validUser == true && res.validEmail == true && res.validPassword ==true && res.validName== true){
             console.log("Register complete!")
+            window.location.href ="index.html"
         }
     })
     .catch(error => console.error('Error:', error))

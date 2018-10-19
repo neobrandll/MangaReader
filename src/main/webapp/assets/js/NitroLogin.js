@@ -26,12 +26,13 @@ document.getElementById("gologin").addEventListener("click", function(){
     }
     }).then(res => res.json()).then(function(res){
             localStorage.setItem("user", res.name)
-            console.log("Register complete!")
+            console.log("login complete!")
+            window.location.replace("index.html");
         
     })
     .catch(error => console.error('Error:', error))
     .then(response => console.log('Success:', response));
-    window.location.replace("index.html");
+    
     })
 
 
