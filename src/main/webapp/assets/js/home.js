@@ -3,10 +3,10 @@ var registerbtn= document.getElementById("registerbtn")
 var logoutbtn = document.getElementById("logoutbtn")
 
 //los eventos para el redireccionado
-registerbtn.addEventListener("click", function(){window.location.href ="Nitroregister.html"})
+registerbtn.addEventListener("click", function(){window.location.href ="NitroRegister.html"})
 document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"})
 document.getElementById("gohome").addEventListener("click", function(){window.location.href ="index.html"})
-loginbtn.addEventListener("click", function(){window.location.href ="Nitrologin.html"})
+loginbtn.addEventListener("click", function(){window.location.href ="NitroLogin.html"})
 
 function main(){
     if(localStorage.user){

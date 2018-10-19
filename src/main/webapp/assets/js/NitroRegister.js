@@ -1,18 +1,19 @@
-var loginbtn = document.getElementById("loginbtn")
-var registerbtn= document.getElementById("registerbtn")
-var logoutbtn = document.getElementById("logoutbtn")
+var loginbtn = document.getElementById("loginbtn");
+var registerbtn= document.getElementById("registerbtn");
+var logoutbtn = document.getElementById("logoutbtn");
 
 //los eventos para el redireccionado
-registerbtn.addEventListener("click", function(){window.location.href ="Nitroregister.html"})
-document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"})
-document.getElementById("gohome").addEventListener("click", function(){window.location.href ="index.html"})
-loginbtn.addEventListener("click", function(){window.location.href ="Nitrologin.html"})
+registerbtn.addEventListener("click", function(){window.location.href ="NitroRegister.html"});
+document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"});
+document.getElementById("gohome").addEventListener("click", function(){window.location.href ="index.html"});
+loginbtn.addEventListener("click", function(){window.location.href ="NitroLogin.html"});
 
 document.getElementById("create").addEventListener("click", function(){
-    var pwd = document.getElementById("pwd").value
-    var rpwd = document.getElementById("rpwd").value
-    var mail = document.getElementById("email").value
-    var user = document.getElementById("user").value
+    var pwd = document.getElementById("pwd").value;
+    var rpwd = document.getElementById("rpwd").value;
+    var mail = document.getElementById("email").value;
+    var user = document.getElementById("user").value;
+    var name = document.getElementById("name").value;
     if(pwd === rpwd){
     var url = 'http://localhost:8080/NitroReader/Register';
     var data = {name: name,
@@ -22,20 +23,21 @@ document.getElementById("create").addEventListener("click", function(){
                             };
 
     fetch(url, {
-    method: 'POST', 
-    body: JSON.stringify(data), 
+    method: 'POST',
+    body: JSON.stringify(data),
     headers:{
         'Content-Type': 'application/json'
     }
     }).then(res => res.json()).then(function(res){
-        if(res.status ==200 && validUser == true && validEmail == true && validPassword ==true && validName== true){
-            console.log("Register complete!")
+        console.log("asdadwdawdadawdadw")
+        if(res.status ==200 && res.validUser == true && res.validEmail == true && res.validPassword ==true && res.validName== true){
+            console.log("Register complete!");
         }
     })
     .catch(error => console.error('Error:', error))
-        }else{alert("passwords don't match!")}
+        }else{alert("passwords don't match!");}
 
-    })
+    });
 
     function main(){
         if(localStorage.user){
