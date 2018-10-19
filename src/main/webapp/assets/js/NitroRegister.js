@@ -30,9 +30,11 @@ document.getElementById("create").addEventListener("click", function(){
         'Content-Type': 'application/json'
     }
     }).then(res => res.json()).then(function(res){
-        if(res.status ==200 && res.validUser == true && res.validEmail == true && res.validPassword ==true && res.validName== true){
+        if(res.status ==200){
             console.log("Register complete!")
             window.location.href ="index.html"
+        }else{
+            alert("hubo un error en el registro, verifique sus datos")
         }
     })
     .catch(error => console.error('Error:', error))
