@@ -5,9 +5,10 @@ public class Response<T> {
     private Integer status;
     private T data;
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
+
     public void setData(T data) {
         this.data = data;
     }

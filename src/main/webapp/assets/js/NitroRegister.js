@@ -1,13 +1,17 @@
-var loginbtn = document.getElementById("loginbtn")
-var registerbtn= document.getElementById("registerbtn")
-var logoutbtn = document.getElementById("logoutbtn")
+var loginbtn = document.getElementById("loginbtn");
+var registerbtn= document.getElementById("registerbtn");
+var logoutbtn = document.getElementById("logoutbtn");
 
 //los eventos para el redireccionado
+
+
+
 registerbtn.addEventListener("click", function(){window.location.href ="NitroRegister.html"})
 document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"})
 document.getElementById("gohome").addEventListener("click", function(){window.location.href ="index.html"})
 loginbtn.addEventListener("click", function(){window.location.href ="NitroLogin.html"})
 document.getElementById("relogin").addEventListener("click", function(){window.location.href ="NitroLogin.html"})
+
 
 document.getElementById("create").addEventListener("click", registrar)
 document.addEventListener("keyup",keyU);
@@ -54,6 +58,7 @@ document.addEventListener("keyup",keyU);
             }else{alert("passwords don't match!")}
     
     }
+
 
     function main(){
         if(localStorage.user){
