@@ -1,0 +1,16 @@
+#container{
+    padding-top: 50px
+  }
+  .card { background-color: rgba(245, 245, 245, 0.1); }
+  .card-header, .card-footer { opacity: 1}
+  #card{
+  margin: 0%
+  
+  }
+  #NitroRegister{
+    font-size: 100px;
+    color: red;
+    text-align: center;
+  font-family: 'Roboto', sans-serif;
+  
+  }
