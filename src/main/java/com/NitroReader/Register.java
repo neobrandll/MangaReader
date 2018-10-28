@@ -37,7 +37,7 @@ public class Register extends HttpServlet {
         java.sql.Date finaldate = new java.sql.Date(date.getTime());
         String r = "";
         PrintWriter out = response.getWriter();
-        ResponseRegister<UserRegister> res = new ResponseRegister<>();
+        ResponseRegister res = new ResponseRegister();
         String encryptedPass = NitroEncrypted.getNitroPassword(userR.getPassword());
 
         try {
@@ -48,7 +48,6 @@ public class Register extends HttpServlet {
 
             if (rs.next()){ // Se verifica si ya el usuario se encuentra registrado si no, lo registra
                 System.out.println(props.getValue("datedRegister"));
-                res.setData(userR);
                 res.setMessage(props.getValue("datedRegister"));
                 res.setStatus(404);
                 res.setValidUser(true);
@@ -66,7 +65,6 @@ public class Register extends HttpServlet {
                 pstm.setString(5, userR.getMail());
                 pstm.setDate(6, finaldate);
                 pstm.executeUpdate();
-                res.setData(userR);
                 res.setMessage(props.getValue("newRegister"));
                 res.setStatus(200);
                 res.setValidUser(true);
@@ -101,7 +99,7 @@ public class Register extends HttpServlet {
             registerUser(request, response, userR, objM);
         } else {
             PrintWriter out = response.getWriter();
-            ResponseRegister<UserRegister> res = new ResponseRegister<>();
+            ResponseRegister res = new ResponseRegister();
             res.setMessage("Some of the fields are not filled correctly");
             res.setStatus(404);
             res.setValidEmail(validEmail);
