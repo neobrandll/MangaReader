@@ -64,7 +64,7 @@ document.addEventListener("keyup",keyU);
     logoutbtn.addEventListener("click", function(){
         
     
-        fetch('http://localhost:8080/NitroReader/SDestroy', {
+        fetch('http://localhost:8080/NitroReader/Session', {
         method: 'GET', 
         withCredentials: true,
         credentials: 'same-origin',

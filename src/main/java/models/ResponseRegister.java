@@ -1,6 +1,6 @@
 package models;
 
-public class ResponseRegister<T> {
+public class ResponseRegister {
     private String message;
     private Integer status;
     private Boolean validEmail;
@@ -39,15 +39,6 @@ public class ResponseRegister<T> {
 
     public void setValidUser(Boolean validUser) {
         this.validUser = validUser;
-    }
-
-    private T data;
-
-    public Object getData() {
-        return data;
-    }
-    public void setData(T data) {
-        this.data = data;
     }
 
     public String getMessage() {

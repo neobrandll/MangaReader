@@ -26,7 +26,25 @@ public class Session extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        getSession(request, response);
+        PrintWriter out = response.getWriter();
+        ObjectMapper objM = new ObjectMapper();
+        HttpSession session = request.getSession();
+        ResponseLogin res = new ResponseLogin();
+        String r;
+
+        if(session.isNew()){
+            System.out.println("session not started");
+            res.setMessage("session not started");
+            res.setStatus(304);
+            session.invalidate();
+        }else{
+            res.setStatus(200);
+            res.setMessage("session finished");
+            session.invalidate();
+        }
+        r = objM.writeValueAsString(res);
+        System.out.println(r);
+        out.print(r);
     }
 
     //METHOD FOR THE LOGIN
@@ -85,6 +103,7 @@ public class Session extends HttpServlet {
     }
 
     //METHOD TO GET THE NAME OF THE CURRENT SESSION
+    //NO EN USO!!
     private void getSession (HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         ObjectMapper objM = new ObjectMapper();
