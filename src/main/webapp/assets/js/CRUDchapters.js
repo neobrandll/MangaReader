@@ -122,5 +122,20 @@ for(let i=0; i<imagenes.length; i++){
     let blob = await fetch(imagenes[i].src).then(r => r.blob());
     imgarr[i]=blob;
 }
-console.log(imgarr)//depurando
+// console.log(imgarr)//depurando
+// se inicia el formData
+var form = new FormData();
+for(let i=0; i<imgarr.length; i++){
+    form.append("blob"+i, imgarr[i])
+}
+// depurando el formdata
+// for (var key of form.keys()) {
+//     console.log(key); 
+//  }
+	fetch("http://localhost:8080/NitroReader/MultFilesUp",{
+		method: "POST",
+		body: form
+	}).then((response) => 	
+		response.text()).then((data)=>
+		console.log(data));
 }
