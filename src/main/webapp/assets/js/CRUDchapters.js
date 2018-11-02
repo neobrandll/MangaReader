@@ -1,7 +1,7 @@
 var loginbtn = document.getElementById("loginbtn")
 var registerbtn= document.getElementById("registerbtn")
 var logoutbtn = document.getElementById("logoutbtn")
-
+var div1 = document.getElementById("div1")
 //los eventos para el redireccionado
 registerbtn.addEventListener("click", function(){window.location.href ="NitroRegister.html"})
 document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"})
@@ -93,13 +93,14 @@ document.getElementById("cargar").addEventListener("click", pullfiles);
 
 function pullfiles(){
     var selectedFiles = document.getElementById('myfiles').files
-    let div1 = document.getElementById("div1")
+    
     for (let i = 0; i < selectedFiles.length; i++){ 
         var img = document.createElement("img");
         var n = (div1.childNodes.length)+1;
         img.setAttribute("id", "f"+ n)
         img.setAttribute("draggable","true")
         img.setAttribute("ondragstart", "drag(event)");
+        img.setAttribute("class", "loadedfiles");
         img.src = window.URL.createObjectURL(selectedFiles[i]);
         img.height = 60;
         img.onload = function() {
@@ -139,3 +140,38 @@ for(let i=0; i<imgarr.length; i++){
 		response.text()).then((data)=>
 		console.log(data));
 }
+
+
+
+function getimgs(){
+    fetch('http://localhost:8080/NitroReader/MultFilesUp',{ method: 'GET',
+    withCredentials: true,
+    credentials: 'same-origin',
+    headers:{
+        'Content-Type': 'application/json' }}   )
+    .then(res => res.json()).then(function(res){
+        var count = Object.keys(res).length;
+        console.log(res)
+        for(let i=1; i<=count ; i++){
+            var d= document.createElement("div");
+            var n = (div2.childNodes.length)+1;
+            d.setAttribute("id", "z"+ n)
+            d.setAttribute("class","border border-danger sisisi")
+            d.setAttribute("ondrop", "dropcajas(event)")
+            d.setAttribute("ondragover","allowDrop(event)")
+            d.setAttribute("draggable","true")
+            d.setAttribute("ondragstart", "drag(event)");
+            div2.appendChild(d)
+            var img = document.createElement("img");
+            var n = (div2.childNodes.length)+1;
+            img.setAttribute("id", "j"+ n)
+            img.setAttribute("draggable","true")
+            img.setAttribute("ondragstart", "drag(event)");
+            img.src =res["direccion"+i]
+            img.height = 60;
+            d.appendChild(img)
+        }
+       
+      });
+}
+

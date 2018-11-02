@@ -11,7 +11,7 @@
    <link rel="stylesheet" href="assets/css/NitroCSS.css">
    <link rel="stylesheet" href="assets/css/CRUDchapters.css">
   </head>
-<body onload="main();">
+<body onload="main(); getimgs()">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a id="gohome" class="navbar-brand" href="#"><i class="fa fa-bolt" aria-hidden="true"></i> NitroReader</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,15 +44,7 @@
  <!-- aqui empieza el body -->
 
 
-    <div id="div1" class="border rounded d" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <!-- aqui estan los lis para probar -->
-             <li id="hola" draggable="true" ondragstart="drag(event)">hola 1</li >
-                <li id="hola2" draggable="true" ondragstart="drag(event)">hola 2</li >
-            
-
-
-    
-    </div>
+    <div id="div1" class="border rounded d" ondrop="drop(event)" ondragover="allowDrop(event)">  </div>
     <div id="div2" class="border rounded d" ondrop="dropdiv2(event)" ondragover="allowDrop(event)"></div>
     <div id="cargar" class="rounded btn-danger ">Load</div>
     <input id="myfiles" class="rounded btn-danger" multiple type="file">

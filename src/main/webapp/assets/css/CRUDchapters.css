@@ -9,7 +9,7 @@ html, body{
     width: 20%;
     float: left;
     overflow-y: scroll;
-    padding-bottom: 5%;
+    padding-bottom: 7%;
 
 
 }
@@ -47,8 +47,8 @@ html, body{
    font-size: 1.3vw
 }
 .sisisi{
-    width: 80%;
-    height: 15%;
+    width: 50%;
+    height: 25%;
     margin: auto;
     margin-top: 5%;
 }
@@ -60,4 +60,10 @@ html, body{
    text-align: center;
    font-size: 1.3vw;
    width: 20%;
+}
+
+.loadedfiles{
+    display:block;
+    margin:auto;
+    padding-top: 5%;
 }

@@ -1,5 +1,9 @@
 package com.NitroReader;
 
+import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +21,10 @@ public class MultFilesUp extends HttpServlet {
         Collection<Part> files = request.getParts();
         InputStream filecontent = null;
         OutputStream os = null;
+        PrintWriter out = response.getWriter();
         try {
-            String baseDir = "c:/test";
+            String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\test";
+            FileUtils.cleanDirectory(new File(baseDir));
             int c = new File(baseDir).listFiles().length;
             c++;
             for (Part file : files) {
@@ -43,6 +49,23 @@ public class MultFilesUp extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        PrintWriter out = response.getWriter();
+        JSONObject item = new JSONObject();
+        try{
+            String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\test";
+        int numoffiles = new File(baseDir).listFiles().length;
+            System.out.println( numoffiles);
+        for(int i = 1; i<=numoffiles ; i++){
+            item.put("direccion"+(i),"http://localhost:8080/NitroReader/Test"+"/"+i+".png");
+        }
+       }
+       catch(Exception e){
+           e.printStackTrace();
+       }finally {
+            System.out.println(item);
+            out.print(item);
+        }
 
     }
 }
