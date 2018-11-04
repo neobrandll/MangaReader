@@ -133,7 +133,7 @@ for(let i=0; i<imgarr.length; i++){
 // for (var key of form.keys()) {
 //     console.log(key); 
 //  }
-	fetch("http://localhost:8080/NitroReader/MultFilesUp",{
+	fetch("http://localhost:8080/NitroReader/EditChapter",{
 		method: "POST",
 		body: form
 	}).then((response) => 	
@@ -144,7 +144,7 @@ for(let i=0; i<imgarr.length; i++){
 
 
 function getimgs(){
-    fetch('http://localhost:8080/NitroReader/MultFilesUp',{ method: 'GET',
+    fetch('http://localhost:8080/NitroReader/EditChapter',{ method: 'GET',
     withCredentials: true,
     credentials: 'same-origin',
     headers:{

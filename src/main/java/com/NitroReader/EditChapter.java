@@ -15,8 +15,8 @@ import java.io.*;
 import java.util.Collection;
 
 @MultipartConfig
-@WebServlet("/MultFilesUp")
-public class MultFilesUp extends HttpServlet {
+@WebServlet("/EditChapter")
+public class EditChapter extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Collection<Part> files = request.getParts();
         InputStream filecontent = null;
