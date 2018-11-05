@@ -1,5 +1,6 @@
 package com.NitroReader;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.util.Collection;
+import java.util.HashMap;
 
 @MultipartConfig
 @WebServlet("/EditChapter")
@@ -51,7 +53,9 @@ public class EditChapter extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         PrintWriter out = response.getWriter();
-        JSONObject item = new JSONObject();
+        HashMap<String , String> item = new HashMap<>();
+        ObjectMapper objM = new ObjectMapper();
+        String r;
         try{
             String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\test";
         int numoffiles = new File(baseDir).listFiles().length;
@@ -63,8 +67,9 @@ public class EditChapter extends HttpServlet {
        catch(Exception e){
            e.printStackTrace();
        }finally {
-            System.out.println(item);
-            out.print(item);
+            r= objM.writeValueAsString(item);
+            System.out.println(r);
+            out.print(r);
         }
 
     }

@@ -62,7 +62,7 @@ public class Chapter extends HttpServlet {
                 String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\probarCAPITULOS";
                 try{
                     int c = (new File(baseDir).listFiles().length)+1;
-                    FileUtils.forceMkdir(new File(baseDir+ "\\"+c));
+                    FileUtils.forceMkdir(new File(baseDir+ "/"+"hola"));
                     res.setMessage("el capitulo se ha creado correctamente");
                     r = objM.writeValueAsString(res);
                     System.out.println(r);

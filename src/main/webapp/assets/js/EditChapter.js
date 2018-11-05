@@ -177,12 +177,10 @@ function getimgs(){
 
 //funcion para borrar el capitulo
 function deletechapter(){
-    var URL = document.URL;
-    location.href= URL + "?option=delete"
     var init ={
         method: 'GET'
     }
-    fetch('http://localhost:8080/NitroReader/Chapter',init)
+    fetch('http://localhost:8080/NitroReader/Chapter?option=delete',init)
     .then(function(res){
         return res.json()
     }).then(function(res){
