@@ -9,9 +9,9 @@
     <link href="assets/css/font-awesome.min.css" rel="stylesheet">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" >
    <link rel="stylesheet" href="assets/css/NitroCSS.css">
-   <link rel="stylesheet" href="assets/css/EditChapter.css">
+   <link rel="stylesheet" href="assets/css/Reader.css">
   </head>
-<body onload="main(); getimgs()">
+<body onload="main(); ">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a id="gohome" class="navbar-brand" href="#"><i class="fa fa-bolt" aria-hidden="true"></i> NitroReader</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,22 +40,14 @@
           
         </div>
       </nav>
-
- <!-- aqui empieza el body -->
-
-
-    <div id="div1" class="border rounded d" ondrop="drop(event)" ondragover="allowDrop(event)">  </div>
-    <div id="div2" class="border rounded d" ondrop="dropdiv2(event)" ondragover="allowDrop(event)"></div>
-    <div id="cargar" class="rounded btn-danger ">Load</div>
-    <input id="myfiles" class="rounded btn-danger" multiple type="file">
-    <div id="del" class="rounded btn-danger " ondrop="dropdel(event)" ondragover="allowDrop(event)" >Delete </div>
-    <div id="enviar" class="rounded btn-danger ">Send</div>
+      <!-- aqui empieza el contenido real -->
+      
+        <img id="mainimg"  alt="">
+      
+      
 
 
-
-
-
-                <script src="assets/js/EditChapter.js"></script>
+              <script src="assets/js/Reader.js"></script>
               <script src="assets/js/jquery-3.3.1.slim.js"></script>
               <script src="assets/js/bootstrap.min.js" ></script>
               <script src="assets/js/home.js"></script>

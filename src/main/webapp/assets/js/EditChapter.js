@@ -175,3 +175,17 @@ function getimgs(){
       });
 }
 
+//funcion para borrar el capitulo
+function deletechapter(){
+    var URL = document.URL;
+    location.href= URL + "?option=delete"
+    var init ={
+        method: 'GET'
+    }
+    fetch('http://localhost:8080/NitroReader/Chapter',init)
+    .then(function(res){
+        return res.json()
+    }).then(function(res){
+        console.log(res.message)
+    })
+}
