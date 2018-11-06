@@ -123,16 +123,12 @@ for(let i=0; i<imagenes.length; i++){
     let blob = await fetch(imagenes[i].src).then(r => r.blob());
     imgarr[i]=blob;
 }
-// console.log(imgarr)//depurando
-// se inicia el formData
+
 var form = new FormData();
 for(let i=0; i<imgarr.length; i++){
     form.append("blob"+i, imgarr[i])
 }
-// depurando el formdata
-// for (var key of form.keys()) {
-//     console.log(key); 
-//  }
+
 	fetch("http://localhost:8080/NitroReader/EditChapter",{
 		method: "POST",
 		body: form
@@ -144,7 +140,7 @@ for(let i=0; i<imgarr.length; i++){
 
 
 function getimgs(){
-    fetch('http://localhost:8080/NitroReader/EditChapter',{ method: 'GET',
+    fetch('http://localhost:8080/NitroReader/EditChapter?'+'currentChap='+localStorage.currentChap,{ method: 'GET',
     withCredentials: true,
     credentials: 'same-origin',
     headers:{
