@@ -5,17 +5,21 @@
     box-sizing: border-box;
 }
 
+h1, h2, h4, p{
+    font-family: 'Fira Sans', sans-serif;
+}
+
 ul, nav {
     list-style: none;
 }
 a {
     text-decoration: none;
+    text-align: center;
 }
 
 /* Main Styles */
 .main {
     display: flex;
-    /* position: relative; */
     min-height: 100vh;
     flex-direction: column;
     justify-content: center;
@@ -33,6 +37,7 @@ a {
 .grid{
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .main .background-image {
@@ -49,17 +54,46 @@ a {
     flex: 1 1 20%;
     background: #95a5a6;
 }
-.image div img{
-    height: 400px;
-	padding: 20px;
-	background-clip: content-box;
-	background-size: cover;
-	background-position: center;
-}
 .descp{
     flex: 4 0 70%;
     background: #ecf0f1;
 }
+.descp div{
+    display: flex;
+    flex-direction: column;
+}
+.descp div h1{
+    text-transform: uppercase;
+    font-size: 40px;
+    text-align: center;
+    padding: 10px;
+}
+.descp div p{
+    padding: 0 10px;
+}
+.image div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.image div h2{
+    text-transform: uppercase;
+    font-size: 30px;
+    text-align: center;
+    /* padding: 10px;
+    padding-top: 20px; */
+    /* width: 100px; */
+    padding: 10px;
+    margin-top: 10px;
+}
+.image div img{
+    height: 400px;
+	padding: 0 20px 20px 20px;
+	background-clip: content-box;
+	background-size: cover;
+	background-position: center;
+}
+
 .aside{
     flex: 1 1 10%;
     background: #3498db;
@@ -69,4 +103,17 @@ a {
  header {
     position: absolute;
      width: 100%;
+}
+
+/* Info Styles */
+.genre{
+    display: inline-flex;
+    padding: 5px 7px;
+    background: red;
+    border-radius: 20px;
+    margin: 5px 10px;
+}
+
+.descp div h4{
+    margin: 10px;
 }

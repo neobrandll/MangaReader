@@ -3,7 +3,8 @@ package com.NitroReader;
 
 import com.NitroReader.services.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.ResponseLogin;
+import models.LoginData;
+import models.Response;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,17 +26,19 @@ public class Session extends HttpServlet {
         PrintWriter out = response.getWriter();
         ObjectMapper objM = new ObjectMapper();
         HttpSession session = request.getSession();
-        ResponseLogin res = new ResponseLogin();
+        Response<LoginData> res = new Response<>();
         String r;
 
         if(session.isNew()){
             System.out.println("session not started");
             res.setMessage("session not started");
             res.setStatus(304);
+            res.setData(null);
             session.invalidate();
         }else{
             res.setStatus(200);
             res.setMessage("session finished");
+            res.setData(null);
             session.invalidate();
         }
         r = objM.writeValueAsString(res);
