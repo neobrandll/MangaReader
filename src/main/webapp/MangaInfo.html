@@ -6,9 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title></title>
     <link rel="shortcut icon" href="assets/css/images/Nitrolove.ico"/>
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    <script src="assets/js/jquery-3.3.1.slim.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
    <link rel="stylesheet" href="assets/css/MangaInfo.css">
 </head>
 <body>
@@ -55,7 +58,7 @@
             </div>
             <article class="grid descp">
                 <div>
-                        <h1 id="mangaName">NARUTO</h1>
+                        <h1 id="mangaName">edens zero</h1>
                         <p id="mangaSynopsis">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea asperiores eaque consequatur accusantium magnam repellendus quia error rem ab suscipit officiis, praesentium sit rerum amet sunt vitae soluta repudiandae dolores.
                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius consequuntur possimus hic, quidem maiores rem quod reiciendis qui dolorem. Quisquam corrupti ipsa, mollitia culpa commodi impedit officia ad cupiditate. Accusantium.
                         </p>
@@ -65,12 +68,37 @@
                             <li class="genre">Accion</li>
                         </ul>
                         <h4>Status</h4>
-                        <span></span>
+                        <span id="mangaStatuss"><i id="mangaStatus" class="fas fa-check-circle"></i>Publicandose</span>
                 </div>
             </article>
-            <div class="grid aside"></div>  
+            <div class="grid aside">
+                <div>
+                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
+                                Like
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
+                                Dislike
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
+                                Follow
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
+                                Capitulos
+                        </button>
+                </div>                
+                          <!-- <ul>
+                                <li data-toggle="tooltip" data-placement="left" title="250"><i class="far fa-thumbs-up"></i></li>
+                        </ul>         -->
+                          
+            </div>  
         </div>
               
     </section>
 </body>
+<script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
+        </script>
+        <script src="assets/js/info.js"></script>
 </html>
