@@ -8,13 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.ResponseLogin;
+import models.ChapterModel;
 import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
+
 
 @WebServlet("/Chapter")
 public class Chapter extends HttpServlet {
@@ -24,7 +23,7 @@ public class Chapter extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String option = request.getParameter("option");
-        ResponseLogin res = new ResponseLogin();
+        ChapterModel res = new ChapterModel();
         ObjectMapper objM = new ObjectMapper();
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
@@ -49,11 +48,11 @@ public class Chapter extends HttpServlet {
                 String filedir =  "http://localhost:8080/NitroReader/Test";
                 try{
                     int c = new File(Dir).listFiles().length;
-                    JSONObject json = new JSONObject();
-                    json.put("max", c );
-                    json.put("dir", filedir);
-                    System.out.println(json );
-                    out.print(json);
+                    res.setMax(c);
+                    res.setFiledir(filedir);
+                    r = objM.writeValueAsString(res);
+                    System.out.println(r);
+                    out.print(r);
                 }catch (Error e){
                     e.printStackTrace();
                 }

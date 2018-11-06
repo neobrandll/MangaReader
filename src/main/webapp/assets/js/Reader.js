@@ -3,7 +3,7 @@ var max;
 var filedir
 var currentP= 1
 
-async function getchapter(){
+ function getchapter(){
     var init ={
         method: 'GET'
     }
@@ -13,7 +13,7 @@ async function getchapter(){
     }).then(function(res){
         console.log(res)
         max = res.max;
-        filedir= res.dir;
+        filedir= res.filedir;
         mainimg.setAttribute("src", filedir+"/"+ currentP+".png");
         
     })
