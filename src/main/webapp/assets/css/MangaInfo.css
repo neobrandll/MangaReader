@@ -1,0 +1,72 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul, nav {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+}
+
+/* Main Styles */
+.main {
+    display: flex;
+    /* position: relative; */
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-content{
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-basis: 550px;
+    width: 100%;
+}
+
+.grid{
+    display: flex;
+    flex-direction: column;
+}
+
+.main .background-image {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	z-index: -1;
+	/* background-color: #80a3db; */
+}
+.image{
+    flex: 1 1 20%;
+    background: #95a5a6;
+}
+.image div img{
+    height: 400px;
+	padding: 20px;
+	background-clip: content-box;
+	background-size: cover;
+	background-position: center;
+}
+.descp{
+    flex: 4 0 70%;
+    background: #ecf0f1;
+}
+.aside{
+    flex: 1 1 10%;
+    background: #3498db;
+}
+
+/* Header Styles */
+ header {
+    position: absolute;
+     width: 100%;
+}
