@@ -19,13 +19,14 @@ import java.util.HashMap;
 @MultipartConfig
 @WebServlet("/EditChapter")
 public class EditChapter extends HttpServlet {
+    String currentChap ;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Collection<Part> files = request.getParts();
         InputStream filecontent = null;
         OutputStream os = null;
         PrintWriter out = response.getWriter();
         try {
-            String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\test";
+            String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\probarCAPITULOS\\"+currentChap;
             FileUtils.cleanDirectory(new File(baseDir));
             int c = new File(baseDir).listFiles().length;
             c++;
@@ -51,17 +52,17 @@ public class EditChapter extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+        currentChap = request.getParameter("currentChap");
         PrintWriter out = response.getWriter();
         HashMap<String , String> item = new HashMap<>();
         ObjectMapper objM = new ObjectMapper();
         String r;
         try{
-            String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\test";
+            String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\probarCAPITULOS\\"+currentChap;
+            String serveDir = "http://localhost:8080\\NitroReader\\";
         int numoffiles = new File(baseDir).listFiles().length;
-            System.out.println( numoffiles);
         for(int i = 1; i<=numoffiles ; i++){
-            item.put("direccion"+(i),"http://localhost:8080/NitroReader/Test"+"/"+i+".png");
+            item.put("direccion"+(i),serveDir+ "probarCAPITULOS\\"+currentChap+"\\"+i+".png");
         }
        }
        catch(Exception e){
