@@ -7,12 +7,12 @@
     <title></title>
     <link rel="shortcut icon" href="assets/css/images/Nitrolove.ico"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
-    <script src="assets/js/jquery-3.3.1.slim.js"></script>
    <link rel="stylesheet" href="assets/css/MangaInfo.css">
+   <script src="assets/js/jquery-3.3.1.slim.js"></script>
 </head>
-<body onload="load();">
+<body onload="load(); main(); getmangaid(); loadnumchapter();">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
             <a id="gohome" class="navbar-brand" href="#"><i class="fa fa-bolt" aria-hidden="true"></i> NitroReader</a>
@@ -56,18 +56,27 @@
             </div>
             <article class="grid descp">
                 <div>
+                    <div class="content1">
                         <h1 id="mangaName"></h1>
-                        <p id="mangaSynopsis"></p>
+                        <p id="mangaSynopsis">
+                        </p>
+                    </div>
+                    <div class="content2">
                         <h4>Genres</h4>
-                        <ul id="mangaGenres" class="genres">
-                            
+                        <ul id="mangaGenres" class="genres">                                
                         </ul>
                         <h4>Status</h4>
                         <span id="mangaStatuss"></span>
+                    </div>
+                    <span class="chapter">
+                        <label for="numchap">Ingrese el numero del capitulo:</label> 
+                        <input id="numchap" type="number">
+                        <div id="crtchapter" class="btn btn-danger">CREAR</div>
+                    </span>                    
                 </div>
             </article>
             <div class="grid aside">
-                <div>
+                <div class="navigation">
                         <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
                                 Like
                         </button>
@@ -80,6 +89,14 @@
                         <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
                                 Capitulos
                         </button>
+                        <div class="dropdown">
+                                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Leer Capitulo
+                                </button>
+                                <div id="dropmenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  
+                                </div>
+                              </div>
                 </div>                
                           <!-- <ul>
                                 <li data-toggle="tooltip" data-placement="left" title="250"><i class="far fa-thumbs-up"></i></li>
@@ -97,4 +114,9 @@
         });
         </script>
         <script src="assets/js/info.js"></script>
+        <script src="assets/js/createchapter.js"></script>
+             
+              <script src="assets/js/bootstrap.bundle.js"></script>  <!-- se usa el bundle para el dropdown -->
+              <script src="assets/js/createchapter.js"></script>
+              <script src="assets/js/home.js"></script>
 </html>

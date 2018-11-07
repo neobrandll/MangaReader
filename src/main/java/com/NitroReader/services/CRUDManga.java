@@ -39,7 +39,8 @@ public class CRUDManga {
 
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryIManga"));
             PreparedStatement pstm2 = con.prepareStatement(props.getValue("queryIMangaGenre"));
-            PreparedStatement pstm3 = con.prepareStatement(props.getValue("querySMangaId"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            PreparedStatement pstm3 = con.prepareStatement(props.getValue("querySMangaId"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement pstm4 = con.prepareStatement(props.getValue("queryIMangaDirection"))) {
                 con.setAutoCommit(false);
                 savepoint = con.setSavepoint("savepoint");
                 pstm.setInt(1, manga.getUser_id());
@@ -47,7 +48,7 @@ public class CRUDManga {
                 pstm.setString(3, manga.getManga_synopsis());
                 pstm.setBoolean(4, manga.isManga_status());
                 pstm.setDate(5, ServiceMethods.getDate());
-                pstm.setString(6, "direccion");
+                pstm.setString(6, "direction");
                 pstm.executeUpdate();
 
                 pstm3.setString(1, manga.getManga_name());
@@ -56,6 +57,9 @@ public class CRUDManga {
                     int manga_id = rs.getInt("manga_id");
                     ServiceMethods.insertGenres(manga.getGenre_id(), manga_id, pstm2);
                     uploadManga(file, manga.getLocation(), props, manga_id);
+                    pstm4.setString(1, String.valueOf(manga_id) + "/" + String.valueOf(manga_id) + ".jpg");
+                    pstm4.setInt(2, manga_id);
+                    pstm4.executeUpdate();
                 }
                 ServiceMethods.setResponse(res, 201, props.getValue("mangaCreated"), null);
                 con.commit();

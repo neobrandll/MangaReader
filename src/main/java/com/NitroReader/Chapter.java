@@ -112,7 +112,7 @@ public class Chapter extends HttpServlet {
                             }
                         };
 
-//                      
+//
 
                     File folder = new File(dirManga);
                     File[] listOfFiles = folder.listFiles(directoryFilter);
