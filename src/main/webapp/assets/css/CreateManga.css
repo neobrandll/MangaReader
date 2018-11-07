@@ -1,0 +1,35 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1, h2, h4, p{
+    font-family: 'Fira Sans', sans-serif;
+}
+
+ul, nav, li {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    text-align: center;
+}
+
+/* Main Styles */
+.main {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .main-content{
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-basis: 550px;
+    width: 100%;
+} */

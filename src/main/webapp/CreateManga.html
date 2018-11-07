@@ -12,7 +12,7 @@
     <script src="assets/js/jquery-3.3.1.slim.js"></script>
    <link rel="stylesheet" href="assets/css/MangaInfo.css">
 </head>
-<body onload="load();">
+<body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
             <a id="gohome" class="navbar-brand" href="#"><i class="fa fa-bolt" aria-hidden="true"></i> NitroReader</a>
@@ -46,55 +46,50 @@
 
     <section class="main">
         <div class="background-image" style="background-image: url(assets/css/images/881019.png);"></div>
-        
         <div class="main-content">
-            <div class="grid image">
-                <div>
-                        <h2>Manga</h2>
-                        <img src="" alt="" id="mangaImage">
-                </div>            
+            <div class="formgroup">
+                <form>
+                    <div class="form-items">
+                        <label for="name">Name</label>
+                        <input class="form-control form-control-lg" type="text" placeholder="Manga Name" id="name">
+                    </div>
+                    <div class="form-items">
+                        <label for="synopsis">Synopsis</label>
+                        <textarea class="form-control" id="synopsis" rows="3"></textarea>
+                    </div>
+                    <div class="form-items">
+                        <label for="status">Status</label>
+                        <select class="custom-select">
+                                <option selected>Open to Select the Status</option>
+                                <option value="1">Ongoing</option>
+                                <option value="2">Finalized</option>                            
+                              </select>
+                    </div>
+                    <div class="form-items form-checkbox">                           
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="romance" name="genres" value="0">
+                                <label class="custom-control-label" for="romance">Romance</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="slice-of-life" name="genres" value="4">
+                                <label class="custom-control-label" for="slice-of-life">Romance</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="horror" name="genres" value="5">
+                                <label class="custom-control-label" for="horror">Romance</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="comedia" name="genres" value="6">
+                                <label class="custom-control-label" for="comedia">Romance</label>
+                            </div>
+                    </div>                    
+                </form>
             </div>
-            <article class="grid descp">
-                <div>
-                        <h1 id="mangaName"></h1>
-                        <p id="mangaSynopsis"></p>
-                        <h4>Genres</h4>
-                        <ul id="mangaGenres" class="genres">
-                            
-                        </ul>
-                        <h4>Status</h4>
-                        <span id="mangaStatuss"></span>
-                </div>
-            </article>
-            <div class="grid aside">
-                <div>
-                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
-                                Like
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
-                                Dislike
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
-                                Follow
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
-                                Capitulos
-                        </button>
-                </div>                
-                          <!-- <ul>
-                                <li data-toggle="tooltip" data-placement="left" title="250"><i class="far fa-thumbs-up"></i></li>
-                        </ul>         -->
-                          
-            </div>  
+            <div>
+
+            </div>
         </div>
               
     </section>
 </body>
-<script src="assets/js/bootstrap.bundle.js"></script>
-<script>
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();   
-        });
-        </script>
-        <script src="assets/js/info.js"></script>
 </html>
