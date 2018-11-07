@@ -31,7 +31,7 @@ a {
     display: flex;
     flex-direction: row;
     flex-basis: 550px;
-    width: 100%;
+    width: 95%;
 }
 
 .grid{
@@ -88,16 +88,21 @@ a {
 .chapter{
     height: 100%;
     font-size: 20px;
-    margin-top: 10px;
+    margin-top: 30px;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
     align-content: center;
     align-items: center;
     
 }
+
+#crtchapter{
+   margin-left: 10px;
+}
 .descp div{
     display: flex;
     flex-direction: column;
+    padding: 0 20px;
 }
 .content2{
     align-items: flex-end;
