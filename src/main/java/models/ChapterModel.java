@@ -5,7 +5,7 @@ public class ChapterModel {
     private int max;
     private String filedir;
     private String chapternum;
-    private String  mangaid;    
+    private String  mangaid;
 
     public String getChapternum() {
         return chapternum;
