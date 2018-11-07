@@ -1,5 +1,7 @@
 package com.NitroReader;
 
+import com.NitroReader.utilities.DBAccess;
+import com.NitroReader.utilities.PropertiesReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -22,11 +26,14 @@ public class EditChapter extends HttpServlet {
     String currentChap ;
     String mangaid;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PropertiesReader props = PropertiesReader.getInstance();
         Collection<Part> files = request.getParts();
         InputStream filecontent = null;
         OutputStream os = null;
         PrintWriter out = response.getWriter();
-        try {
+        DBAccess dbAccess = DBAccess.getInstance();
+        Connection con = dbAccess.createConnection();
+        try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryIChapterPages"))) {
             String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+ mangaid+"\\"+currentChap;
             FileUtils.cleanDirectory(new File(baseDir));
             int c = new File(baseDir).listFiles().length;
@@ -47,6 +54,12 @@ public class EditChapter extends HttpServlet {
                     os.close();
                 }
             }
+            c--;
+            pstm.setInt(1, c);
+            pstm.setInt(2, Integer.parseInt(mangaid));
+            pstm.setInt(3,Integer.parseInt(currentChap));
+            pstm.executeUpdate();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,16 +74,15 @@ public class EditChapter extends HttpServlet {
         String r;
         try{
             String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+ mangaid+"\\"+currentChap;
-            System.out.println( baseDir);
             String serveDir = "http://localhost:8080\\NitroReader\\library\\"+mangaid+"\\"+currentChap;
-        int numoffiles = new File(baseDir).listFiles().length;
-        for(int i = 1; i<=numoffiles ; i++){
-            item.put("direccion"+(i),serveDir+"\\"+i+".png");
+            int numoffiles = new File(baseDir).listFiles().length;
+            for(int i = 1; i<=numoffiles ; i++){
+                item.put("direccion"+(i),serveDir+"\\"+i+".png");
+            }
         }
-       }
-       catch(Exception e){
-           e.printStackTrace();
-       }finally {
+        catch(Exception e){
+            e.printStackTrace();
+        }finally {
             r= objM.writeValueAsString(item);
             System.out.println(r);
             out.print(r);

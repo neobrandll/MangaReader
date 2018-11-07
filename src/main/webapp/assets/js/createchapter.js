@@ -23,7 +23,7 @@ function getmangaid(){
 function create(){
     var value = document.getElementById("numchap").value
     console.log(value)
-    if( value > 1 && Number.isInteger(Number(value))){
+    if( value > 0 && Number.isInteger(Number(value))){
         var data = {
             chapternum : value,
             mangaid : localStorage.mangaid
@@ -41,7 +41,7 @@ function create(){
            window.location.href ="EditChapter.html"
         })
     }else{
-        alert("solo se permiten numeros enteros y mayores que 1")
+        alert("solo se permiten numeros enteros y mayores que 0")
     }
     
 }

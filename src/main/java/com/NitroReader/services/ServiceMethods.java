@@ -4,7 +4,7 @@ import models.Response;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-class ServiceMethods {
+public class ServiceMethods {
     static <T> void setResponse(Response<T> res, int status, String message, T object){
         res.setStatus(status);
         res.setMessage(message);
@@ -20,7 +20,7 @@ class ServiceMethods {
         }
     }
 
-    static java.sql.Date getDate(){
+    public static java.sql.Date getDate(){
         java.util.Date date = new java.util.Date();
         return new java.sql.Date(date.getTime());
     }

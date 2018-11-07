@@ -27,7 +27,7 @@ public class MangaServlet extends HttpServlet {
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         Response<Manga> res = new Response<>();
         PrintWriter out = response.getWriter();
-
+        System.out.println(request.getParameter("manga_request"));
         if(Boolean.parseBoolean(request.getParameter("manga_request"))){
             if (!((Boolean) request.getAttribute("mangaExist"))){
                 CRUDManga.createManga(request, res);
