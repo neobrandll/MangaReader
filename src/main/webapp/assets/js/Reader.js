@@ -7,7 +7,7 @@ var currentP= 1
     var init ={
         method: 'GET'
     }
-    fetch('http://localhost:8080/NitroReader/Chapter?option=getchapter&currentChap='+localStorage.currentChap,init)
+    fetch('http://localhost:8080/NitroReader/Chapter?option=getchapter&currentChap='+localStorage.currentChap+"&mangaid="+localStorage.mangaid,init)
     .then(function(res){
         return res.json()
     }).then(function(res){

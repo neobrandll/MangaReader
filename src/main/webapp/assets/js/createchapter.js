@@ -1,28 +1,56 @@
 document.getElementById("crtchapter").addEventListener("click", create)
 
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
+function getmangaid(){
+    var mangaid = getUrlParameter("manga")
+    localStorage.setItem("mangaid", mangaid)
+}
+
+
 function create(){
-    var data = {
-        message : document.getElementById("numchap").value
+    var value = document.getElementById("numchap").value
+    console.log(value)
+    if( value > 1 && Number.isInteger(Number(value))){
+        var data = {
+            chapternum : value,
+            mangaid : localStorage.mangaid
+        }
+        var init ={
+            method: 'POST',
+            body: JSON.stringify(data)
+        }
+        fetch('http://localhost:8080/NitroReader/Chapter',init)
+        .then(function(res){
+            return res.json()
+        }).then(function(res){
+            console.log(res.message)
+           localStorage.setItem("currentChap", res.chapternum)
+           window.location.href ="EditChapter.html"
+        })
+    }else{
+        alert("solo se permiten numeros enteros y mayores que 1")
     }
-    var init ={
-        method: 'POST',
-        body: JSON.stringify(data)
-    }
-    fetch('http://localhost:8080/NitroReader/Chapter',init)
-    .then(function(res){
-        return res.json()
-    }).then(function(res){
-        console.log(res.message)
-       localStorage.setItem("currentChap", res.message)
-       window.location.href ="EditChapter.html"
-    })
+    
 }
 
 function loadnumchapter(){
     var init ={
         method: 'GET'
     }
-    fetch('http://localhost:8080/NitroReader/Chapter?option=getnumchapters',init)
+    fetch('http://localhost:8080/NitroReader/Chapter?option=getnumchapters&mangaid='+localStorage.mangaid,init)
     .then(function(res){
         return res.json()
     }).then(function(res){
@@ -45,3 +73,4 @@ function loadnumchapter(){
     
     
 }
+

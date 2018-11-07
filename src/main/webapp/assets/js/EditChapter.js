@@ -140,7 +140,7 @@ for(let i=0; i<imgarr.length; i++){
 
 
 function getimgs(){
-    fetch('http://localhost:8080/NitroReader/EditChapter?'+'currentChap='+localStorage.currentChap,{ method: 'GET',
+    fetch('http://localhost:8080/NitroReader/EditChapter?'+'currentChap='+localStorage.currentChap+"&mangaid="+localStorage.mangaid,{ method: 'GET',
     withCredentials: true,
     credentials: 'same-origin',
     headers:{
@@ -171,15 +171,18 @@ function getimgs(){
       });
 }
 
+document.getElementById("delchapter").addEventListener("click", deletechapter)
 //funcion para borrar el capitulo
 function deletechapter(){
     var init ={
         method: 'GET'
     }
-    fetch('http://localhost:8080/NitroReader/Chapter?option=delete',init)
+    fetch('http://localhost:8080/NitroReader/Chapter?option=delete&'+'currentChap='+localStorage.currentChap+"&mangaid="+localStorage.mangaid,init)
     .then(function(res){
         return res.json()
     }).then(function(res){
-        console.log(res.message)
+        localStorage.removeItem("currentChap");
+        window.location.href ="createchapter.html"
     })
 }
+

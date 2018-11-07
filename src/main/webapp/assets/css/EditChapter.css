@@ -32,8 +32,8 @@ html, body{
    position: absolute;
    top: 70%;
    left: 55%;
-   width: 6%;
-   height: 6%;
+   width: 8%;
+   height: 8%;
    text-align: center;
    font-size: 1.3vw
 }
@@ -66,4 +66,14 @@ html, body{
     display:block;
     margin:auto;
     padding-top: 5%;
+}
+
+#delchapter{
+    position: absolute;
+   top: 15%;
+   left: 85%;
+   width: 8%;
+   height: 8%;
+   text-align: center;
+   font-size: 1.3vw
 }

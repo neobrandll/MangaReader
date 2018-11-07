@@ -23,17 +23,16 @@ import org.apache.commons.io.FileUtils;
 @WebServlet("/Chapter")
 public class Chapter extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\probarCAPITULOS";
         ObjectMapper objM = new ObjectMapper();
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         String r;
         PrintWriter out = response.getWriter();
         ChapterModel res = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), ChapterModel.class);
+        String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+ res.getMangaid();
 
         try {
-            int c = (new File(baseDir).listFiles().length) + 1;
-            FileUtils.forceMkdir(new File(baseDir + "\\" + res.getMessage()));
+            FileUtils.forceMkdir(new File(baseDir + "\\" + res.getChapternum()));
 
             r = objM.writeValueAsString(res);
             System.out.println(r);
@@ -46,6 +45,7 @@ public class Chapter extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String option = request.getParameter("option");
         String currentChap = request.getParameter("currentChap");
+        String mangaid = request.getParameter("mangaid");
         ChapterModel res = new ChapterModel();
         ObjectMapper objM = new ObjectMapper();
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -55,7 +55,7 @@ public class Chapter extends HttpServlet {
         switch (option) {
             case "delete":
                 try{
-                    FileUtils.deleteDirectory(new File("D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\probarCAPITULOS\\"+currentChap));
+                    FileUtils.deleteDirectory(new File("D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+mangaid+"\\"+currentChap));
                     res.setMessage("el capitulo se ha borrado correctamente");
                     r = objM.writeValueAsString(res);
                     System.out.println(r);
@@ -67,8 +67,8 @@ public class Chapter extends HttpServlet {
 
                 break;
             case "getchapter":
-                String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\probarCAPITULOS\\"+currentChap;
-                String serveDir = "http://localhost:8080\\NitroReader\\probarCAPITULOS\\" + currentChap;
+                String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+mangaid+"\\"+currentChap;
+                String serveDir = "http://localhost:8080\\NitroReader\\library\\"+mangaid+"\\"+currentChap;
                 try{
                     int c = new File(baseDir).listFiles().length;
                     res.setMax(c);
@@ -81,7 +81,7 @@ public class Chapter extends HttpServlet {
                 }
                 break;
             case "getnumchapters":
-                String dirManga = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\probarCAPITULOS";
+                String dirManga = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+mangaid;
                 try{
                     File folder = new File(dirManga);
                     File[] listOfFiles = folder.listFiles();
@@ -90,14 +90,13 @@ public class Chapter extends HttpServlet {
                         listnames.add(Integer.parseInt(listOfFiles[i].getName()));
                     }
                     listnames.sort(Comparator.naturalOrder());
-                    System.out.println(listnames);
                     HashMap<String , String> item = new HashMap<>();
                     for (int i= 0; i<listnames.size(); i++){
                         item.put("nombre"+(i),(listnames.get(i)).toString());
                     }
                     r = objM.writeValueAsString(item);
                     System.out.println(r);
-                    out.print(r);
+                   out.print(r);
 
                 }catch (Error e){
                     e.printStackTrace();
