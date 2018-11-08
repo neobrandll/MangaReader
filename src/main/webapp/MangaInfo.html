@@ -10,7 +10,7 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
    <link rel="stylesheet" href="assets/css/MangaInfo.css">
-   <script src="assets/js/jquery-3.3.1.slim.js"></script>
+   
 </head>
 <body onload="load(); main(); getmangaid(); loadnumchapter();">
     <header>
@@ -70,7 +70,7 @@
                     </div>
                     <span class="chapter">
                         <label for="numchap">Cree o Edite un Capitulo: <input id="numchap" type="number"></label> 
-                        <div id="crtchapter" >CREAR</div>
+                        <div class="btn-danger" id="crtchapter" >Crear</div>
                     </span>                    
                 </div>
             </article>
@@ -105,17 +105,14 @@
         </div>
               
     </section>
-</body>
-<script src="assets/js/bootstrap.bundle.js"></script>
-<script>
+    <script src="assets/js/jquery-3.3.1.slim.js"></script>
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script>
         $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();   
-        });
-        </script>
-        <script src="assets/js/info.js"></script>
-        <script src="assets/js/createchapter.js"></script>
-             
-              <script src="assets/js/bootstrap.bundle.js"></script>  <!-- se usa el bundle para el dropdown -->
-              <script src="assets/js/createchapter.js"></script>
-              <script src="assets/js/home.js"></script>
+        $('[data-toggle="tooltip"]').tooltip();    });
+    </script>
+    <script src="assets/js/info.js"></script> 
+    <script src="assets/js/createchapter.js"></script>
+    <script src="assets/js/home.js"></script>
+</body>      
 </html>

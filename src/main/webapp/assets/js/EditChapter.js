@@ -175,14 +175,14 @@ document.getElementById("delchapter").addEventListener("click", deletechapter)
 //funcion para borrar el capitulo
 function deletechapter(){
     var init ={
-        method: 'GET'
+        method: 'DELETE'
     }
-    fetch('http://localhost:8080/NitroReader/Chapter?option=delete&'+'currentChap='+localStorage.currentChap+"&mangaid="+localStorage.mangaid,init)
+    fetch('http://localhost:8080/NitroReader/Chapter?'+'currentChap='+localStorage.currentChap+"&mangaid="+localStorage.mangaid,init)
     .then(function(res){
         return res.json()
     }).then(function(res){
         localStorage.removeItem("currentChap");
-        window.location.href ="createchapter.html"
+        window.location.href ="MangaInfo.html?manga="+localStorage.mangaid;
     })
 }
 

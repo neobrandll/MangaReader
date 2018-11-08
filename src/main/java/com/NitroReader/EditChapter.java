@@ -34,7 +34,7 @@ public class EditChapter extends HttpServlet {
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryIChapterPages"))) {
-            String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+ mangaid+"\\"+currentChap;
+            String baseDir = props.getValue("direction")+ mangaid+"\\"+currentChap;
             FileUtils.cleanDirectory(new File(baseDir));
             int c = new File(baseDir).listFiles().length;
             c++;
@@ -66,6 +66,7 @@ public class EditChapter extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PropertiesReader props = PropertiesReader.getInstance();
         currentChap = request.getParameter("currentChap");
         mangaid = request.getParameter("mangaid");
         PrintWriter out = response.getWriter();
@@ -73,8 +74,8 @@ public class EditChapter extends HttpServlet {
         ObjectMapper objM = new ObjectMapper();
         String r;
         try{
-            String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+ mangaid+"\\"+currentChap;
-            String serveDir = "http://localhost:8080\\NitroReader\\library\\"+mangaid+"\\"+currentChap;
+            String baseDir = props.getValue("direction")+ mangaid+"\\"+currentChap;
+            String serveDir = props.getValue("dbMangaDirection")+mangaid+"\\"+currentChap;
             int numoffiles = new File(baseDir).listFiles().length;
             for(int i = 1; i<=numoffiles ; i++){
                 item.put("direccion"+(i),serveDir+"\\"+i+".png");

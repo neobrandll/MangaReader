@@ -38,7 +38,7 @@ public class Chapter extends HttpServlet {
         String r;
         PrintWriter out = response.getWriter();
         ChapterModel res = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), ChapterModel.class);
-        String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+ res.getMangaid();
+        String baseDir = props.getValue("direction")+ res.getMangaid();
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryIChapter"))) {
@@ -61,8 +61,6 @@ public class Chapter extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PropertiesReader props = PropertiesReader.getInstance();
-        DBAccess dbAccess = DBAccess.getInstance();
-        Connection con = dbAccess.createConnection();
         String option = request.getParameter("option");
         String currentChap = request.getParameter("currentChap");
         String mangaid = request.getParameter("mangaid");
@@ -73,25 +71,9 @@ public class Chapter extends HttpServlet {
         String r;
         PrintWriter out = response.getWriter();
         switch (option) {
-            case "delete":
-                try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryDChapter"))){
-                    FileUtils.deleteDirectory(new File("D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+mangaid+"\\"+currentChap));
-                    pstm.setInt(1, Integer.parseInt(mangaid));
-                    pstm.setInt(2, Integer.parseInt(currentChap));
-                    pstm.executeUpdate();
-                    res.setMessage("el capitulo se ha borrado correctamente");
-                    r = objM.writeValueAsString(res);
-                    System.out.println(r);
-                    out.print(r);
-                }
-                catch (Error | SQLException e){
-                    e.printStackTrace();
-                }
-
-                break;
             case "getchapter":
-                String baseDir = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+mangaid+"\\"+currentChap;
-                String serveDir = "http://localhost:8080\\NitroReader\\library\\"+mangaid+"\\"+currentChap;
+                String baseDir = props.getValue("direction")+mangaid+"\\"+currentChap;
+                String serveDir = props.getValue("dbMangaDirection")+mangaid+"\\"+currentChap;
                 try{
                     int c = new File(baseDir).listFiles().length;
                     res.setMax(c);
@@ -104,7 +86,7 @@ public class Chapter extends HttpServlet {
                 }
                 break;
             case "getnumchapters":
-                String dirManga = "D:\\Users\\Brandon\\Documentos\\URU\\WEB 2\\WorkSpace\\NitroReader\\NitroReader\\src\\main\\webapp\\library\\"+mangaid;
+                String dirManga = props.getValue("direction")+mangaid;
                 try{
 
                         FileFilter directoryFilter = new FileFilter() {
@@ -112,8 +94,6 @@ public class Chapter extends HttpServlet {
                                 return file.isDirectory();
                             }
                         };
-
-//
 
                     File folder = new File(dirManga);
                     File[] listOfFiles = folder.listFiles(directoryFilter);
@@ -137,6 +117,33 @@ public class Chapter extends HttpServlet {
                 break;
 
 
+        }
+
+    }
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PropertiesReader props = PropertiesReader.getInstance();
+        DBAccess dbAccess = DBAccess.getInstance();
+        Connection con = dbAccess.createConnection();
+        String currentChap = request.getParameter("currentChap");
+        String mangaid = request.getParameter("mangaid");
+        ChapterModel res = new ChapterModel();
+        ObjectMapper objM = new ObjectMapper();
+        objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        String r;
+        PrintWriter out = response.getWriter();
+        try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryDChapter"))){
+            FileUtils.deleteDirectory(new File(props.getValue("direction")+mangaid+"\\"+currentChap));
+            pstm.setInt(1, Integer.parseInt(mangaid));
+            pstm.setInt(2, Integer.parseInt(currentChap));
+            pstm.executeUpdate();
+            res.setMessage("el capitulo se ha borrado correctamente");
+            r = objM.writeValueAsString(res);
+            System.out.println(r);
+            out.print(r);
+        }
+        catch (Error | SQLException e){
+            e.printStackTrace();
         }
 
     }
