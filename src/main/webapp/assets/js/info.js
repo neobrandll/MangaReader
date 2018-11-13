@@ -14,7 +14,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 function load() {
-    fetch(`http://localhost:8080/NitroReader/MangaServlet?manga=${getUrlParameter("manga")}`, {method:'GET'}).then(res => res.json())
+    fetch(`http://localhost:8080/NitroReader/CRUDMangaServlet?manga=${getUrlParameter("manga")}`, {method:'GET'}).then(res => res.json())
     .then(res => {
         document.getElementById("mangaImage").src = `http://localhost:8080/NitroReader/library/${res.data.location}`;
         document.getElementById("mangaName").innerHTML = res.data.manga_name;

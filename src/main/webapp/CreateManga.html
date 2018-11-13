@@ -10,7 +10,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
     <script src="assets/js/jquery-3.3.1.slim.js"></script>
-   <link rel="stylesheet" href="assets/css/MangaInfo.css">
+   <link rel="stylesheet" href="assets/css/CreateManga.css">
 </head>
 <body>
     <header>
@@ -46,50 +46,88 @@
 
     <section class="main">
         <div class="background-image" style="background-image: url(assets/css/images/881019.png);"></div>
+        <h1>Crea o Actualiza tu Manga!</h1>
         <div class="main-content">
-            <div class="formgroup">
-                <form>
+                <form class="formgroup">
                     <div class="form-items">
-                        <label for="name">Name</label>
-                        <input class="form-control form-control-lg" type="text" placeholder="Manga Name" id="name">
+                        <label for="name">Name:</label>
+                        <div>
+                            <input class="form-control form-control-lg" type="text" placeholder="Manga Name" id="name">
+                            <small>Para actualizar un <strong>Manga</strong> este debe existir primero</small>
+                        </div>                        
                     </div>
                     <div class="form-items">
-                        <label for="synopsis">Synopsis</label>
-                        <textarea class="form-control" id="synopsis" rows="3"></textarea>
+                        <label for="synopsis">Synopsis:</label>
+                        <div>
+                            <textarea class="form-control" id="synopsis" rows="3"></textarea>
+                        </div>
                     </div>
                     <div class="form-items">
-                        <label for="status">Status</label>
-                        <select class="custom-select">
+                        <label for="status">Status:</label>
+                        <div>
+                            <select class="custom-select" id="status">
                                 <option selected>Open to Select the Status</option>
-                                <option value="1">Ongoing</option>
-                                <option value="2">Finalized</option>                            
-                              </select>
+                                <option value="true">Ongoing</option>
+                                <option value="false">Finalized</option>                            
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-items form-checkbox">                           
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="romance" name="genres" value="0">
-                                <label class="custom-control-label" for="romance">Romance</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="slice-of-life" name="genres" value="4">
-                                <label class="custom-control-label" for="slice-of-life">Romance</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="horror" name="genres" value="5">
-                                <label class="custom-control-label" for="horror">Romance</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="comedia" name="genres" value="6">
-                                <label class="custom-control-label" for="comedia">Romance</label>
-                            </div>
-                    </div>                    
+                    <div class="form-items">
+                        <label for="genres">Genres:</label>
+                        <div class="form-checkbox" id="genres">
+                                <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="romance" name="genres[]" value="0">
+                                        <label class="custom-control-label" for="romance">Romance</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="action" name="genres[]" value="1">
+                                        <label class="custom-control-label" for="action">Action</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="slice-of-life" name="genres[]" value="2">
+                                        <label class="custom-control-label" for="slice-of-life">Slice of Life</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="comedy" name="genres[]" value="3">
+                                        <label class="custom-control-label" for="comedy">Comedy</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="horror" name="genres[]" value="4">
+                                        <label class="custom-control-label" for="horror">Horror</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="seinen" name="genres[]" value="5">
+                                        <label class="custom-control-label" for="seinen">Seinen</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="ecchi" name="genres[]" value="6">
+                                            <label class="custom-control-label" for="ecchi">Ecchi</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="escolar" name="genres[]" value="7">
+                                            <label class="custom-control-label" for="escolar">School</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="harem" name="genres[]" value="8">
+                                            <label class="custom-control-label" for="harem">Harem</label>
+                                    </div>
+                        </div>                                                      
+                    </div>     
+                    <div class="form-items">
+                        <label for="mangaImage">Manga Image:</label>
+                        <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file">
+                                <label class="custom-file-label" for="file" id="textImage">Choose file</label>
+                        </div>   
+                    </div>            
                 </form>
-            </div>
-            <div>
-
-            </div>
         </div>
-              
+        <div class="btn-form">
+                <button type="button" class="btn btn-danger" id="createManga">Create</button>
+                <!-- <button type="button" class="btn btn-secondary">Update</button> -->
+                <button type="button" class="btn btn-dark" id="updateManga">Update</button>
+        </div>              
     </section>
+    <script src="assets/js/createmanga.js"></script>
 </body>
 </html>
