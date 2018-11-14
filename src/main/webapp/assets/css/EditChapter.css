@@ -1,0 +1,79 @@
+html, body{
+    height: 100%;
+    width: 100%;
+}
+.d{
+    margin-top: 5%;
+    background-color: white;
+    height: 50%;
+    width: 20%;
+    float: left;
+    overflow-y: scroll;
+    padding-bottom: 7%;
+
+
+}
+
+#div1{
+    margin-right: 10%;
+    margin-left: 25%;
+}
+
+#enviar{
+   position: absolute;
+   top: 70%;
+   left: 71%;
+   width: 6%;
+   height: 6%;
+   text-align: center;
+   font-size: 1.3vw
+}
+#del{
+   position: absolute;
+   top: 70%;
+   left: 55%;
+   width: 8%;
+   height: 8%;
+   text-align: center;
+   font-size: 1.3vw
+}
+#cargar{
+   position: absolute;
+   top: 70%;
+   left: 40%;
+   width: 6%;
+   height: 6%;
+   text-align: center;
+   font-size: 1.3vw
+}
+.sisisi{
+    width: 50%;
+    height: 25%;
+    margin: auto;
+    margin-top: 5%;
+}
+
+#myfiles{
+    position: absolute;
+   top: 70%;
+   left: 15%;
+   text-align: center;
+   font-size: 1.3vw;
+   width: 20%;
+}
+
+.loadedfiles{
+    display:block;
+    margin:auto;
+    padding-top: 5%;
+}
+
+#delchapter{
+    position: absolute;
+   top: 15%;
+   left: 85%;
+   width: 8%;
+   height: 8%;
+   text-align: center;
+   font-size: 1.3vw
+}

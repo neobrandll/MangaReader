@@ -42,9 +42,10 @@ document.addEventListener("keyup",keyU);
         }
         }).then(res => res.json()).then(function(res){
             if(res.status ==200){
-                localStorage.setItem("user", res.name)
+                console.log(res.data.name)
+                localStorage.setItem("user", res.data.name)
                 console.log("login complete!")
-                window.location.replace("index.html");
+               window.location.replace("index.html");
             }
         })
         .catch(error => console.error('Error:', error))
