@@ -5,8 +5,8 @@
     box-sizing: border-box;
 }
 
-h1, h2, h4, p{
-    font-family: 'Fira Sans', sans-serif;
+h1, h2, h4, p, .comment, span, .newComment{
+    font-family: 'Fira Sans', sans-serif !important;
 }
 
 ul, nav, li {
@@ -15,6 +15,9 @@ ul, nav, li {
 a {
     text-decoration: none;
     text-align: center;
+}
+.hidde{
+    display: none !important;
 }
 
 /* Main Styles */
@@ -178,4 +181,115 @@ a {
 .mm{
     display: flex;
     flex-direction: row;
+}
+
+/* Comments Style */
+
+.comments-area{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 40px;
+    background-color: #353b48;
+}
+
+.comments-area h2{
+    font-weight: bold;
+    font-size: 40px;
+    text-align: center;
+    padding: 10px;
+    color: red;
+}
+
+.comments, .newComment{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    min-width: 550px;
+    background: rgba(255, 255, 255, .85);        
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 8px;
+}
+
+.comment{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.comment  p{
+    margin: 0 !important;
+}
+.name{
+    display: flex;
+    align-items: center;
+    flex: 1 1 70%;
+    padding-left: 20px !important;
+    font-size: 20px;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(0,0,0,.4);
+}
+.editions{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1 1 30%;
+    padding-right: 20px !important;
+    border-bottom: 1px solid rgba(0,0,0,.4);
+}
+.editions > span{
+    margin: 0 10px;
+}
+.editions > span:first-child button:hover{
+    text-decoration: none !important;
+}
+.editions > span:last-child  button{
+    padding: .2rem .6rem !important;
+    text-align: center;
+    font-size: 12px;
+}
+.comment-content{
+    padding: 20px;
+    flex: 1 1 100%;
+    border-bottom: 1px solid rgba(0,0,0,.4);
+}
+
+.name, .editions{
+    padding: 10px 0;
+}
+
+/* New Comment Styles */
+.form-control:hover, .form-control:focus{
+    box-shadow: 0 0 0 0.25rem rgba(108,117,125,.5) !important;
+    border: 1px solid rgba(108,117,125,.5) !important;
+}
+.newComment{
+    margin-bottom: 20px;
+}
+.newComment div textarea{
+    width: 100%;
+    /* margin: 20px 0; */
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+.form-group div{
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center !important;
+    /* padding: 10px 20px 0 0; */
+    border-top: 1px solid rgba(0,0,0,.4);
+}
+
+/* Update Styles */
+.update-btn{
+    margin: 0 10px;
 }

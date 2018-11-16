@@ -43,7 +43,8 @@ document.addEventListener("keyup",keyU);
         }).then(res => res.json()).then(function(res){
             if(res.status ==200){
                 console.log(res.data.name)
-                localStorage.setItem("user", res.data.name)
+                localStorage.setItem("user", res.data.name);
+                localStorage.setItem("user_id", res.data.id);
                 console.log("login complete!")
                window.location.replace("index.html");
             }
