@@ -39,7 +39,8 @@ public class CommentManga extends HttpServlet {
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
-        Manga manga = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), Manga.class);
+        Manga manga = new Manga();
+        manga.setManga_id(Integer.parseInt(request.getParameter("manga_id")));
         Response<Manga> res = new Response<>();
         PrintWriter out = response.getWriter();
 

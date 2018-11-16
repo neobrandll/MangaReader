@@ -26,4 +26,12 @@ public class DBAccess {
         }
         return connection;
     }
+
+    public void closeConnection(Connection con){
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
