@@ -261,6 +261,7 @@ function deleteComment() {
 
 }
 function likeManga() {
+    this.removeEventListener("click", likeManga);
     data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id")}
     fetch("http://localhost:8080/NitroReader/LikeManga", {method:'POST', body: JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
         .then(res => res.json()).then((res) =>{
@@ -276,6 +277,7 @@ function likeManga() {
     })
 }
 function removeLike() {
+    this.removeEventListener("click", removeLike);
     data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id")}
     fetch("http://localhost:8080/NitroReader/LikeManga", {method:'DELETE', body: JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
         .then(res => res.json()).then((res) =>{
