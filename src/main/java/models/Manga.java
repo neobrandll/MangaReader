@@ -18,6 +18,15 @@ public class Manga {
     private String comment;
     private String newComment;
     private List<CommentsManga> comments;
+    private List<MangaOuter> searchManga;
+
+    public List<MangaOuter> getSearchManga() {
+        return searchManga;
+    }
+
+    public void setSearchManga(List<MangaOuter> searchManga) {
+        this.searchManga = searchManga;
+    }
 
     public String getNewComment() {
         return newComment;
