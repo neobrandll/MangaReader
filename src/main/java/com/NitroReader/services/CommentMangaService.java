@@ -29,17 +29,16 @@ public class CommentMangaService {
             pstm.setString(3, manga.getNewComment());
             pstm.setDate(4, ServiceMethods.getDate());
             pstm.setInt(5, manga.getUser_id());
-            pstm.setInt(6, manga.getManga_id());
             rs = pstm.executeQuery();
             if (rs.next()){
                 data.setComment(rs.getString("comment_content"));
                 data.setUser_name(rs.getString("user_name"));
-                ServiceMethods.setResponse(res, 201, props.getValue("commentManga") + rs.getString("manga_name"), data);
+                ServiceMethods.setResponse(res, 201, props.getValue("commentManga"), data);
             }
             con.commit();
         } catch (SQLException | NullPointerException e) {
             ServiceMethods.setResponse(res, 404, props.getValue("errorCommentManga"), null);
-            System.out.println(props.getValue("errorCommentManga"));
+            System.out.println(props.getValue("errorCommentManga") + " " + e.getMessage() );
         }finally {
             if (rs != null){
                 try {
@@ -74,8 +73,8 @@ public class CommentMangaService {
             }
             ServiceMethods.setResponse(res, 200, props.getValue("allCommentsManga"), data);
         } catch (SQLException | NullPointerException e) {
-            ServiceMethods.setResponse(res, 404, props.getValue("errorallCommentsManga"), data);
-            System.out.println(props.getValue("errorallCommentsManga") + e.getMessage());
+            ServiceMethods.setResponse(res, 404, props.getValue("errorAllCommentsManga"), data);
+            System.out.println(props.getValue("errorAllCommentsManga") + e.getMessage());
         }finally {
             if (rs != null){
                 try {

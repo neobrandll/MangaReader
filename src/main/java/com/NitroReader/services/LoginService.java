@@ -51,6 +51,7 @@ public class LoginService {
                     res.setStatus(200);
                     loginData.setAdmin(true);
                     loginData.setName(rs.getString(props.getValue("retName")));
+                    loginData.setId(rs.getInt(props.getValue("retID")));
                     res.setData(loginData);
                     AttrSession.setAttribute(session, "name", rs.getString(props.getValue("retName")));
                     AttrSession.setAttribute(session, "id", rs.getInt(props.getValue("retID")));
@@ -60,6 +61,7 @@ public class LoginService {
                     res.setStatus(200);
                     loginData.setAdmin(false);
                     loginData.setName(rs.getString(props.getValue("retName")));
+                    loginData.setId(rs.getInt(props.getValue("retID")));
                     res.setData(loginData);
                     AttrSession.setAttribute(session, "name", rs.getString(props.getValue("retName")));
                     AttrSession.setAttribute(session, "id", rs.getInt(props.getValue("retID")));

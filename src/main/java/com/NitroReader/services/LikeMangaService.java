@@ -19,7 +19,6 @@ public class LikeMangaService {
         ResultSet rs = null;
         HashMap<String, Object> data = new HashMap<>();
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryLManga"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-          con.setAutoCommit(false);
           pstm.setInt(1, manga.getUser_id());
           pstm.setInt(2, manga.getManga_id());
           pstm.setInt(3, manga.getManga_id());
@@ -28,11 +27,10 @@ public class LikeMangaService {
           if (rs.next()){
               data.put("likesManga", rs.getInt(1) + 1);
               data.put("like", true);
-              likes = props.getValue("mangaLike") + String.valueOf(rs.getInt(1));
+              likes = props.getValue("mangaLike") + " " + String.valueOf(rs.getInt(1));
           } else{
               ServiceMethods.setResponse(res, 404, props.getValue("errorMangaLike"), null);
           }
-          con.commit();
           ServiceMethods.setResponse(res, 201, likes, data);
         } catch (SQLException | NullPointerException e) {
             System.out.println(props.getValue("errorMangaLike") + e.getMessage());

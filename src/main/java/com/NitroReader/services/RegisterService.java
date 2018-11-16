@@ -31,7 +31,7 @@ public class RegisterService {
         java.sql.Date finaldate = new java.sql.Date(date.getTime());
         String r = "";
         PrintWriter out = response.getWriter();
-        Response<Field> res = new Response();
+        Response<Field> res = new Response<>();
         Field fields = new Field();
         String encryptedPass = NitroEncrypted.getNitroPassword(userR.getPassword());
 
