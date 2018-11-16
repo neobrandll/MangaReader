@@ -75,47 +75,65 @@
                         <span id="mangaStatuss"></span>
                     </div>
                     <span class="chapter">
-                        <label for="numchap">Cree o Edite un Capitulo: <input id="numchap" type="number"></label> 
-                        <div class="btn-danger" id="crtchapter" >Crear</div>
+                        <label for="numchap">Create or Update a chapter: <input id="numchap" type="number"></label> 
+                        <div class="btn-danger" id="crtchapter" >Create</div>
                     </span>                    
                 </div>
             </article>
             <div class="grid aside">
                 <div class="navigation">
-                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
+                        <button type="button" class="btn btn-secondary" id="like" data-toggle="tooltip" data-placement="top" title="">
                                 Like
                         </button>
                         <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
-                                Dislike
+                                Tracker
                         </button>
                         <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
-                                Follow
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
-                                Capitulos
+                                Subscribe
                         </button>
                         <div class="dropdown">
-                                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Leer Capitulo
-                                </button>
-                                <div id="dropmenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Read Chapters
+                            </button>
+                            <div id="dropmenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                   
-                                </div>
-                              </div>
-                </div>                
-                          <!-- <ul>
-                                <li data-toggle="tooltip" data-placement="left" title="250"><i class="far fa-thumbs-up"></i></li>
-                        </ul>         -->
-                          
+                            </div>
+                        </div>
+                </div>                                                              
             </div>  
         </div>
               
+    </section>
+    <section class="comments-area">
+        <button type="button" id="btnComments"  class="btn btn-danger">Show Comments</button>
+        <h2 class="hidde" id="titleComments">Comments</h2>
+        <div class="newComment hidde" id="NewComment">
+            <div class="name"></div>
+            <div class="form-group">
+                <textarea class="form-control" id="comment-text" rows="6"></textarea>
+                <div>
+                    <button type="button" class="btn btn-primary" id="sndComment">Share!</button>
+                </div>            
+            </div>
+        </div>
+        <div class="comments hidde" id="Comments">
+            <!--<div class="comment">-->
+                <!--<div class="name">Elvis  Araujo</div>-->
+                <!--<div class="editions">-->
+                    <!--<span><button type="button" class="btn btn-link" ><i class="fas fa-pencil-alt"></i> Edit</button></span>-->
+                    <!--<span><button type="button" class="btn btn-danger" ><i class="fas fa-times"></i></button></span>        -->
+                <!--</div>-->
+                <!--<p class="comment-content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta molestiae magni voluptates eveniet, exercitationem eius? Nam minima totam dolorem provident praesentium aut atque molestiae, exercitationem veritatis. Cumque et deserunt similique.-->
+                    <!--Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores veniam fugiat asperiores neque porro, magnam quas saepe ipsa aperiam laudantium quisquam fugit unde nisi quasi maiores. Velit accusantium ut eum.-->
+                <!--</p>-->
+            <!--</div>-->
+        </div>                
     </section>
     <script src="assets/js/jquery-3.3.1.slim.js"></script>
     <script src="assets/js/bootstrap.bundle.js"></script>
     <script>
         $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();    });
+        $('[data-toggle="tooltip"]').tooltip();});
     </script>
     <script src="assets/js/info.js"></script> 
     <script src="assets/js/createchapter.js"></script>
