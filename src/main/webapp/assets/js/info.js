@@ -151,6 +151,7 @@ function newComment(name, comment) {
     let s = document.createElement("span");
     s.addEventListener("click", editComment);
     let s2 = document.createElement("span");
+    s2.addEventListener("click", deleteComment)
     let b = document.createElement("button");
     b.classList.add("btn");
     b.classList.add("btn-link");
