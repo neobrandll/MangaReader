@@ -54,11 +54,17 @@ function loadnumchapter(){
     .then(function(res){
         return res.json()
     }).then(function(res){
-        var count = Object.keys(res).length;
+        var count =0
+        for (key in res){
+            if(key.indexOf("nombre")!= -1){
+                count++
+            }
+        }
+        console.log("numero de capitulos: " + count)
         console.log(res)
         for(let i=0; i<count ; i++){
             let a = document.createElement("a");
-            a.setAttribute("id", "capitulo"+ res["nombre"+i])
+            a.setAttribute("id", res["id"+i])
             a.setAttribute("class", "dropdown-item")
             a.setAttribute("href", "#")
             a.textContent = res["nombre"+i];

@@ -85,11 +85,16 @@ function loadnumchapter(){
     .then(function(res){
         return res.json()
     }).then(function(res){
-        var count = Object.keys(res).length;
+        var count =0
+        for (key in res){
+            if(key.indexOf("nombre")!= -1){
+                count++
+            }
+        }
         chapters = res;
         for(let i=0; i<count ; i++){
             let a = document.createElement("a");
-            a.setAttribute("id", "capitulo"+ res["nombre"+i])
+            a.setAttribute("id", res["id"+i])
             a.setAttribute("class", "dropdown-item")
             a.setAttribute("href", "#")
             a.textContent = res["nombre"+i];
@@ -106,7 +111,13 @@ function loadnumchapter(){
 }
 
 ordenChap = function(){
-    for(let i=0; i<Object.keys(chapters).length; i++){
+    var count =0
+        for (key in chapters){
+            if(key.indexOf("nombre")!= -1){
+                count++
+            }
+        }
+    for(let i=0; i<count; i++){
         if(localStorage.currentChap == chapters["nombre"+i]){
             readerChapter = i;
         }

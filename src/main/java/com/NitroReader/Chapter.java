@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -69,6 +70,8 @@ public class Chapter extends HttpServlet {
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         String r;
+        DBAccess dbAccess = DBAccess.getInstance();
+        Connection con = dbAccess.createConnection();
         PrintWriter out = response.getWriter();
         switch (option) {
             case "getchapter":
@@ -105,7 +108,20 @@ public class Chapter extends HttpServlet {
                     listnames.sort(Comparator.naturalOrder());
                     HashMap<String , String> item = new HashMap<>();
                     for (int i= 0; i<listnames.size(); i++){
-                        item.put("nombre"+(i),(listnames.get(i)).toString());
+                        try{
+                            PreparedStatement pstm = con.prepareStatement(props.getValue("querygetchapter_id"));
+                            pstm.setInt(1,Integer.parseInt(mangaid));
+                            pstm.setInt(2,listnames.get(i));
+                            ResultSet rs = pstm.executeQuery();
+                            if(rs.next()){
+                                item.put("id"+ (i), String.valueOf(rs.getInt(1)));
+                                item.put("nombre"+(i),(listnames.get(i)).toString());
+                            }
+
+                        }catch (SQLException e){e.printStackTrace();}
+
+                    }if (con != null){
+                        dbAccess.closeConnection(con);
                     }
                     r = objM.writeValueAsString(item);
                     System.out.println(r);
