@@ -6,7 +6,7 @@ var chapters;
 var readerChapter;
 
 
- function getchapter(){
+ function getchapter(pages){
     var init ={
         method: 'GET'
     }
@@ -17,18 +17,28 @@ var readerChapter;
         console.log(res)
         max = res.max;
         if(max>0){
-            if(localStorage.retrocediendo === "si"){
-                currentP = max
-                filedir= res.filedir;
-                mainimg.setAttribute("src", filedir+"/"+ currentP+".png");
-            }else{
+            switch(localStorage.estadoReader){
+                case "up":
                 currentP=1
                 filedir= res.filedir;
                  mainimg.setAttribute("src", filedir+"/"+ currentP+".png");
+                break;
+                case "down":
+                currentP = max
+                filedir= res.filedir;
+                mainimg.setAttribute("src", filedir+"/"+ currentP+".png");
+                break;
+                case "tracker":
+                let chapid = getChapter_id();
+                currentP = pages["p"+chapid];
+                filedir= res.filedir;
+                mainimg.setAttribute("src", filedir+"/"+ currentP+".png");
+                break;
             }
             
         }else{
             alert("este capitulo se encuentra vacio!")
+            chapterfinished(localStorage.mangaid, getChapter_id(), currentP)
         }
         
         
@@ -49,7 +59,7 @@ document.addEventListener("keydown", function(e){
             }else{
                 ordenChap()
                 if(chapters["nombre"+(readerChapter-1)]){
-                    localStorage.setItem("retrocediendo", "si") 
+                    localStorage.setItem("estadoReader", "down") 
                     alert("redirigiendo al capitulo anterior")
                     localStorage.setItem("currentChap", chapters["nombre"+(readerChapter-1)])
                      window.location.href ="Reader.html"
@@ -63,7 +73,7 @@ document.addEventListener("keydown", function(e){
             }else{
                 ordenChap()
                 if(chapters["nombre"+(readerChapter+1)]){
-                    localStorage.setItem("retrocediendo", "no") 
+                    localStorage.setItem("estadoReader", "up") 
                     alert("capitulo finalizado, ha sido redirigido al siguiente capitulo")
                     chapterfinished(localStorage.mangaid, getChapter_id(), currentP)
                     localStorage.setItem("currentChap", chapters["nombre"+(readerChapter+1)])
@@ -71,6 +81,7 @@ document.addEventListener("keydown", function(e){
                 }else{
                     alert("capitulo finalizado, ha llegado al final del manga.")
                     mangafinished(localStorage.mangaid)
+                    chapterfinished(localStorage.mangaid, getChapter_id(), currentP)
                 }
                 
             }
@@ -102,12 +113,13 @@ function loadnumchapter(){
             a.textContent = res["nombre"+i];
             a.addEventListener("click",function(){
                 localStorage.setItem("currentChap", res["nombre"+i])
+                localStorage.setItem("estadoReader", "tracker")
                 window.location.href ="Reader.html"
                  })
             document.getElementById("dropmenu").appendChild(a);
         }
         
-    })
+    }).then(()=> startReader())
     
     
 }
@@ -176,4 +188,30 @@ fetch("http://localhost:8080/NitroReader/TrackerChapterServl",init)
            return tags[i].getAttribute("id")
        }
    }
+  }
+
+
+  function startReader(){
+    
+    let tags = document.getElementById("dropmenu").getElementsByTagName("a")
+    let count  = tags.length;
+    let data={"numchaps":count, "manga_id": parseInt(localStorage.mangaid)  }
+    for(let i = 0; i<count; i++){
+        data["id"+i] = parseInt(tags[i].getAttribute("id"));
+    }
+    let init = {method:'POST', body:JSON.stringify(data), headers:{'Content-Type': 'application/json'}}
+    console.log(init.body)
+    fetch("http://localhost:8080/NitroReader/TrackerChapterGETServl",init)
+    .then(res => res.json()).then((res) => {
+        for(let i=0; i<count; i++){
+           
+            let id = tags[i].getAttribute("id")
+            console.log(res)
+            console.log(res[id])
+            if(res[id] == true){
+                document.getElementById(id).style.backgroundColor = "lightcoral"
+            }
+        }
+        getchapter(res);
+    })
   }

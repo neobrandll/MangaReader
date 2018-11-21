@@ -70,6 +70,7 @@ function loadnumchapter(){
             a.textContent = res["nombre"+i];
             a.addEventListener("click",function(){
                 localStorage.setItem("currentChap", res["nombre"+i])
+                localStorage.setItem("estadoReader", "tracker")
                 window.location.href ="Reader.html"
                  })
             document.getElementById("dropmenu").appendChild(a);

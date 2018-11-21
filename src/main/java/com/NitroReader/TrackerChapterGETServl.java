@@ -38,6 +38,8 @@ public class TrackerChapterGETServl extends HttpServlet {
         PrintWriter out = response.getWriter();
         ResponseTracker resp = new ResponseTracker();
         HashMap<String,Object> data = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), HashMap.class);
+        boolean chapterfinished;
+        int LP;
        // if((boolean)request.getAttribute("loggued")== true){
             if (session == null) {
                 System.out.println(props.getValue("session_null"));
@@ -60,15 +62,20 @@ public class TrackerChapterGETServl extends HttpServlet {
                             pstm.setInt(2, id);
                             rs = pstm.executeQuery();
                             if(rs.next()){
-                                boolean chapterfinished = rs.getBoolean(1);
+                                chapterfinished = rs.getBoolean(1);
                                 res.put(""+id,chapterfinished);
-                            }
+                            }else{
+                                chapterfinished = false;
+                                res.put(""+id, chapterfinished);}
                             pstm = con.prepareStatement(props.getValue("queryChapterLP"));
                             pstm.setInt(1, tracker_id);
                             pstm.setInt(2, id);
                             rs = pstm.executeQuery();
                             if(rs.next()){
-                                int LP = rs.getInt(1);
+                                 LP = rs.getInt(1);
+                                res.put("p"+id, LP);
+                            }else{
+                                LP = 1;
                                 res.put("p"+id, LP);
                             }
                         }
