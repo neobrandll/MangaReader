@@ -30,15 +30,15 @@ public class LikeChapterService {
             if (rs.next()){
                 data.put("likesChapter", rs.getInt(1) + 1);
                 data.put("like", true);
-                likes = props.getValue("chapterLike") + String.valueOf(rs.getInt(1));
+                likes = props.getValue("chapterLike") + " "+ String.valueOf(rs.getInt(1));
             } else{
                 ServiceMethods.setResponse(res, 404, props.getValue("errorChapterLike"), null);
             }
             con.commit();
             ServiceMethods.setResponse(res, 201, likes, data);
         } catch (SQLException | NullPointerException e) {
-            System.out.println(props.getValue("errorMangaLike") + e.getMessage());
-            ServiceMethods.setResponse(res, 404, props.getValue("errorMangaLike"), null);
+            System.out.println(props.getValue("errorChapterLike") + e.getMessage());
+            ServiceMethods.setResponse(res, 404, props.getValue("erroChapterLike"), null);
         }finally {
             if (rs != null){
                 try {

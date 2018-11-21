@@ -97,6 +97,7 @@ public class TrackerMangaServl extends HttpServlet {
         HttpSession session = request.getSession(false);
         PropertiesReader props = PropertiesReader.getInstance();
         PrintWriter out = response.getWriter();
+        boolean mangaTracker;
       //  if((boolean)request.getAttribute("loggued")== true){
             if(session == null){
                 System.out.println(props.getValue("session_null"));
@@ -109,11 +110,12 @@ public class TrackerMangaServl extends HttpServlet {
                     pstm.setInt(2, manga_id);
                     rs = pstm.executeQuery();
                     if(rs.next()){
-                        boolean mangaTracker = rs.getBoolean(1);
+                        mangaTracker = rs.getBoolean(1);
                         data.setManga_id(manga_id);
                         data.setFinished(mangaTracker);
                     }else{
-                        data.setMessage(props.getValue("TrackerMangaNotfound"));
+                        mangaTracker = false;
+                        data.setFinished(mangaTracker);
                     }
 
 
