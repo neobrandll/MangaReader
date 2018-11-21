@@ -80,7 +80,7 @@ document.addEventListener("keydown", function(e){
                      window.location.href ="Reader.html"
                 }else{
                     alert("capitulo finalizado, ha llegado al final del manga.")
-                    mangafinished(localStorage.mangaid)
+                    mangafinished(localStorage.mangaid, true)
                     chapterfinished(localStorage.mangaid, getChapter_id(), currentP)
                 }
                 
@@ -138,8 +138,8 @@ ordenChap = function(){
     }
 }
 
-function mangafinished(manga_id){
-        let data = {manga_id: manga_id, finished: true   }
+function mangafinished(manga_id, finished){
+        let data = {manga_id: manga_id, finished: finished   }
         
     let init = {method:'POST', body:JSON.stringify(data), headers:{'Content-Type': 'application/json'}}
 

@@ -97,7 +97,7 @@ public class TrackerMangaServl extends HttpServlet {
         HttpSession session = request.getSession(false);
         PropertiesReader props = PropertiesReader.getInstance();
         PrintWriter out = response.getWriter();
-        if((boolean)request.getAttribute("loggued")== true){
+      //  if((boolean)request.getAttribute("loggued")== true){
             if(session == null){
                 System.out.println(props.getValue("session_null"));
             }else{
@@ -127,7 +127,7 @@ public class TrackerMangaServl extends HttpServlet {
                 out.print(r);
 
             }
-        }
+      //  }
 
     }
 }
