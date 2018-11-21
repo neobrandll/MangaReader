@@ -19,6 +19,15 @@ public class Manga {
     private String newComment;
     private List<CommentsManga> comments;
     private List<MangaOuter> searchManga;
+    private boolean logged;
+
+    public boolean isLogged() {
+        return logged;
+    }
+
+    public void setLogged(boolean logged) {
+        this.logged = logged;
+    }
 
     public List<MangaOuter> getSearchManga() {
         return searchManga;

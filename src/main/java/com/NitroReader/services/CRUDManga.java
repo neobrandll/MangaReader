@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.sql.*;
@@ -24,8 +25,9 @@ public class CRUDManga {
     //METHOD TO CREATE THE MANGA
     public static void createManga(HttpServletRequest request, Response<Manga> res) throws ServletException {
         PropertiesReader props = PropertiesReader.getInstance();
+        HttpSession session = request.getSession(false);
         Manga manga = new Manga();
-        manga.setUser_id(Integer.valueOf(request.getParameter("user_id")));
+        manga.setUser_id((int) session.getAttribute("id"));
         manga.setManga_name(request.getParameter("manga_name"));
         manga.setManga_synopsis(request.getParameter("manga_synopsis"));
         manga.setGenre_id(request.getParameterValues("genres_id"));
@@ -90,8 +92,8 @@ public class CRUDManga {
         Manga data = new Manga();
         data.setGenres(new ArrayList<>());
         data.setGenre_id(null);
+        HttpSession session = request.getSession(false);
         int manga = Integer.valueOf(request.getParameter("manga"));
-        int user_id = Integer.valueOf(request.getParameter("user_id"));
         Connection con = dbAccess.createConnection();
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("querySManga"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             PreparedStatement pstm2 = con.prepareStatement(props.getValue("querySMangaGenres"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -100,6 +102,8 @@ public class CRUDManga {
             ) {
             pstm.setInt(1, manga);
             rs = pstm.executeQuery();
+
+
 
             if (rs.next()){
                 data.setManga_name(rs.getString("manga_name"));
@@ -114,7 +118,13 @@ public class CRUDManga {
             }
 
             data.setLikesManga(LikeMangaService.countLikesManga(pstm3, manga));
-            data.setLike(LikeMangaService.userLikeManga(pstm4, manga, user_id));
+            if ((Boolean) request.getAttribute("logged")){
+                data.setLike(LikeMangaService.userLikeManga(pstm4, manga, (int) (session.getAttribute("id"))));
+                data.setLogged(true);
+            }else{
+                data.setLike(false);
+                data.setLogged(false);
+            }
 
             ServiceMethods.setResponse(res, 200, "OK", data);
         } catch (SQLException e) {

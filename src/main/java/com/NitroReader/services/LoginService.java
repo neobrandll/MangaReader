@@ -55,6 +55,8 @@ public class LoginService {
                     res.setData(loginData);
                     AttrSession.setAttribute(session, "name", rs.getString(props.getValue("retName")));
                     AttrSession.setAttribute(session, "id", rs.getInt(props.getValue("retID")));
+                    AttrSession.setAttribute(session, "admin", true);
+                    session.setMaxInactiveInterval((3600 * 24));
                 }else{
                     System.out.println(props.getValue("isnotAdmin") + ": " + userL.getUser());
                     res.setMessage("Correct Username and Password!");
@@ -65,6 +67,8 @@ public class LoginService {
                     res.setData(loginData);
                     AttrSession.setAttribute(session, "name", rs.getString(props.getValue("retName")));
                     AttrSession.setAttribute(session, "id", rs.getInt(props.getValue("retID")));
+                    AttrSession.setAttribute(session, "admin", false);
+                    session.setMaxInactiveInterval((3600 * 24));
                 }
             } else{
                 System.out.println("This username or password entered isn't correct");

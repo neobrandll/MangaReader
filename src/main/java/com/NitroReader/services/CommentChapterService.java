@@ -32,12 +32,12 @@ public class CommentChapterService {
             if (rs.next()) {
                 data.setComment(rs.getString("comment_content"));
                 data.setUser_name(rs.getString("user_name"));
-                ServiceMethods.setResponse(res, 201, props.getValue("commentManga") + rs.getString("manga_name"), data);
+                ServiceMethods.setResponse(res, 201, "OK", data);
             }
             con.commit();
         } catch (SQLException | NullPointerException e) {
-            ServiceMethods.setResponse(res, 404, props.getValue("errorCommentManga"), null);
-            System.out.println(props.getValue("errorCommentManga"));
+            ServiceMethods.setResponse(res, 404, props.getValue("ERROR"), null);
+            System.out.println(props.getValue("ERROR"));
         } finally {
             if (rs != null) {
                 try {
@@ -69,10 +69,10 @@ public class CommentChapterService {
                 comments.setId(rs.getInt("user_id"));
                 data.getComments().add(comments);
             }
-            ServiceMethods.setResponse(res, 200, props.getValue("allCommentsManga"), data);
+            ServiceMethods.setResponse(res, 200, "OK", data);
         } catch (SQLException | NullPointerException e) {
-            ServiceMethods.setResponse(res, 404, props.getValue("errorallCommentsManga"), data);
-            System.out.println(props.getValue("errorallCommentsManga") + e.getMessage());
+            ServiceMethods.setResponse(res, 404, "ERROR", data);
+            System.out.println("ERROR" + e.getMessage());
         }finally {
             if (rs != null){
                 try {
@@ -97,10 +97,10 @@ public class CommentChapterService {
             pstm.setString(4, ChapterC.getComment());
             pstm.executeUpdate();
 
-            ServiceMethods.setResponse(res, 200, props.getValue("cUpdated"), null);
+            ServiceMethods.setResponse(res, 200, "OK", null);
         } catch (SQLException | NullPointerException e) {
-            ServiceMethods.setResponse(res, 404, props.getValue("errorCUpdated"), null);
-            System.out.println(props.getValue("errorCUpdated") + e.getMessage());
+            ServiceMethods.setResponse(res, 404, "ERROR", null);
+            System.out.println("ERROR" + e.getMessage());
         }finally {
             dbAccess.closeConnection(con);
         }
@@ -117,10 +117,10 @@ public class CommentChapterService {
             pstm.setString(3, ChapterC.getComment());
             pstm.executeUpdate();
 
-            ServiceMethods.setResponse(res, 200, props.getValue("commentDeleted"), null);
+            ServiceMethods.setResponse(res, 200, "OK", null);
         } catch (SQLException | NullPointerException e) {
-            ServiceMethods.setResponse(res, 404, props.getValue("errorCD"), null);
-            System.out.println(props.getValue("errorCD") +  e.getMessage());
+            ServiceMethods.setResponse(res, 404, "ERROR", null);
+            System.out.println("ERROR" +  e.getMessage());
         }finally {
             dbAccess.closeConnection(con);
         }

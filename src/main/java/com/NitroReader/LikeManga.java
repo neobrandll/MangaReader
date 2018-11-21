@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class LikeManga extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ObjectMapper objM = new ObjectMapper();
+        HttpSession session = request.getSession(false);
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
@@ -29,6 +31,7 @@ public class LikeManga extends HttpServlet {
         PrintWriter out = response.getWriter();
         Response<HashMap<String,Object>> res = new Response<>();
         Manga manga = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), Manga.class);
+        manga.setUser_id((int) session.getAttribute("id"));
         LikeMangaService.likeManga(manga, res);
 
         String r = objM.writeValueAsString(res);
@@ -39,11 +42,13 @@ public class LikeManga extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper objM = new ObjectMapper();
+        HttpSession session = req.getSession(false);
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         PrintWriter out = resp.getWriter();
         Response<HashMap<String,Object>> res = new Response<>();
         Manga manga = objM.readValue(req.getReader().lines().collect(Collectors.joining(System.lineSeparator())), Manga.class);
+        manga.setUser_id((int) session.getAttribute("id"));
 
         LikeMangaService.deleteLike(manga, res);
 
