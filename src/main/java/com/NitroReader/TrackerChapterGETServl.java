@@ -38,7 +38,7 @@ public class TrackerChapterGETServl extends HttpServlet {
         PrintWriter out = response.getWriter();
         ResponseTracker resp = new ResponseTracker();
         HashMap<String,Object> data = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), HashMap.class);
-        if((boolean)request.getAttribute("loggued")== true){
+       // if((boolean)request.getAttribute("loggued")== true){
             if (session == null) {
                 System.out.println(props.getValue("session_null"));
             } else {
@@ -84,7 +84,7 @@ public class TrackerChapterGETServl extends HttpServlet {
                 out.print(r);
 
             }
-        }
+        //}
 
         }
 

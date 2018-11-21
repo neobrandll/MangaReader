@@ -65,10 +65,12 @@ document.addEventListener("keydown", function(e){
                 if(chapters["nombre"+(readerChapter+1)]){
                     localStorage.setItem("retrocediendo", "no") 
                     alert("capitulo finalizado, ha sido redirigido al siguiente capitulo")
+                    chapterfinished(localStorage.mangaid, getChapter_id(), currentP)
                     localStorage.setItem("currentChap", chapters["nombre"+(readerChapter+1)])
                      window.location.href ="Reader.html"
                 }else{
                     alert("capitulo finalizado, ha llegado al final del manga.")
+                    mangafinished(localStorage.mangaid)
                 }
                 
             }
@@ -123,3 +125,55 @@ ordenChap = function(){
         }
     }
 }
+
+function mangafinished(manga_id){
+        let data = {manga_id: manga_id, finished: true   }
+        
+    let init = {method:'POST', body:JSON.stringify(data), headers:{'Content-Type': 'application/json'}}
+
+    fetch("http://localhost:8080/NitroReader/TrackerMangaServl",init)
+    .then(res => res.json()).then((res) => {console.log(res.message)
+    })
+    }
+
+function chapterfinished(manga_id , chapter_id, page_tracker){
+
+    let data = {manga_id: manga_id,
+                chapter_id: chapter_id,
+                page_tracker: page_tracker ,
+                finished: true                  
+                                        }
+    let init = {method:'POST', body:JSON.stringify(data), headers:{'Content-Type': 'application/json'}}
+
+fetch("http://localhost:8080/NitroReader/TrackerChapterServl",init)
+.then(res => res.json()).then((res) => {console.log(res.message)
+})
+    }
+
+  function updateChapterTracker(manga_id, chapter_id, page_tracker){
+    let data = {manga_id: manga_id,
+        chapter_id: chapter_id,
+        page_tracker: page_tracker ,
+        finished: false                  
+                                }
+let init = {method:'POST', body:JSON.stringify(data), headers:{'Content-Type': 'application/json'}}
+
+fetch("http://localhost:8080/NitroReader/TrackerChapterServl",init)
+.then(res => res.json()).then((res) => {console.log(res.message)
+})
+  }
+
+
+  document.getElementById("saveTracker").addEventListener("click",function(){
+    updateChapterTracker(localStorage.mangaid, getChapter_id() , currentP)
+  }) 
+
+
+  function getChapter_id(){
+   let tags = document.getElementById("dropmenu").getElementsByTagName("a")
+   for(let i = 0; i<tags.length; i++){
+       if(localStorage.currentChap == tags[i].textContent){
+           return tags[i].getAttribute("id")
+       }
+   }
+  }

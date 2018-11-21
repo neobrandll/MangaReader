@@ -38,7 +38,7 @@ public class TrackerMangaServl extends HttpServlet {
         PrintWriter out = response.getWriter();
         ResponseTracker res = new ResponseTracker();
         ResultSet rs = null;
-        if((boolean)request.getAttribute("loggued")== true){
+        //if((boolean)request.getAttribute("loggued")== true){
             if (session == null){
                 System.out.println(props.getValue("session_null"));
             }else{
@@ -79,7 +79,7 @@ public class TrackerMangaServl extends HttpServlet {
                 String r = objM.writeValueAsString(res);
                 out.print(r);
             }
-        }
+      //  }
 
 
     }

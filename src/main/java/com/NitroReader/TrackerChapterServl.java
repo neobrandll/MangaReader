@@ -37,7 +37,7 @@ public class TrackerChapterServl extends HttpServlet {
         PrintWriter out = response.getWriter();
         ResponseTracker res = new ResponseTracker();
         TrackerModel trackerMODEL = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), TrackerModel.class);
-        if((boolean)request.getAttribute("loggued")== true){
+       // if((boolean)request.getAttribute("loggued")== true){
             if (session == null) {
                 System.out.println(props.getValue("session_null"));
             } else {
@@ -90,7 +90,7 @@ public class TrackerChapterServl extends HttpServlet {
                     }
                 }
             }
-        }
+        //}
 
         }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
