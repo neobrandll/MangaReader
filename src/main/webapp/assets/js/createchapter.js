@@ -101,8 +101,6 @@ function startChapterTracker(){
         for(let i=0; i<count; i++){
            
             let id = tags[i].getAttribute("id")
-            console.log(res)
-            console.log(res[id])
             if(res[id] == true){
                 document.getElementById(id).style.backgroundColor = "lightcoral"
             }
@@ -120,7 +118,12 @@ function startChapterTracker(){
           var btnTracker = document.getElementById("tracker")
           btnTracker.classList.remove("btn-secondary")
           btnTracker.classList.add("btn-danger")
-          btnTracker.textContent = "Finished"
+          if(localStorage.manga_status == "true"){
+            btnTracker.textContent = "Up To Date"
+          }else{
+            btnTracker.textContent = "Finished"
+          }
+          
         }
 
          })

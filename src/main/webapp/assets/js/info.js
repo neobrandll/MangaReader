@@ -36,11 +36,11 @@ function load() {
         document.getElementById("mangaName").innerHTML = res.data.manga_name;
         document.getElementById("mangaSynopsis").innerHTML = res.data.manga_synopsis;
         if (res.status === 200) {
+            localStorage.setItem("manga_status", res.data.manga_status)
             if (res.data.manga_status) {
                 document.getElementById("mangaStatuss").innerHTML = "<i class='fas fa-check-circle'></i> Ongoing";
             } else{
-                document.getElementById("mangaStatus").classList.add("fas fa-ban");
-                document.getElementById("mangaStatuss").innerHTML = "Discontinued";
+                document.getElementById("mangaStatuss").innerHTML = "<i class='fas fa-check-circle'></i> Finished";
             }
             res.data.genres.forEach(element => {
                 let li = document.createElement("li");

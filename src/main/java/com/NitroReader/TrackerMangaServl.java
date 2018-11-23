@@ -60,11 +60,7 @@ public class TrackerMangaServl extends HttpServlet {
                     }
                     else{
                         //crear un trackermanga
-                        pstm = con.prepareStatement(props.getValue("queryTrackerManga"));
-                        pstm.setInt(1, (Integer) session.getAttribute("id"));
-                        pstm.setInt(2, trackerMODEL.getManga_id());
-                        pstm.setBoolean(3, trackerMODEL.getFinished());
-                        pstm.executeUpdate();
+                        createMangaTracker(con, props, trackerMODEL.getManga_id(), false, session);
                         res.setMessage(props.getValue("TrackerMcreado"));
                         res.setStatus(200);
                     }
@@ -101,6 +97,8 @@ public class TrackerMangaServl extends HttpServlet {
       //  if((boolean)request.getAttribute("loggued")== true){
             if(session == null){
                 System.out.println(props.getValue("session_null"));
+                mangaTracker = false;
+                data.setFinished(mangaTracker);
             }else{
                 int manga_id =  Integer.parseInt(request.getParameter("manga_id"));
                 int user_id =  (Integer) session.getAttribute("id");
@@ -114,6 +112,7 @@ public class TrackerMangaServl extends HttpServlet {
                         data.setManga_id(manga_id);
                         data.setFinished(mangaTracker);
                     }else{
+                        createMangaTracker(con, props, manga_id, false, session);
                         mangaTracker = false;
                         data.setFinished(mangaTracker);
                     }
@@ -125,11 +124,20 @@ public class TrackerMangaServl extends HttpServlet {
                         dbAccess.closeConnection(con);
                     }
                 }
-                String r = objM.writeValueAsString(data);
-                out.print(r);
-
             }
+            String r = objM.writeValueAsString(data);
+            out.print(r);
       //  }
 
+    }
+
+    private void createMangaTracker( Connection con, PropertiesReader props, int Manga_id, boolean finished, HttpSession session){
+        try {
+            PreparedStatement pstm = con.prepareStatement(props.getValue("queryTrackerManga"));
+            pstm.setInt(1, (Integer) session.getAttribute("id"));
+            pstm.setInt(2, Manga_id);
+            pstm.setBoolean(3, finished);
+            pstm.executeUpdate();
+        }catch (SQLException e){e.printStackTrace();}
     }
 }

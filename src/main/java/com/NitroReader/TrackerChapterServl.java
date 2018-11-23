@@ -81,6 +81,9 @@ public class TrackerChapterServl extends HttpServlet {
 
                         }
 
+                    } else{
+                        res.setMessage(props.getValue("TrackerMNoExiste"));
+                        res.setStatus(404);
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();

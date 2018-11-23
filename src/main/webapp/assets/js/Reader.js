@@ -215,3 +215,5 @@ fetch("http://localhost:8080/NitroReader/TrackerChapterServl",init)
         getchapter(res);
     })
   }
+
+  document.getElementById("gomangainfo").addEventListener("click", ()=> window.location.href ="http://localhost:8080/NitroReader/MangaInfo.html?manga="+localStorage.mangaid)

@@ -36,18 +36,24 @@ public class TrackerChapterGETServl extends HttpServlet {
         PropertiesReader props = PropertiesReader.getInstance();
         ResultSet rs = null;
         PrintWriter out = response.getWriter();
-        ResponseTracker resp = new ResponseTracker();
+        HashMap<String, Object> res = new HashMap<>();
         HashMap<String,Object> data = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), HashMap.class);
         boolean chapterfinished;
         int LP;
+        int manga_id =  (Integer)data.get("manga_id");
+        int numchaps = (int) data.get("numchaps");
        // if((boolean)request.getAttribute("loggued")== true){
             if (session == null) {
                 System.out.println(props.getValue("session_null"));
+                for (int i= 0; i<numchaps; i++) {
+                    int id = (Integer) data.get("id" + i);
+                    chapterfinished = false;
+                    res.put(""+id, chapterfinished);
+                    LP = 1;
+                    res.put("p"+id, LP);
+                }
             } else {
-                int manga_id =  (Integer)data.get("manga_id");
 
-                HashMap<String, Object> res = new HashMap<>();
-                int numchaps = (int) data.get("numchaps");
                 try{
                     pstm = con.prepareStatement(props.getValue("queryGetTracker_id"));
                     pstm.setInt(1,(Integer) session.getAttribute("id"));
@@ -57,28 +63,23 @@ public class TrackerChapterGETServl extends HttpServlet {
                         int tracker_id = rs.getInt(1);
                         for (int i= 0; i<numchaps; i++){
                             int id = (Integer) data.get("id" + i);
-                            pstm = con.prepareStatement(props.getValue("queryChapterFinished"));
+                            pstm = con.prepareStatement(props.getValue("queryGETChapterTracker"));
                             pstm.setInt(1, tracker_id);
                             pstm.setInt(2, id);
                             rs = pstm.executeQuery();
                             if(rs.next()){
-                                chapterfinished = rs.getBoolean(1);
+                                chapterfinished = rs.getBoolean("chapter_finished");
                                 res.put(""+id,chapterfinished);
+                                LP = rs.getInt("lastpage_seen");
+                                res.put("p"+id, LP);
                             }else{
                                 chapterfinished = false;
-                                res.put(""+id, chapterfinished);}
-                            pstm = con.prepareStatement(props.getValue("queryChapterLP"));
-                            pstm.setInt(1, tracker_id);
-                            pstm.setInt(2, id);
-                            rs = pstm.executeQuery();
-                            if(rs.next()){
-                                 LP = rs.getInt(1);
-                                res.put("p"+id, LP);
-                            }else{
+                                res.put(""+id, chapterfinished);
                                 LP = 1;
-                                res.put("p"+id, LP);
-                            }
+                                res.put("p"+id, LP);}
                         }
+                    }else {
+                        res.put("error",props.getValue("TrackerMNoExiste"));
                     }
                 }catch (SQLException e){
                     e.printStackTrace();
@@ -87,10 +88,11 @@ public class TrackerChapterGETServl extends HttpServlet {
                         dbAccess.closeConnection(con);
                     }
                 }
-                String r = objM.writeValueAsString(res);
-                out.print(r);
+
 
             }
+            String r = objM.writeValueAsString(res);
+            out.print(r);
         //}
 
         }
