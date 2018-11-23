@@ -47,7 +47,7 @@ public class CommentManga extends HttpServlet {
         Response<Manga> res = new Response<>();
         PrintWriter out = response.getWriter();
 
-        CommentMangaService.getAllComments(manga, res);
+        CommentMangaService.getAllComments(manga, res, request);
 
         String r = objM.writeValueAsString(res);
         System.out.println(r);
