@@ -98,12 +98,11 @@ public class CRUDManga {
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("querySManga"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             PreparedStatement pstm2 = con.prepareStatement(props.getValue("querySMangaGenres"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             PreparedStatement pstm3 = con.prepareStatement(props.getValue("querySLManga"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            PreparedStatement pstm4 = con.prepareStatement(props.getValue("queryifLManga"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
+            PreparedStatement pstm4 = con.prepareStatement(props.getValue("queryifLManga"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement pstm5 = con.prepareStatement(props.getValue("queryifSub"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
             ) {
             pstm.setInt(1, manga);
             rs = pstm.executeQuery();
-
-
 
             if (rs.next()){
                 data.setManga_name(rs.getString("manga_name"));
@@ -120,9 +119,11 @@ public class CRUDManga {
             data.setLikesManga(LikeMangaService.countLikesManga(pstm3, manga));
             if ((Boolean) request.getAttribute("logged")){
                 data.setLike(LikeMangaService.userLikeManga(pstm4, manga, (int) (session.getAttribute("id"))));
+                data.setSubscribe(SubscriptionService.userSubscribe(pstm5, manga, (int) session.getAttribute("id")));
                 data.setLogged(true);
             }else{
                 data.setLike(false);
+                data.setSubscribe(false);
                 data.setLogged(false);
             }
 
