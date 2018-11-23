@@ -57,31 +57,46 @@
     <div id="saveTracker" class="btn btn-danger">Save Tracker</div>
     <div id="gomangainfo" class="btn btn-danger">Go back to MangaInfo</div>
 </section>
-    <section class="comments-area">
-        <button type="button" id="btnComments"  class="btn btn-danger">Show Comments</button>
-        <h2 class="hidde" id="titleComments">Comments</h2>
-        <div class="newComment hidde" id="NewComment">
-            <div class="name"></div>
-            <div class="form-group">
-                <textarea class="form-control" id="comment-text" rows="6"></textarea>
-                <div>
-                    <button type="button" class="btn btn-primary" id="sndComment">Share!</button>
-                </div>
+<section class="comments-area">
+    <button type="button" id="btnComments"  class="btn btn-danger">Show Comments</button>
+    <h2 class="hidde" id="titleComments">Comments</h2>
+    <div class="newComment hidde" id="NewComment">
+        <div class="name"></div>
+        <div class="form-group">
+            <textarea class="form-control" id="comment-text" rows="6"></textarea>
+            <div>
+                <button type="button" class="btn btn-primary" id="sndComment">Share!</button>
             </div>
         </div>
-        <div class="comments hidde" id="Comments">
-            <!--<div class="comment">-->
-            <!--<div class="name">Elvis  Araujo</div>-->
-            <!--<div class="editions">-->
-            <!--<span><button type="button" class="btn btn-link" ><i class="fas fa-pencil-alt"></i> Edit</button></span>-->
-            <!--<span><button type="button" class="btn btn-danger" ><i class="fas fa-times"></i></button></span>        -->
-            <!--</div>-->
-            <!--<p class="comment-content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta molestiae magni voluptates eveniet, exercitationem eius? Nam minima totam dolorem provident praesentium aut atque molestiae, exercitationem veritatis. Cumque et deserunt similique.-->
-            <!--Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores veniam fugiat asperiores neque porro, magnam quas saepe ipsa aperiam laudantium quisquam fugit unde nisi quasi maiores. Velit accusantium ut eum.-->
-            <!--</p>-->
-            <!--</div>-->
+    </div>
+    <div class="comments hidde" id="Comments">
+        <!--<div class="comment">-->
+        <!--<div class="name">Elvis  Araujo</div>-->
+        <!--<div class="editions">-->
+        <!--<span><button type="button" class="btn btn-link" ><i class="fas fa-pencil-alt"></i> Edit</button></span>-->
+        <!--<span><button type="button" class="btn btn-danger" ><i class="fas fa-times"></i></button></span>        -->
+        <!--</div>-->
+        <!--<p class="comment-content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta molestiae magni voluptates eveniet, exercitationem eius? Nam minima totam dolorem provident praesentium aut atque molestiae, exercitationem veritatis. Cumque et deserunt similique.-->
+        <!--Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores veniam fugiat asperiores neque porro, magnam quas saepe ipsa aperiam laudantium quisquam fugit unde nisi quasi maiores. Velit accusantium ut eum.-->
+        <!--</p>-->
+        <!--</div>-->
+    </div>
+</section>
+<div class="modal fade" id="notLogged" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Sorry!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                You have to be Logged to do this!
+            </div>
         </div>
-    </section>
+    </div>
+</div>
 
 
       

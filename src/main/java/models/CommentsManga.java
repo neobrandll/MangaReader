@@ -3,14 +3,14 @@ package models;
 public class CommentsManga {
     private String name;
     private String comment;
-    private int id;
+    private boolean owned;
 
-    public int getId() {
-        return id;
+    public boolean isOwned() {
+        return owned;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOwned(boolean owned) {
+        this.owned = owned;
     }
 
     public String getName() {

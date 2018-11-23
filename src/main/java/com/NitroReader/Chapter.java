@@ -1,5 +1,16 @@
 package com.NitroReader;
 
+import javax.annotation.Resource;
+import javax.enterprise.concurrent.ManagedExecutorService;
+import javax.inject.Inject;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,11 +27,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 import com.NitroReader.services.ServiceMethods;
+import com.NitroReader.utilities.AsyncThread;
 import com.NitroReader.utilities.DBAccess;
 import com.NitroReader.utilities.PropertiesReader;
+import com.NitroReader.utilities.SendEmails;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.ChapterModel;
@@ -31,7 +48,9 @@ import static java.lang.Integer.*;
 
 @WebServlet("/Chapter")
 public class Chapter extends HttpServlet {
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         PropertiesReader props = PropertiesReader.getInstance();
         ObjectMapper objM = new ObjectMapper();
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -43,7 +62,11 @@ public class Chapter extends HttpServlet {
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryIChapter"))) {
-            FileUtils.forceMkdir(new File(baseDir + "\\" + res.getChapternum()));
+            File directory = new File(baseDir + "\\" + res.getChapternum());
+            if(directory.exists()){} else{
+                directory.mkdir();
+                AsyncThread.executeThread(new SendEmails(Integer.parseInt(res.getMangaid())));
+            }
             pstm.setInt(1, Integer.parseInt(res.getMangaid()));
             pstm.setInt(2, Integer.parseInt(res.getChapternum()));
             pstm.setString(3, "wip");
@@ -55,7 +78,7 @@ public class Chapter extends HttpServlet {
             r = objM.writeValueAsString(res);
             System.out.println(r);
             out.print(r);
-        } catch (Error | SQLException e) {
+        } catch (Error | Exception e) {
             e.printStackTrace();
         }
     }

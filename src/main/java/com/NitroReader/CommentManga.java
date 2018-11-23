@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.stream.Collectors;
@@ -21,12 +22,14 @@ public class CommentManga extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ObjectMapper objM = new ObjectMapper();
+        HttpSession session = request.getSession(false);
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
         Response<Manga> res = new Response<>();
         PrintWriter out = response.getWriter();
         Manga manga = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), Manga.class);
+        manga.setUser_id((int) session.getAttribute("id"));
         CommentMangaService.createComment(manga, res);
 
         String r = objM.writeValueAsString(res);
@@ -44,7 +47,7 @@ public class CommentManga extends HttpServlet {
         Response<Manga> res = new Response<>();
         PrintWriter out = response.getWriter();
 
-        CommentMangaService.getAllComments(manga, res);
+        CommentMangaService.getAllComments(manga, res, request);
 
         String r = objM.writeValueAsString(res);
         System.out.println(r);
@@ -54,10 +57,12 @@ public class CommentManga extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper objM = new ObjectMapper();
+        HttpSession session = req.getSession(false);
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
         Manga manga = objM.readValue(req.getReader().lines().collect(Collectors.joining(System.lineSeparator())), Manga.class);
+        manga.setUser_id((int) session.getAttribute("id"));
         Response<Manga> res = new Response<>();
         PrintWriter out = resp.getWriter();
 
@@ -71,9 +76,11 @@ public class CommentManga extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper objM = new ObjectMapper();
+        HttpSession session = req.getSession(false);
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         Manga manga = objM.readValue(req.getReader().lines().collect(Collectors.joining(System.lineSeparator())), Manga.class);
+        manga.setUser_id((int) session.getAttribute("id"));
         Response<Manga> res = new Response<>();
         PrintWriter out = resp.getWriter();
 

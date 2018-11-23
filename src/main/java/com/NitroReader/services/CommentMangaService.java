@@ -6,6 +6,8 @@ import models.CommentsManga;
 import models.Manga;
 import models.Response;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,23 +54,35 @@ public class CommentMangaService {
     }
 
     //METHOD TO FETCH ALL THE COMMENTS OF A MANGA
-    public static void getAllComments(Manga manga, Response<Manga> res){
+    public static void getAllComments(Manga manga, Response<Manga> res, HttpServletRequest request){
         PropertiesReader props = PropertiesReader.getInstance();
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
         Manga data = new Manga();
         data.setComments(new ArrayList<>());
-
+        HttpSession session = request.getSession(false);
+        boolean logged = (Boolean) request.getAttribute("logged");
         ResultSet rs = null;
 
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("querySCManga"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             pstm.setInt(1, manga.getManga_id());
             rs = pstm.executeQuery();
+            if (logged){
+                data.setLogged(true);
+            }else data.setLogged(false);
             while (rs.next()){
                 CommentsManga comments = new CommentsManga();
                 comments.setName(rs.getString("user_name"));
                 comments.setComment(rs.getString("comment_content"));
-                comments.setId(rs.getInt("user_id"));
+                if (logged){
+                    if (rs.getInt("user_id") == (int) session.getAttribute("id")) {
+                        comments.setOwned(true);
+                    } else {
+                        comments.setOwned(false);
+                    }
+                }else{
+                    comments.setOwned(false);
+                }
                 data.getComments().add(comments);
             }
             ServiceMethods.setResponse(res, 200, props.getValue("allCommentsManga"), data);
