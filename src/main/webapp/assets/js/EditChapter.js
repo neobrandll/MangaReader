@@ -116,6 +116,7 @@ function pullfiles(){
 
 //veamos como pasamos las imagenes a un array y lo mandamos
 document.getElementById("enviar").addEventListener("click", send)
+
 async function send(){
 var imagenes = div2.getElementsByTagName("img");
 var imgarr = []
@@ -133,8 +134,11 @@ for(let i=0; i<imgarr.length; i++){
 		method: "POST",
 		body: form
 	}).then((response) => 	
-		response.text()).then((data)=>
-		console.log(data));
+		response.text()).then((data)=>{
+            console.log(data)
+        window.location.href ="http://localhost:8080/NitroReader/MangaInfo.html?manga="+localStorage.mangaid
+        });
+        
 }
 
 
