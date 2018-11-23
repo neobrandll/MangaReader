@@ -73,7 +73,6 @@ public class Chapter extends HttpServlet {
             pstm.setString(5, res.getMangaid() + "/" + res.getChapternum());
             pstm.setInt(6, 0);
             pstm.executeUpdate();
-            AsyncThread.executeThread(new SendEmails(Integer.parseInt(res.getMangaid())));
             System.out.println("se creo la carpeta");
             r = objM.writeValueAsString(res);
             System.out.println(r);

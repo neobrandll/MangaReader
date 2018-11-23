@@ -91,10 +91,10 @@ public class SendEmails implements Runnable {
         message = "<section style=\"width: 100%; display:flex; flex-direction: column; font-family: sans-serif;\">\n" +
                 "        <h1 style=\"text-align: center; font-size: 40px;\">Hola!</h1>\n" +
                 "        <h2 style=\"font-size: 30px;\">Como estas " + name + "!</h2>\n" +
-                "        <p style=\"font-size: 20px;\"> <strong>Queremos informarte que hay un nuevo capitulo del manga" + manga +"!\n" +
+                "        <p style=\"font-size: 20px;\"> <strong>Queremos informarte que hay un nuevo capitulo del manga " + manga +"!\n" +
                 "            <br>Ven Y leelo!\n" +
                 "        </strong></p>\n" +
-                "        <img style=\"text-align: center\" src=\"cid:image\" alt=\"Imagen\">\n" +
+                "        <img style=\"text-align: center; object-fit:container;\" src=\"cid:image\" alt=\"Imagen\">\n" +
                 "    </section>";
         return message;
     }

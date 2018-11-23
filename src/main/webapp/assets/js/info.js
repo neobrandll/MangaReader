@@ -35,6 +35,7 @@ function load() {
         document.getElementById("mangaName").textContent = res.data.manga_name;
         document.getElementById("mangaSynopsis").textContent = res.data.manga_synopsis;
         if (res.status === 200) {
+            localStorage.setItem("manga_status", res.data.manga_status);
             if (res.data.manga_status) {
                 document.getElementById("mangaStatuss").innerHTML = "<i class='fas fa-check-circle'></i> Ongoing";
             } else{

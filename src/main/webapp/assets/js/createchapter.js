@@ -17,6 +17,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 function getmangaid(){
     var mangaid = getUrlParameter("manga")
     localStorage.setItem("mangaid", mangaid)
+    
 }
 
 
@@ -54,23 +55,76 @@ function loadnumchapter(){
     .then(function(res){
         return res.json()
     }).then(function(res){
-        var count = Object.keys(res).length;
+        var count =0
+        for (key in res){
+            if(key.indexOf("nombre")!= -1){
+                count++
+            }
+        }
+        console.log("numero de capitulos: " + count)
         console.log(res)
         for(let i=0; i<count ; i++){
             let a = document.createElement("a");
-            a.setAttribute("id", "capitulo"+ res["nombre"+i])
+            a.setAttribute("id", res["id"+i])
             a.setAttribute("class", "dropdown-item")
             a.setAttribute("href", "#")
             a.textContent = res["nombre"+i];
             a.addEventListener("click",function(){
                 localStorage.setItem("currentChap", res["nombre"+i])
+                localStorage.setItem("estadoReader", "tracker")
                 window.location.href ="Reader.html"
                  })
             document.getElementById("dropmenu").appendChild(a);
         }
         
+    }).then(()=> {
+        startChapterTracker()
+        trackermanga();
+                                        
     })
     
     
 }
 
+function startChapterTracker(){
+    
+    let tags = document.getElementById("dropmenu").getElementsByTagName("a")
+    let count  = tags.length;
+    let data={"numchaps":count, "manga_id": parseInt(localStorage.mangaid)  }
+    for(let i = 0; i<count; i++){
+        data["id"+i] = parseInt(tags[i].getAttribute("id"));
+    }
+    let init = {method:'POST', body:JSON.stringify(data), headers:{'Content-Type': 'application/json'}}
+    console.log(init.body)
+    fetch("http://localhost:8080/NitroReader/TrackerChapterGETServl",init)
+    .then(res => res.json()).then((res) => {
+        for(let i=0; i<count; i++){
+           
+            let id = tags[i].getAttribute("id")
+            if(res[id] == true){
+                document.getElementById(id).style.backgroundColor = "lightcoral"
+            }
+        }
+        
+    })
+  }
+
+  function trackermanga(){
+    let mangaid= parseInt(localStorage.mangaid) ;
+    let init = {method:'GET'}
+    fetch("http://localhost:8080/NitroReader/TrackerMangaServl?manga_id="+mangaid,init)
+    .then(res => res.json()).then((res) => {
+        if(res.finished==true){
+          var btnTracker = document.getElementById("tracker")
+          btnTracker.classList.remove("btn-secondary")
+          btnTracker.classList.add("btn-danger")
+          if(localStorage.manga_status == "true"){
+            btnTracker.textContent = "Up To Date"
+          }else{
+            btnTracker.textContent = "Finished"
+          }
+          
+        }
+
+         })
+    }
