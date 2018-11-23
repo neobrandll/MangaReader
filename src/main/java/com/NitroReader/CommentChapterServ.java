@@ -35,12 +35,12 @@ public class CommentChapterServ extends HttpServlet {
         ObjectMapper objM = new ObjectMapper();
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
-        ChapterCommentsLikesModel ChapterC = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), ChapterCommentsLikesModel.class);
+        ChapterCommentsLikesModel ChapterC = new ChapterCommentsLikesModel();
+        ChapterC.setChapter_id(Integer.parseInt(request.getParameter("chapter_id")));
         Response<ChapterCommentsLikesModel> res = new Response<>();
         PrintWriter out = response.getWriter();
 
-        CommentChapterService.getAllComments(ChapterC, res);
+        CommentChapterService.getAllComments(ChapterC, res, request);
 
         String r = objM.writeValueAsString(res);
         System.out.println(r);

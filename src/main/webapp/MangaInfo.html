@@ -86,9 +86,9 @@
                                 Like
                         </button>
                         <button type="button" class="btn btn-secondary" id="tracker" data-toggle="tooltip" data-placement="top" title="Tracker Status" >
-                                Not finished
+                            Not finished
                         </button>
-                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="250">
+                        <button type="button" class="btn btn-secondary" id="subscribe" data-toggle="tooltip" data-placement="top" title="250">
                                 Subscribe
                         </button>
                         <div class="dropdown">
@@ -129,6 +129,21 @@
             <!--</div>-->
         </div>                
     </section>
+    <div class="modal fade" id="notLogged" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Sorry!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    You have to be Logged to do this!
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="assets/js/jquery-3.3.1.slim.js"></script>
     <script src="assets/js/bootstrap.bundle.js"></script>
     <script>

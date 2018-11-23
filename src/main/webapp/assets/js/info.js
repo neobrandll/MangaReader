@@ -1,5 +1,6 @@
 // General Stuff
 
+//FUNCTION TO GET THE PARAMETERS AT THE URL
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1),
         sURLVariables = sPageURL.split('&'),
@@ -21,10 +22,8 @@ var child = fragmentElement.children[1];
 child.removeChild(child.children[0]);
 child.innerHTML += "<button type='button' class='btn btn-primary'>Update!</button>";
 child.children[0].classList.add("update-btn");
-// child.children[0].addEventListener("click", updateComment);
 fragmentElement.children[1].innerHTML += "<button type='button' class='btn btn-dark'>Close</button>";
 child.children[1].classList.add("update-btn");
-// child.children[1].addEventListener("click", updateComment);
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -33,49 +32,75 @@ function load() {
     fetch(`http://localhost:8080/NitroReader/CRUDMangaServlet?manga=${getUrlParameter("manga")}&user_id=${localStorage.getItem("user_id")}`, {method:'GET'}).then(res => res.json())
     .then(res => {
         document.getElementById("mangaImage").src = `http://localhost:8080/NitroReader/library/${res.data.location}`;
-        document.getElementById("mangaName").innerHTML = res.data.manga_name;
-        document.getElementById("mangaSynopsis").innerHTML = res.data.manga_synopsis;
+        document.getElementById("mangaName").textContent = res.data.manga_name;
+        document.getElementById("mangaSynopsis").textContent = res.data.manga_synopsis;
         if (res.status === 200) {
-            localStorage.setItem("manga_status", res.data.manga_status)
+            localStorage.setItem("manga_status", res.data.manga_status);
             if (res.data.manga_status) {
                 document.getElementById("mangaStatuss").innerHTML = "<i class='fas fa-check-circle'></i> Ongoing";
             } else{
-                document.getElementById("mangaStatuss").innerHTML = "<i class='fas fa-check-circle'></i> Finished";
+                document.getElementById("mangaStatuss").innerHTML = "<i class='fas fa-ban'></i> Finished";
             }
             res.data.genres.forEach(element => {
                 let li = document.createElement("li");
                 li.setAttribute("class", "genre");
-                li.innerHTML = element;
+                li.textContent = element;
                 document.getElementById("mangaGenres").appendChild(li);
             });
             document.getElementById("like").setAttribute("data-original-title", `${res.data.likesManga}`);
-            if (res.data.like){
-                document.getElementById("like").style.backgroundColor = "green";
-                document.getElementById("like").addEventListener("click", removeLike);
+            if (res.data.logged){
+                if (res.data.like){
+                    document.getElementById("like").style.backgroundColor = "green";
+                    document.getElementById("like").addEventListener("click", removeLike);
+                } else{
+                    document.getElementById("like").addEventListener("click", likeManga);
+                }
+                if (res.data.subscribe){
+                    document.getElementById("subscribe").style.backgroundColor = "green";
+                    document.getElementById("subscribe").addEventListener("click", removeSubscription);
+                }else{
+                    document.getElementById("subscribe").addEventListener("click", subscribeManga);
+                }
             } else{
-                document.getElementById("like").addEventListener("click", likeManga);
+                document.getElementById("like").setAttribute("data-toggle", "modal");
+                document.getElementById("like").setAttribute("data-target", "#notLogged");
+                document.getElementById("subscribe").setAttribute("data-toggle", "modal");
+                document.getElementById("subscribe").setAttribute("data-target", "#notLogged");
             }
+
 
         }
 
     })
 }
 
+//FUNCTION TO FETCH AL THE COMMENTS OF THE MANGA
 function showComments(){
     let data = {manga_id : getUrlParameter("manga")}
     fetch(`http://localhost:8080/NitroReader/CommentManga?manga_id=${getUrlParameter("manga")}`, {method: 'GET'})
     .then(res => res.json()).then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
             document.getElementById("NewComment").children[0].textContent = localStorage.getItem("user");
-            if (res.data.hasOwnProperty("comments")) {
-                res.data.comments.forEach((element) => {
-                    if (`${element.id}` === localStorage.getItem("user_id")) {
-                        getComments(element.name, element.comment, true);
-                    }else{
+            if (res.data.logged){ //If is loggedd put the buttons of delete and edit on the comment
+                document.getElementById("sndComment").addEventListener("click", sendComment);
+                if (res.data.hasOwnProperty("comments")){
+                    res.data.comments.forEach((element) => {
+                        if (element.owned) {
+                            getComments(element.name, element.comment, true);
+                        }else{
+                            getComments(element.name, element.comment, false);
+                        }
+                    })
+                }
+            }else{
+                document.getElementById("sndComment").setAttribute("data-toggle", "modal");
+                document.getElementById("sndComment").setAttribute("data-target", "#notLogged");
+                if (res.data.hasOwnProperty("comments")){
+                    res.data.comments.forEach((element) => {
                         getComments(element.name, element.comment, false);
-                    }
-                })
-            }            
+                    })
+                }
+            }
             document.getElementById("titleComments").classList.remove("hidde");
             document.getElementById("Comments").classList.remove("hidde");
             document.getElementById("NewComment").classList.remove("hidde");
@@ -86,6 +111,7 @@ function showComments(){
 }
 document.getElementById("btnComments").addEventListener("click", showComments);
 
+//FUNCTION TO APPEND ALL THE COMMENTS THAT ARE FETCHED FROM THE SERVER
 function getComments(name, comment, condition){
     if (condition) {
     let c = document.createElement("div");
@@ -140,6 +166,8 @@ function getComments(name, comment, condition){
     }
     
 }
+
+//FUNCTION TO APPEND A NEW COMMENT CREATED
 function newComment(name, comment) {
     let c = document.createElement("div");
     c.classList.add("comment");
@@ -181,6 +209,7 @@ function newComment(name, comment) {
     commentBox.insertBefore(c, commentBox.childNodes[0]);
 }
 
+//FUNCTION TO MAKE A REQUEST TO CREATE A COMMENT
 function sendComment() {
     document.getElementById("sndComment").removeEventListener("click", sendComment);
     let commentContent = document.getElementById("comment-text").value;
@@ -194,15 +223,16 @@ function sendComment() {
     .then(res => res.json()).then((res) => {
         if (res.status == 201) {
             newComment(res.data.user_name, res.data.comment);
-            document.getElementById("sndComment").addEventListener("clicl", sendComment);
+            document.getElementById("sndComment").addEventListener("click", sendComment);
         }
     }).catch((error) => {
         console.log(error);        
     })
 
 }
-document.getElementById("sndComment").addEventListener("click", sendComment);
 
+
+//FUNCTION TO SET A TEXTAREA TO THE COMMENT TO BE ABLE TO EDIT THE COMMENT
 function editComment() {
     let p1 = this.parentNode;
     let p2 = p1.parentNode;
@@ -216,6 +246,7 @@ function editComment() {
     this.removeEventListener("click", editComment);
 }
 
+//FUNCTION TO REMOVE THE UPDATE AREA FROM THE WHITHIN THE COMMENT
 function removeUpdate() {
     let p1 = this.parentNode;
     let p2 = p1.parentNode;
@@ -224,6 +255,8 @@ function removeUpdate() {
     p3.children[2].classList.remove("hidde");
     p3.removeChild(p2);
 }
+
+//FUNCTION THE MAKE THE REQUEST FOR UPDATE THE COMMENT
 function updateComment() {
     let p1 = this.parentNode;
     let p2 = p1.parentNode;
@@ -246,6 +279,8 @@ function updateComment() {
         console.log(error);
     })
 }
+
+//FUNCTION TO MAKE A REQUEST THAT DELETE THE COMMENT
 function deleteComment() {
     let p1 = this.parentNode;
     let p2 = p1.parentNode;
@@ -261,6 +296,8 @@ function deleteComment() {
     })
 
 }
+
+//FUNCTION TO MAKE A REQUEST THAT LIKES THE MANGA
 function likeManga() {
     this.removeEventListener("click", likeManga);
     data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id")}
@@ -277,6 +314,8 @@ function likeManga() {
         console.log(error);
     })
 }
+
+//FUNCTION TO REMOVE THE LIKE FROM THE MANGA
 function removeLike() {
     this.removeEventListener("click", removeLike);
     data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id")}
@@ -293,3 +332,36 @@ function removeLike() {
         console.log(error);
     })
 }
+
+function subscribeManga() {
+    this.removeEventListener("click", subscribeManga);
+    data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id")}
+    fetch("http://localhost:8080/NitroReader/Subscription", {method:'POST', body: JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
+        .then(res => res.json()).then((res) =>{
+        if (res.status === 201){
+            if (res.data.subscribe){
+                document.getElementById("subscribe").style.backgroundColor = "green";
+            }
+            document.getElementById("subscribe").addEventListener("click", removeSubscription);
+        }
+    }).catch((error) =>{
+        console.log(error);
+    })
+}
+
+function removeSubscription() {
+    this.removeEventListener("click", removeSubscription);
+    data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id")}
+    fetch("http://localhost:8080/NitroReader/Subscription", {method:'DELETE', body: JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
+        .then(res => res.json()).then((res) =>{
+        if (res.status === 200){
+            if (!res.data.subscription){
+                document.getElementById("subscribe").style.backgroundColor = "black";
+            }
+            document.getElementById("subscribe").addEventListener("click", subscribeManga);
+        }
+    }).catch((error) =>{
+        console.log(error);
+    })
+}
+

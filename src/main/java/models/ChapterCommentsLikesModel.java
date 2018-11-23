@@ -19,6 +19,15 @@ public class ChapterCommentsLikesModel {
     private int chapter_id;
     private String newComment;
     private List<CommentsManga> comments;
+    private boolean logged;
+
+    public boolean isLogged() {
+        return logged;
+    }
+
+    public void setLogged(boolean logged) {
+        this.logged = logged;
+    }
 
     public int getLikesChapter() {
         return LikesChapter;

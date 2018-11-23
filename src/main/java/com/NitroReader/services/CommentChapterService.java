@@ -7,6 +7,8 @@ import models.ChapterCommentsLikesModel;
 import models.CommentsManga;
 import models.Response;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,11 +52,13 @@ public class CommentChapterService {
         }
     }
     //METHOD TO FETCH ALL THE COMMENTS OF ONE MANGA
-    public static void getAllComments(ChapterCommentsLikesModel ChapterC, Response<ChapterCommentsLikesModel> res){
+    public static void getAllComments(ChapterCommentsLikesModel ChapterC, Response<ChapterCommentsLikesModel> res, HttpServletRequest request){
         PropertiesReader props = PropertiesReader.getInstance();
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
         ChapterCommentsLikesModel data = new ChapterCommentsLikesModel();
+        HttpSession session = request.getSession(false);
+        boolean logged = (Boolean) request.getAttribute("logged");
         data.setComments(new ArrayList<>());
 
         ResultSet rs = null;
@@ -62,11 +66,22 @@ public class CommentChapterService {
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("querySCChapter"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             pstm.setInt(1, ChapterC.getChapter_id());
             rs = pstm.executeQuery();
+            if (logged){
+                data.setLogged(true);
+            }else data.setLogged(false);
             while (rs.next()){
                 CommentsManga comments = new CommentsManga();
                 comments.setName(rs.getString("user_name"));
                 comments.setComment(rs.getString("comment_content"));
-                comments.setId(rs.getInt("user_id"));
+                if (logged){
+                    if (rs.getInt("user_id") == (int) session.getAttribute("id")) {
+                        comments.setOwned(true);
+                    } else {
+                        comments.setOwned(false);
+                    }
+                }else{
+                    comments.setOwned(false);
+                }
                 data.getComments().add(comments);
             }
             ServiceMethods.setResponse(res, 200, "OK", data);
