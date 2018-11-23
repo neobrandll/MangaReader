@@ -20,6 +20,15 @@ public class Manga {
     private List<CommentsManga> comments;
     private List<MangaOuter> searchManga;
     private boolean logged;
+    private boolean subscribe;
+
+    public boolean isSubscribe() {
+        return subscribe;
+    }
+
+    public void setSubscribe(boolean subscribe) {
+        this.subscribe = subscribe;
+    }
 
     public boolean isLogged() {
         return logged;
