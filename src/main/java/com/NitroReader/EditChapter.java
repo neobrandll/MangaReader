@@ -1,14 +1,12 @@
 package com.NitroReader;
 
 import com.NitroReader.Builder.*;
-import com.NitroReader.Builder.ResOKBuilder;
+import com.NitroReader.services.ResBuilderService;
 import com.NitroReader.utilities.DBAccess;
 import com.NitroReader.utilities.PropertiesReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -38,11 +36,11 @@ public class EditChapter extends HttpServlet {
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryIChapterPages"))) {
-          String baseDir = props.getValue("direction")+ mangaid+"\\"+currentChap;
+            String baseDir = props.getValue("direction")+ mangaid+"\\"+currentChap;
             FileUtils.cleanDirectory(new File(baseDir));
-           int c = new File(baseDir).listFiles().length;
+            int c = new File(baseDir).listFiles().length;
             c++;
-           for (Part file : files) {
+            for (Part file : files) {
                 if (this.getFileName(file) != null){
                     filecontent = file.getInputStream();
                     os = new FileOutputStream(baseDir + "/" + c+".png");
@@ -67,9 +65,15 @@ public class EditChapter extends HttpServlet {
             pstm.setInt(3, Integer.parseInt(mangaid));
             pstm.setInt(4,Integer.parseInt(currentChap));
             pstm.executeUpdate();
+            ResBuilderService.BuildOKEmpty(out);
 
         } catch (Exception e) {
+            ResBuilderService.BuildResError(out);
             e.printStackTrace();
+        }finally {
+            if (con != null){
+                dbAccess.closeConnection(con);
+            }
         }
     }
 
@@ -105,25 +109,10 @@ public class EditChapter extends HttpServlet {
                 item.put("chapter_id", rs.getString("chapter_id"));
             }
 
-            ResponseBuilder<HashMap> resok = new ResOKBuilder();
-            Director<HashMap> director = new Director<>();
-            director.setResponseBuilder(resok);
-            director.construirResponse(item);
-            rf = director.getResponse();
-            r= objM.writeValueAsString(rf);
-            System.out.println(r);
-            out.print(r);
+            ResBuilderService.BuildOk(item,out);
         }
         catch(Exception e ){
-            String data = "No data";
-            ResponseBuilder<String> reserr = new ResErrorBuilder<>();
-            Director<String> director = new Director<>();
-            director.setResponseBuilder(reserr);
-            director.construirResponse(data);
-            rf = director.getResponse();
-            r= objM.writeValueAsString(rf);
-            System.out.println(r);
-            out.print(r);
+            ResBuilderService.BuildResError(out);
             e.printStackTrace();
         }finally {
             if (con != null){

@@ -1,16 +1,5 @@
 package com.NitroReader;
 
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.inject.Inject;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,19 +9,14 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
+import com.NitroReader.services.ResBuilderService;
 import com.NitroReader.services.ServiceMethods;
 import com.NitroReader.utilities.AsyncThread;
 import com.NitroReader.utilities.DBAccess;
@@ -65,7 +49,7 @@ public class Chapter extends HttpServlet {
         int manga_id = Integer.parseInt(res.getMangaid());
         int chapter_num = Integer.parseInt(res.getChapternum());
         ResultSet rs = null;
-            try{
+        try{
             pstm = con.prepareStatement(props.getValue("queryChapterInfo"));
             pstm.setInt(1, chapter_num);
             pstm.setInt(2, manga_id);
@@ -95,7 +79,12 @@ public class Chapter extends HttpServlet {
             }
 
         } catch (Error | Exception e) {
+            ResBuilderService.BuildResError(out);
             e.printStackTrace();
+        }finally {
+            if (con != null){
+                dbAccess.closeConnection(con);
+            }
         }
     }
 
@@ -144,13 +133,24 @@ public class Chapter extends HttpServlet {
                     int c = new File(baseDir).listFiles().length;
                     res.setMax(c);
                     res.setFiledir(serveDir);
+
+
+
+
+
                     r = objM.writeValueAsString(res);
                     System.out.println(r);
                     out.print(r);
                 }catch (Error e){
                     e.printStackTrace();
+                    ResBuilderService.BuildResError(out);
                 } catch (SQLException e) {
                     e.printStackTrace();
+                    ResBuilderService.BuildResError(out);
+                }finally {
+                    if (con != null){
+                        dbAccess.closeConnection(con);
+                    }
                 }
                 break;
             case "getnumchapters":
@@ -184,9 +184,6 @@ public class Chapter extends HttpServlet {
                             }
 
                         }catch (SQLException e){e.printStackTrace();}
-
-                    }if (con != null){
-                        dbAccess.closeConnection(con);
                     }
                     r = objM.writeValueAsString(item);
                     System.out.println(r);
@@ -194,6 +191,11 @@ public class Chapter extends HttpServlet {
 
                 }catch (Error e){
                     e.printStackTrace();
+                    ResBuilderService.BuildResError(out);
+                }finally {
+                    if (con != null){
+                        dbAccess.closeConnection(con);
+                    }
                 }
                 break;
 
@@ -225,6 +227,11 @@ public class Chapter extends HttpServlet {
         }
         catch (Error | SQLException e){
             e.printStackTrace();
+            ResBuilderService.BuildResError(out);
+        }finally {
+            if (con != null){
+                dbAccess.closeConnection(con);
+            }
         }
 
     }
