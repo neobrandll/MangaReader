@@ -23,6 +23,9 @@ child.children[1].classList.add("update-btn");
         return res.json()
     }).then(function(res){
         console.log(res)
+        document.getElementById("manga_name").textContent = res.manganame
+        document.getElementById("chapter_title").textContent = localStorage.currentChap+ " - " + res.chaptertitle
+        
         max = res.max;
         if(max>0){
             switch(localStorage.estadoReader){
@@ -33,7 +36,7 @@ child.children[1].classList.add("update-btn");
                 break;
                 case "down":
                 currentP = max
-                filedir= res.filedir;
+                filedir=    res.filedir;
                 mainimg.setAttribute("src", filedir+"/"+ currentP+".png");
                 break;
                 case "tracker":

@@ -43,19 +43,33 @@
       </nav>
       <!-- aqui empieza el contenido real -->
 <section>
-    <div id="containerimg"><img id="mainimg"  alt=""></div>
+    <div class="title-info">
+        <h1 id="manga_name"> 
+           TITULO
+        </h1>
+        <h2 id="chapter_title">
+            TITULO CAPITULO
+        </h2>
+    </div>
+    <div class="button-header">
+        <div>
+            <div class="dropdown dropdown-chapter">
+                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Leer Capitulo
+                </button>
+                <div id="dropmenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-    <div class="dropdown">
-        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Leer Capitulo
-        </button>
-        <div id="dropmenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                </div>
+            </div>
 
+            <div id="saveTracker" class="btn btn-danger">Save Tracker</div>
         </div>
+        
+        <div id="gomangainfo" class="btn btn-danger">Go back to MangaInfo</div>
     </div>
 
-    <div id="saveTracker" class="btn btn-danger">Save Tracker</div>
-    <div id="gomangainfo" class="btn btn-danger">Go back to MangaInfo</div>
+    <div id="containerimg"><img id="mainimg"  alt=""></div>
+
 </section>
 <section class="comments-area">
     <button type="button" id="btnComments"  class="btn btn-danger">Show Comments</button>
