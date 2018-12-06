@@ -300,10 +300,10 @@ function deleteComment() {
 //FUNCTION TO MAKE A REQUEST THAT LIKES THE MANGA
 function likeManga() {
     this.removeEventListener("click", likeManga);
-    data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id")}
+    data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id"), switchState : "ON"}
     fetch("http://localhost:8080/NitroReader/LikeManga", {method:'POST', body: JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
         .then(res => res.json()).then((res) =>{
-            if (res.status === 201){
+            if (res.status === 200){
                 document.getElementById("like").setAttribute("data-original-title", `${res.data.likesManga}`);
                 if (res.data.like){
                     document.getElementById("like").style.backgroundColor = "green";
@@ -318,8 +318,8 @@ function likeManga() {
 //FUNCTION TO REMOVE THE LIKE FROM THE MANGA
 function removeLike() {
     this.removeEventListener("click", removeLike);
-    data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id")}
-    fetch("http://localhost:8080/NitroReader/LikeManga", {method:'DELETE', body: JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
+    data = {manga_id: getUrlParameter("manga"), user_id:localStorage.getItem("user_id"), switchState : "OFF"}
+    fetch("http://localhost:8080/NitroReader/LikeManga", {method:'POST', body: JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
         .then(res => res.json()).then((res) =>{
         if (res.status === 200){
             document.getElementById("like").setAttribute("data-original-title", `${document.getElementById("like").getAttribute("data-original-title") - "1"}`);
