@@ -221,7 +221,7 @@ function sendComment() {
             }
     fetch("http://localhost:8080/NitroReader/CommentManga", {method:'POST', body:JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
     .then(res => res.json()).then((res) => {
-        if (res.status == 201) {
+        if (res.status == 200) {
             newComment(res.data.user_name, res.data.comment);
             document.getElementById("sndComment").addEventListener("click", sendComment);
         }
