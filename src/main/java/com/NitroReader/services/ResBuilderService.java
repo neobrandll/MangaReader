@@ -18,7 +18,6 @@ public class ResBuilderService<T> {
         director.construirResponse(data);
         rf = director.getResponse();
         r= objM.writeValueAsString(rf);
-        System.out.println(r);
         out.print(r);
     }
 
@@ -33,7 +32,6 @@ public class ResBuilderService<T> {
         director.construirResponse(data);
         rf = director.getResponse();
         r= objM.writeValueAsString(rf);
-        System.out.println(r);
         out.print(r);
     }
 
@@ -47,7 +45,6 @@ public class ResBuilderService<T> {
         director.construirResponse(data);
         rf = director.getResponse();
         r= objM.writeValueAsString(rf);
-        System.out.println(r);
         out.print(r);
     }
 }

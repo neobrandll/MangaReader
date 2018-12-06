@@ -55,8 +55,7 @@ public class Chapter extends HttpServlet {
             pstm.setInt(2, manga_id);
             rs = pstm.executeQuery();
             if(rs.next()){
-                r = objM.writeValueAsString(res); //responder con el res prederteminado
-                out.print(r);
+                ResBuilderService.BuildOk(res, out);
             }
             else{
                 pstm = con.prepareStatement(props.getValue("queryIChapter"));
@@ -72,10 +71,7 @@ public class Chapter extends HttpServlet {
                 pstm.setString(5, manga_id + "/" + chapter_num);
                 pstm.setInt(6, 0);
                 pstm.executeUpdate();
-                System.out.println("se creo la carpeta");
-                r = objM.writeValueAsString(res); //responder con el res prederteminado
-                System.out.println(r);
-                out.print(r);
+                ResBuilderService.BuildOk(res, out);
             }
 
         } catch (Error | Exception e) {
@@ -133,14 +129,7 @@ public class Chapter extends HttpServlet {
                     int c = new File(baseDir).listFiles().length;
                     res.setMax(c);
                     res.setFiledir(serveDir);
-
-
-
-
-
-                    r = objM.writeValueAsString(res);
-                    System.out.println(r);
-                    out.print(r);
+                    ResBuilderService.BuildOk(res, out);
                 }catch (Error e){
                     e.printStackTrace();
                     ResBuilderService.BuildResError(out);
@@ -185,10 +174,7 @@ public class Chapter extends HttpServlet {
 
                         }catch (SQLException e){e.printStackTrace();}
                     }
-                    r = objM.writeValueAsString(item);
-                    System.out.println(r);
-                    out.print(r);
-
+                    ResBuilderService.BuildOk(item, out);
                 }catch (Error e){
                     e.printStackTrace();
                     ResBuilderService.BuildResError(out);
@@ -220,10 +206,7 @@ public class Chapter extends HttpServlet {
             pstm.setInt(1, Integer.parseInt(mangaid));
             pstm.setInt(2, Integer.parseInt(currentChap));
             pstm.executeUpdate();
-            res.setMessage("el capitulo se ha borrado correctamente");
-            r = objM.writeValueAsString(res);
-            System.out.println(r);
-            out.print(r);
+            ResBuilderService.BuildOKEmpty(out);
         }
         catch (Error | SQLException e){
             e.printStackTrace();

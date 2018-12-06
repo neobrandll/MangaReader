@@ -92,7 +92,6 @@ public class EditChapter extends HttpServlet {
         int manga_id = Integer.parseInt(request.getParameter("mangaid"));
         int chapter_num = Integer.parseInt(request.getParameter("currentChap"));
         Response rf;
-
         try{
             String baseDir = props.getValue("direction")+ mangaid+"\\"+currentChap;
             String serveDir = props.getValue("dbMangaDirection")+mangaid+"\\"+currentChap;
