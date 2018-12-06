@@ -13,8 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-public class Like {
-    public Like(){}
+public class LikeM {
+    public LikeM(){}
 
     public void on (int userid, int mangaid, PrintWriter out) throws JsonProcessingException {
         PropertiesReader props = PropertiesReader.getInstance();

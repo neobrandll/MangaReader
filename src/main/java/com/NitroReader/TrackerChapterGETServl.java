@@ -86,6 +86,14 @@ public class TrackerChapterGETServl extends HttpServlet {
                     e.printStackTrace();
                     ResBuilderService.BuildResError(out);
                 }finally {
+                    if (rs != null){
+                        try {
+                            rs.close();
+                        } catch (SQLException e1) {
+                            ResBuilderService.BuildResError(out);
+                            e1.printStackTrace();
+                        }
+                    }
                     if (con != null){
                         dbAccess.closeConnection(con);
                     }

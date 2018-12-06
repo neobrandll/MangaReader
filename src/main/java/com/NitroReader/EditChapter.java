@@ -18,6 +18,7 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -71,6 +72,7 @@ public class EditChapter extends HttpServlet {
             ResBuilderService.BuildResError(out);
             e.printStackTrace();
         }finally {
+
             if (con != null){
                 dbAccess.closeConnection(con);
             }
@@ -114,6 +116,14 @@ public class EditChapter extends HttpServlet {
             ResBuilderService.BuildResError(out);
             e.printStackTrace();
         }finally {
+            if (rs != null){
+                try {
+                    rs.close();
+                } catch (SQLException e1) {
+                    ResBuilderService.BuildResError(out);
+                    e1.printStackTrace();
+                }
+            }
             if (con != null){
                 dbAccess.closeConnection(con);
             }

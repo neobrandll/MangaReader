@@ -46,7 +46,7 @@ child.children[1].classList.add("update-btn");
                 mainimg.setAttribute("src", filedir+"/"+ currentP+".png");
                 break;
             }
-            
+            if (localStorage.user != null){startLikesC();}
         }else{
             alert("este capitulo se encuentra vacio!")
             chapterfinished(localStorage.mangaid, getChapter_id(), currentP)
@@ -446,3 +446,72 @@ function deleteComment() {
     })
 
 }
+
+
+
+
+//FUNCTION TO MAKE A REQUEST THAT LIKES THE CHAPTER
+function likeManga() {
+    var chapter_id = getChapter_id();
+    this.removeEventListener("click", likeManga);
+    data = {chapter_id: chapter_id, switchState : "ON"}
+    fetch("http://localhost:8080/NitroReader/LikeChapterServ", {method:'POST', body: JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
+        .then(res => res.json()).then((res) =>{
+            if (res.status === 200){
+                document.getElementById("likeC").setAttribute("data-original-title", `${res.data.likesChapter}`);
+                if (res.data.like){
+                    document.getElementById("likeC").style.backgroundColor = "green";
+                }
+                document.getElementById("likeC").addEventListener("click", removeLike);
+            }
+    }).catch((error) =>{
+        console.log(error);
+    })
+}
+
+//FUNCTION TO REMOVE THE LIKE FROM THE CHAPTER
+function removeLike() {
+    var chapter_id = getChapter_id();
+    this.removeEventListener("click", removeLike);
+    data = {chapter_id: chapter_id, switchState : "OFF"}
+    fetch("http://localhost:8080/NitroReader/LikeChapterServ", {method:'POST', body: JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
+        .then(res => res.json()).then((res) =>{
+        if (res.status === 200){
+            document.getElementById("likeC").setAttribute("data-original-title", `${document.getElementById("likeC").getAttribute("data-original-title") - "1"}`);
+            if (!res.data.like){
+                document.getElementById("likeC").style.backgroundColor = "black";
+            }
+            document.getElementById("likeC").addEventListener("click", likeManga);
+        }
+    }).catch((error) =>{
+        console.log(error);
+    })
+}
+
+
+function startLikesC(){
+    var chapter_id = getChapter_id();
+fetch(`http://localhost:8080/NitroReader/LikeChapterServ?Chapter_id=${chapter_id}`, {method:'GET'})
+.then(res => res.json()).then((res) =>{
+    document.getElementById("likeC").setAttribute("data-original-title", `${res.data.likesChapter}`);
+            if (localStorage.user != null){
+                if (res.data.like){
+                    document.getElementById("likeC").style.backgroundColor = "green";
+                    document.getElementById("likeC").addEventListener("click", removeLike);
+                } else{
+                    document.getElementById("likeC").addEventListener("click", likeManga);
+                } } else{
+                    document.getElementById("likeC").setAttribute("data-toggle", "modal");
+                    document.getElementById("likeC").setAttribute("data-target", "#notLogged");
+                }
+            
+    
+ })
+  }
+
+  document.getElementById("likeC").addEventListener("click", ()=>{
+    if (localStorage.user == null){
+        document.getElementById("likeC").setAttribute("data-toggle", "modal");
+        document.getElementById("likeC").setAttribute("data-target", "#notLogged");
+    }
+  })

@@ -58,6 +58,10 @@ public class Chapter extends HttpServlet {
                 ResBuilderService.BuildOk(res, out);
             }
             else{
+                //LIMPIAR LOS TRACKERS
+                pstm = con.prepareStatement(props.getValue("queryResetTracker"));
+                pstm.setInt(1, manga_id);
+                pstm.executeUpdate();
                 pstm = con.prepareStatement(props.getValue("queryIChapter"));
                 File directory = new File(baseDir + "\\" + chapter_num);
                 if(directory.exists()){} else{
@@ -137,6 +141,14 @@ public class Chapter extends HttpServlet {
                     e.printStackTrace();
                     ResBuilderService.BuildResError(out);
                 }finally {
+                    if (rs != null){
+                        try {
+                            rs.close();
+                        } catch (SQLException e1) {
+                            ResBuilderService.BuildResError(out);
+                            e1.printStackTrace();
+                        }
+                    }
                     if (con != null){
                         dbAccess.closeConnection(con);
                     }
@@ -182,6 +194,14 @@ public class Chapter extends HttpServlet {
                     if (con != null){
                         dbAccess.closeConnection(con);
                     }
+                    if (rs != null){
+                        try {
+                            rs.close();
+                        } catch (SQLException e1) {
+                            ResBuilderService.BuildResError(out);
+                            e1.printStackTrace();
+                        }
+                    }
                 }
                 break;
 
@@ -199,7 +219,6 @@ public class Chapter extends HttpServlet {
         ObjectMapper objM = new ObjectMapper();
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        String r;
         PrintWriter out = response.getWriter();
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryDChapter"))){
             FileUtils.deleteDirectory(new File(props.getValue("direction")+mangaid+"\\"+currentChap));
@@ -215,6 +234,7 @@ public class Chapter extends HttpServlet {
             if (con != null){
                 dbAccess.closeConnection(con);
             }
+
         }
 
     }

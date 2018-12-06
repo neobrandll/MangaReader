@@ -14,11 +14,11 @@ public class SwitchLike {
     }
 
 
-    public void flipUp(int userid, int mangaid, PrintWriter out) throws JsonProcessingException {
-        flipUpLike.execute(userid, mangaid, out);
+    public void flipUp(int userid, int id, PrintWriter out) throws JsonProcessingException {
+        flipUpLike.execute(userid, id, out);
     }
 
-    public void FlipDown(int userid, int mangaid, PrintWriter out) throws JsonProcessingException {
-        flipDownLike.execute(userid, mangaid, out);
+    public void FlipDown(int userid, int id, PrintWriter out) throws JsonProcessingException {
+        flipDownLike.execute(userid, id, out);
     }
 }

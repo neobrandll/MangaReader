@@ -1,12 +1,9 @@
 package com.NitroReader;
 
 import com.NitroReader.Command.*;
-import com.NitroReader.services.LikeMangaService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import models.Manga;
-import models.Response;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 @WebServlet("/LikeManga")
@@ -37,9 +33,9 @@ public class LikeManga extends HttpServlet {
         int mangaid = manga.getManga_id();
         String switchState = manga.getSwitchState();
 
-        Like like = new Like();
-        Command flipUplike = new FlipUpLike(like);
-        Command flipDownlike = new FlipDownLike(like);
+        LikeM likeM = new LikeM();
+        Command flipUplike = new FlipUpLikeM(likeM);
+        Command flipDownlike = new FlipDownLikeM(likeM);
         SwitchLike mySwitch = new SwitchLike(flipUplike, flipDownlike);
         switch (switchState) {
             case "ON":

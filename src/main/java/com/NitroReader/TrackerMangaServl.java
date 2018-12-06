@@ -68,6 +68,14 @@ public class TrackerMangaServl extends HttpServlet {
                     ResBuilderService.BuildResError(out);
                     e.printStackTrace();}
                 finally {
+                    if (rs != null){
+                        try {
+                            rs.close();
+                        } catch (SQLException e1) {
+                            ResBuilderService.BuildResError(out);
+                            e1.printStackTrace();
+                        }
+                    }
                     if (con != null){
                         dbAccess.closeConnection(con);
                     }
@@ -120,6 +128,14 @@ public class TrackerMangaServl extends HttpServlet {
                     ResBuilderService.BuildResError(out);
                     e.printStackTrace();}
                 finally {
+                    if (rs != null){
+                        try {
+                            rs.close();
+                        } catch (SQLException e1) {
+                            ResBuilderService.BuildResError(out);
+                            e1.printStackTrace();
+                        }
+                    }
                     if (con != null){
                         dbAccess.closeConnection(con);
                     }
