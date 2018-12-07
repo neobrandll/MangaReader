@@ -18,6 +18,7 @@ import javax.servlet.http.Part;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class CRUDManga {
@@ -37,6 +38,7 @@ public class CRUDManga {
         ResultSet rs = null;
         Connection con = dbAccess.createConnection();
         Savepoint savepoint = null;
+        Manga data = new Manga();
 
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryIManga"));
             PreparedStatement pstm2 = con.prepareStatement(props.getValue("queryIMangaGenre"));
@@ -56,13 +58,14 @@ public class CRUDManga {
                 rs = pstm3.executeQuery();
                 if (rs.next()) {
                     int manga_id = rs.getInt("manga_id");
+                    data.setManga_id(manga_id);
                     ServiceMethods.insertGenres(manga.getGenre_id(), manga_id, pstm2);
                     uploadManga(request.getPart("file"), manga.getLocation(), manga_id);
                     pstm4.setString(1, String.valueOf(manga_id) + "/" + String.valueOf(manga_id) + ".jpg");
                     pstm4.setInt(2, manga_id);
                     pstm4.executeUpdate();
                 }
-                ServiceMethods.setResponse(res, 201, props.getValue("mangaCreated"), null);
+                ServiceMethods.setResponse(res, 201, props.getValue("mangaCreated"), data);
                 con.commit();
         } catch (SQLException | IOException | NullPointerException  e) {
             e.printStackTrace();
@@ -104,11 +107,16 @@ public class CRUDManga {
             pstm.setInt(1, manga);
             rs = pstm.executeQuery();
 
-            if (rs.next()){
+            if (rs.next()) {
                 data.setManga_name(rs.getString("manga_name"));
                 data.setManga_status(rs.getBoolean("manga_status"));
                 data.setManga_synopsis(rs.getString("manga_synopsis"));
                 data.setLocation(rs.getString("manga_location"));
+                if ((boolean) request.getAttribute("logged")) {
+                    if ((rs.getInt("user_id") == (int) session.getAttribute("id")) | (boolean) session.getAttribute("admin")) {
+                        data.setOwner(true);
+                    } else data.setOwner(false);
+                } else data.setOwner(false);
                 pstm2.setInt(1, manga);
             }
             rs = pstm2.executeQuery();
@@ -129,7 +137,7 @@ public class CRUDManga {
 
             ServiceMethods.setResponse(res, 200, "OK", data);
         } catch (SQLException e) {
-            System.out.println(props.getValue("errorFetchManga") + e.getMessage());
+            e.printStackTrace();
             ServiceMethods.setResponse(res, 404, props.getValue("errorFetchManga"), null);
         }finally {
             if (rs != null){
@@ -188,12 +196,46 @@ public class CRUDManga {
         }
     }
 
+    //METHOD TO UPDATE THE MANGA STATUS
+    public static void updateMangaStatus(HttpServletRequest request, Response<Manga> res) {
+        PropertiesReader props = PropertiesReader.getInstance();
+        boolean manga_status = Boolean.parseBoolean(request.getParameter("manga_status"));
+        int manga_id = Integer.parseInt(request.getParameter("manga_id"));
+        DBAccess dbAccess = DBAccess.getInstance();
+        Connection con = dbAccess.createConnection();
+        HttpSession session = request.getSession(false);
+        ResultSet rs;
+        boolean mine = false;
+        try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryUMS"));
+            PreparedStatement pstm2 = con.prepareStatement(props.getValue("queryVUM"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            pstm2.setInt(1, (int) session.getAttribute("id"));
+            pstm2.setInt(2, manga_id);
+            rs = pstm2.executeQuery();
+            if (rs.next()) {
+                mine = true;
+            }
+            if (mine | (boolean) session.getAttribute("admin")) {
+                pstm.setBoolean(1, manga_status);
+                pstm.setInt(2, manga_id);
+                pstm.executeUpdate();
+                ServiceMethods.setResponse(res, 200, "Status updated", null);
+            } else {
+                ServiceMethods.setResponse(res, 401, "Unauthorized", null);
+            }
+        } catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+            ServiceMethods.setResponse(res, 500, "Error updating status", null);
+        }
+    }
+
+
     //METHOD FOR DELETE MANGA
     public static void deleteManga(HttpServletRequest request, Response<Manga> res, ObjectMapper objM) throws IOException {
         PropertiesReader props = PropertiesReader.getInstance();
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
         Manga manga = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), Manga.class);
+        HttpSession session = request.getSession(false);
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryDManga")) ){
             pstm.setInt(1, manga.getManga_id());
             pstm.executeUpdate();

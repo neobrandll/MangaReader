@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+/* Section Styles */
+
+section {
+    height: 600px;
+    max-width: 1250px;
+    min-width: 990px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 70px;
+    overflow: auto;
+}
+
+/* Manga-Content */
+.manga-content {
+    display: flex;
+    flex-direction: row;
+    width: 65%;
+    min-height: 240px;
+    background-color: rgba(255,255,255, .8);
+    border: 1px solid rgba(0,0,0, .125);
+    margin-bottom: 20px;
+    overflow: visible;
+}
+
+.manga-content div:first-child {
+    flex-basis: 20%;
+    padding: 5px;
+}
+.manga-content div:last-child {
+    flex-basis: 80%;
+    /* min-width: 0%; */
+    padding: 10px;
+}
+p {
+    text-align: justify;
+}
+img {
+    width: 100%;
+    height: 100%;   
+}

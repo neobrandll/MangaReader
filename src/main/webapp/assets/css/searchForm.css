@@ -1,0 +1,16 @@
+#searchInput:hover, #searchInput:focus {
+    box-shadow: 0 0 .5px 1px #EEEEEE;
+}
+#search {
+    border: 1px solid #EEEEEE;
+    transition: background-color .2s linear, color .2s linear;
+    color: #EEEEEE;
+}
+#search:hover {
+    background-color: #EEEEEE;
+    border: 1px solid #EEEEEE;
+    color: #212121;
+}
+#search:focus {
+    box-shadow: 0 0 1px 2px #EEEEEE;
+}

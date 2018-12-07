@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -63,10 +64,12 @@ public class SendEmails implements Runnable {
                 imageBody.setHeader("Content-ID", "<image>");
                 rs.beforeFirst();
                 while (rs.next()){ //getting all the emails and set different content per recipient
-                    MimeMultipart multipart = new MimeMultipart("related");
+                    MimeMultipart multipart = new MimeMultipart();
                     BodyPart messageBody = new MimeBodyPart();
                     emailMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(rs.getString(1)));
-                    messageBody.setContent(getMessage(rs.getString(2), rs.getString(3)), "text/html");
+                    MessageFormat messageFormat = new MessageFormat(getMessage());
+                    Object[] args = {rs.getString(2), rs.getString(3)};
+                    messageBody.setContent(messageFormat.format(args), "text/html");
                     multipart.addBodyPart(messageBody);
                     multipart.addBodyPart(imageBody);
                     emailMessage.setContent(multipart);//for a html email
@@ -86,12 +89,12 @@ public class SendEmails implements Runnable {
     }
 
     //html content of the message to send
-    private String getMessage(String name, String manga){
+    private String getMessage(){
         String message = null;
         message = "<section style=\"width: 100%; display:flex; flex-direction: column; font-family: sans-serif;\">\n" +
                 "        <h1 style=\"text-align: center; font-size: 40px;\">Hola!</h1>\n" +
-                "        <h2 style=\"font-size: 30px;\">Como estas " + name + "!</h2>\n" +
-                "        <p style=\"font-size: 20px;\"> <strong>Queremos informarte que hay un nuevo capitulo del manga " + manga +"!\n" +
+                "        <h2 style=\"font-size: 30px;\">Como estas {0} !</h2>\n" +
+                "        <p style=\"font-size: 20px;\"> <strong>Queremos informarte que hay un nuevo capitulo del manga {1} !\n" +
                 "            <br>Ven Y leelo!\n" +
                 "        </strong></p>\n" +
                 "        <img style=\"text-align: center; object-fit:container;\" src=\"cid:image\" alt=\"Imagen\">\n" +

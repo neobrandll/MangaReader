@@ -290,6 +290,16 @@ a {
 }
 
 /* Update Styles */
-.update-btn{
-    margin: 0 10px;
+#toUpdate, #delete {
+    padding: 7px;
+    margin: 20px 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #b71c1c;
+    color: #fff;
+    transition: box-shadow .2s linear;
+}
+
+#toUpdate:hover, #delete:hover {
+    box-shadow: 0 0 2px 2px #e53935;
 }

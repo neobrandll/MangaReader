@@ -11,12 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.stream.Collectors;
 
-@WebServlet("/SearchServlet")
-public class SearchServlet extends HttpServlet {
+@WebServlet("/HomeServlet")
+public class HomeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ObjectMapper objM = new ObjectMapper();
@@ -25,7 +26,7 @@ public class SearchServlet extends HttpServlet {
         objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
         PrintWriter out = response.getWriter();
         Response<Manga> res = new Response<>();
-        SearchService.searchManga(request.getParameter("manga_name"), res);
+        SearchService.homeSearch(res);
         String r = objM.writeValueAsString(res);
         System.out.println(r);
         out.print(r);
