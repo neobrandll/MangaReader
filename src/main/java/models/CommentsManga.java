@@ -3,7 +3,16 @@ package models;
 public class CommentsManga {
     private String name;
     private String comment;
+    private int comment_id;
     private boolean owned;
+
+    public int getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(int comment_id) {
+        this.comment_id = comment_id;
+    }
 
     public boolean isOwned() {
         return owned;

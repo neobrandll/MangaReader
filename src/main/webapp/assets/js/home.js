@@ -7,10 +7,14 @@ registerbtn.addEventListener("click", function(){window.location.href ="NitroReg
 document.getElementById("homebtn").addEventListener("click", function(){window.location.href ="index.html"})
 document.getElementById("gohome").addEventListener("click", function(){window.location.href ="index.html"})
 loginbtn.addEventListener("click", function(){window.location.href ="NitroLogin.html"})
+document.getElementById('search').addEventListener('click', search);
 
 function main(){
     if(localStorage.user){
         var userspan= document.getElementById("userspan");
+        userspan.addEventListener('click', function () {
+            window.location.href = '/NitroReader/myMangas.html';
+        })
         userspan.textContent = localStorage.user;
         loginbtn.style.display = "none";
         registerbtn.style.display= "none"
@@ -21,8 +25,6 @@ function main(){
 }
 
 logoutbtn.addEventListener("click", function(){
-    
-
     fetch('http://localhost:8080/NitroReader/Session', {
     method: 'GET', 
     withCredentials: true,
@@ -36,3 +38,12 @@ logoutbtn.addEventListener("click", function(){
     })
     .catch(error => console.error('Error:', error))
 })
+
+function search(e) {
+    e.preventDefault();
+    let manga_name = document.getElementById('searchInput').value.trim();
+    if (manga_name != "") {
+        localStorage.setItem('manga_name', document.getElementById('searchInput').value);
+        window.location.href = '/NitroReader/Search.html';
+    }
+}

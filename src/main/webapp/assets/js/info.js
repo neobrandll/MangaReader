@@ -29,7 +29,7 @@ child.children[1].classList.add("update-btn");
 //////////////////////////////////////////////////////////////////////////
 
 function load() {
-    fetch(`http://localhost:8080/NitroReader/CRUDMangaServlet?manga=${getUrlParameter("manga")}&user_id=${localStorage.getItem("user_id")}`, {method:'GET'}).then(res => res.json())
+    fetch(`http://localhost:8080/NitroReader/CRUDMangaServlet?manga=${getUrlParameter("manga")}`, {method:'GET'}).then(res => res.json())
     .then(res => {
         document.getElementById("mangaImage").src = `http://localhost:8080/NitroReader/library/${res.data.location}`;
         document.getElementById("mangaName").textContent = res.data.manga_name;
@@ -48,6 +48,12 @@ function load() {
                 document.getElementById("mangaGenres").appendChild(li);
             });
             document.getElementById("likeM").setAttribute("data-original-title", `${res.data.likesManga}`);
+            if (res.data.owner) {
+                let hidde = document.getElementsByClassName('hidde');
+                while(hidde.length > 0) {
+                    hidde[0].classList.remove('hidde');
+                }
+            }
             if (res.data.logged){
                 if (res.data.like){
                     document.getElementById("likeM").style.backgroundColor = "green";
@@ -86,9 +92,9 @@ function showComments(){
                 if (res.data.hasOwnProperty("comments")){
                     res.data.comments.forEach((element) => {
                         if (element.owned) {
-                            getComments(element.name, element.comment, true);
+                            getComments(element.name, element.comment, element.comment_id, true);
                         }else{
-                            getComments(element.name, element.comment, false);
+                            getComments(element.name, element.comment, -1, false);
                         }
                     })
                 }
@@ -97,7 +103,7 @@ function showComments(){
                 document.getElementById("sndComment").setAttribute("data-target", "#notLogged");
                 if (res.data.hasOwnProperty("comments")){
                     res.data.comments.forEach((element) => {
-                        getComments(element.name, element.comment, false);
+                        getComments(element.name, element.comment, -1, false);
                     })
                 }
             }
@@ -112,7 +118,7 @@ function showComments(){
 document.getElementById("btnComments").addEventListener("click", showComments);
 
 //FUNCTION TO APPEND ALL THE COMMENTS THAT ARE FETCHED FROM THE SERVER
-function getComments(name, comment, condition){
+function getComments(name, comment, id, condition){
     if (condition) {
     let c = document.createElement("div");
     c.classList.add("comment");
@@ -123,7 +129,9 @@ function getComments(name, comment, condition){
     let e = document.createElement("div");
     let s = document.createElement("span");
     s.addEventListener("click", editComment);
+    s.id = id;
     let s2 = document.createElement("span");
+    s2.id = id;
     s2.addEventListener("click", deleteComment);
     let b = document.createElement("button");
     b.classList.add("btn");
@@ -168,7 +176,7 @@ function getComments(name, comment, condition){
 }
 
 //FUNCTION TO APPEND A NEW COMMENT CREATED
-function newComment(name, comment) {
+function newComment(name, comment, id) {
     let c = document.createElement("div");
     c.classList.add("comment");
     let n = document.createElement("div");
@@ -178,8 +186,10 @@ function newComment(name, comment) {
     let e = document.createElement("div");
     let s = document.createElement("span");
     s.addEventListener("click", editComment);
+    s.id = id;
     let s2 = document.createElement("span");
-    s2.addEventListener("click", deleteComment)
+    s2.addEventListener("click", deleteComment);
+    s2.id = id;
     let b = document.createElement("button");
     b.classList.add("btn");
     b.classList.add("btn-link");
@@ -222,7 +232,8 @@ function sendComment() {
     fetch("http://localhost:8080/NitroReader/CommentManga", {method:'POST', body:JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
     .then(res => res.json()).then((res) => {
         if (res.status == 200) {
-            newComment(res.data.user_name, res.data.comment);
+            newComment(res.data.user_name, res.data.comment, res.data.comment_id);
+
             document.getElementById("sndComment").addEventListener("click", sendComment);
         }
     }).catch((error) => {
@@ -241,6 +252,7 @@ function editComment() {
     a = fragmentElement.cloneNode(true);
     a.children[0].value = comment.textContent;
     a.children[1].children[0].addEventListener("click", updateComment);
+    a.children[1].children[0].id = this.id;
     a.children[1].children[1].addEventListener("click", removeUpdate);
     p2.appendChild(a);
     this.removeEventListener("click", editComment);
@@ -263,10 +275,7 @@ function updateComment() {
     let p3 = p2.parentNode;
     let newC = p2.children[0].value;
     let data = {newComment: newC,
-                user_id:localStorage.getItem("user_id"),
-                manga_id:getUrlParameter("manga"),
-                comment: p3.children[2].textContent}
-
+                comment_id: this.id}
     fetch("http://localhost:8080/NitroReader/CommentManga",{method:'PUT', body:JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
     .then(res => res.json()).then((res) => {
         if (res.status == 200) {
@@ -285,7 +294,7 @@ function deleteComment() {
     let p1 = this.parentNode;
     let p2 = p1.parentNode;
     let p3 = p2.parentNode;
-    data = {user_id: localStorage.getItem("user_id"), manga_id: getUrlParameter("manga"), comment: p2.children[2].textContent}
+    data = {manga_id: getUrlParameter("manga"), comment: p2.children[2].textContent, comment_id: this.id}
     fetch("http://localhost:8080/NitroReader/CommentManga", {method:'DELETE', body:JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
     .then(res => res.json()).then((res) => {
         if (res.status === 200) {
@@ -365,3 +374,15 @@ function removeSubscription() {
     })
 }
 
+function deleteManga() {
+    let data = {
+        manga_id: getUrlParameter('manga_id')
+    }
+    fetch('/NitroReader/CRUDMangaServlet', {method:'DELETE', headers:{'Content-Type': 'application/json'}, body: JSON.stringify(data)})
+    .then(res => res.json()).then(res => {
+        if (res.status === 200) {
+            window.location.href = '/NitroReader/index.html';
+        }
+    })
+}
+document.getElementById('delete').addEventListener('click', deleteManga);

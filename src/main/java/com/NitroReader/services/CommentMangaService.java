@@ -36,6 +36,7 @@ public class CommentMangaService {
             if (rs.next()){
                 data.setComment(rs.getString("comment_content"));
                 data.setUser_name(rs.getString("user_name"));
+                data.setComment_id(rs.getInt("comment_id"));
                 ResBuilderService.BuildOk(data, out);
             }
             con.commit();
@@ -76,8 +77,11 @@ public class CommentMangaService {
                 CommentsManga comments = new CommentsManga();
                 comments.setName(rs.getString("user_name"));
                 comments.setComment(rs.getString("comment_content"));
+                comments.setComment_id(rs.getInt("comment_id"));
                 if (logged){
                     if (rs.getInt("user_id") == (int) session.getAttribute("id")) {
+                        comments.setOwned(true);
+                    } else if((boolean) session.getAttribute("admin")) {
                         comments.setOwned(true);
                     } else {
                         comments.setOwned(false);
@@ -110,9 +114,7 @@ public class CommentMangaService {
         Connection con = dbAccess.createConnection();
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryUCManga"))) {
             pstm.setString(1, manga.getNewComment());
-            pstm.setInt(2, manga.getUser_id());
-            pstm.setInt(3, manga.getManga_id());
-            pstm.setString(4, manga.getComment());
+            pstm.setInt(2, manga.getComment_id());
             pstm.executeUpdate();
             ResBuilderService.BuildOKEmpty(out);
         } catch (SQLException | NullPointerException e) {
@@ -130,9 +132,7 @@ public class CommentMangaService {
         Connection con = dbAccess.createConnection();
 
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryDCManga"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-            pstm.setInt(1, manga.getUser_id());
-            pstm.setInt(2, manga.getManga_id());
-            pstm.setString(3, manga.getComment());
+            pstm.setInt(1, manga.getComment_id());
             pstm.executeUpdate();
             ResBuilderService.BuildOKEmpty(out);
         } catch (SQLException | NullPointerException e) {

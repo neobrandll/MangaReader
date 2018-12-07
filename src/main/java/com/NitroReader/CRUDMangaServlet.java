@@ -36,7 +36,15 @@ public class CRUDMangaServlet extends HttpServlet {
                 res.setMessage("Not ok");
                 res.setData(null);
             }
-        } else CRUDManga.updateManga(request, res);
+        } else {
+            if ((boolean) request.getAttribute("logged")) {
+                if (Boolean.parseBoolean(request.getParameter("updateStatus"))) {
+                    CRUDManga.updateMangaStatus(request, res);
+                } else {
+                    CRUDManga.updateManga(request, res);
+                }
+            }
+        }
 
         String r = objM.writeValueAsString(res);
         System.out.println(r);
