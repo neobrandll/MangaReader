@@ -24,10 +24,6 @@ public class SearchServlet extends HttpServlet {
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
         PrintWriter out = response.getWriter();
-        Response<Manga> res = new Response<>();
-        SearchService.searchManga(request.getParameter("manga_name"), res);
-        String r = objM.writeValueAsString(res);
-        System.out.println(r);
-        out.print(r);
+        SearchService.searchManga(request.getParameter("manga_name"), out);
     }
 }

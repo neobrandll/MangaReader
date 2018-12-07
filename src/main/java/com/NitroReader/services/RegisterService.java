@@ -54,7 +54,7 @@ public class RegisterService {
             } else {
                 System.out.println(props.getValue("newRegister"));
                 pstm = con.prepareStatement(props.getValue("queryRegister"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                pstm.setInt(1,1);
+                pstm.setInt(1,0);
                 pstm.setString(2, encryptedPass);
                 pstm.setString(3, userR.getUser());
                 pstm.setString(4, userR.getName());

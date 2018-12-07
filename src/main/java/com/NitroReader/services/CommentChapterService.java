@@ -34,7 +34,8 @@ public class CommentChapterService {
             if (rs.next()) {
                 data.setComment(rs.getString("comment_content"));
                 data.setUser_name(rs.getString("user_name"));
-                ServiceMethods.setResponse(res, 201, "OK", data);
+                data.setComment_id(rs.getInt("comment_id"));
+                ServiceMethods.setResponse(res, 200, "OK", data);
             }
             con.commit();
         } catch (SQLException | NullPointerException e) {
@@ -77,6 +78,8 @@ public class CommentChapterService {
                 if (logged){
                     if (rs.getInt("user_id") == (int) session.getAttribute("id")) {
                         comments.setOwned(true);
+                    } else if((boolean) session.getAttribute("admin")) {
+                        comments.setOwned(true);
                     } else {
                         comments.setOwned(false);
                     }
@@ -108,9 +111,7 @@ public class CommentChapterService {
 
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryUCChapter"))) {
             pstm.setString(1, ChapterC.getNewComment());
-            pstm.setInt(2, ChapterC.getUser_id());
-            pstm.setInt(3, ChapterC.getChapter_id());
-            pstm.setString(4, ChapterC.getComment());
+            pstm.setInt(2, ChapterC.getComment_id());
             pstm.executeUpdate();
 
             ServiceMethods.setResponse(res, 200, "OK", null);
@@ -128,11 +129,8 @@ public class CommentChapterService {
         Connection con = dbAccess.createConnection();
 
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryDCChapter"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-            pstm.setInt(1, ChapterC.getUser_id());
-            pstm.setInt(2, ChapterC.getChapter_id());
-            pstm.setString(3, ChapterC.getComment());
+            pstm.setInt(1, ChapterC.getComment_id());
             pstm.executeUpdate();
-
             ServiceMethods.setResponse(res, 200, "OK", null);
         } catch (SQLException | NullPointerException e) {
             ServiceMethods.setResponse(res, 404, "ERROR", null);

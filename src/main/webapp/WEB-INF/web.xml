@@ -17,6 +17,7 @@
         <url-pattern>/LikeManga</url-pattern>
         <url-pattern>/CommentManga</url-pattern>
         <url-pattern>/CommentChapterServ</url-pattern>
+        <url-pattern>/LikeChapterServ</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>CRUDMangaFilter</filter-name>

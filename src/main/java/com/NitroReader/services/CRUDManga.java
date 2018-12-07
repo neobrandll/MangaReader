@@ -176,7 +176,6 @@ public class CRUDManga {
         manga.setManga_name(request.getParameter("manga_name"));
         manga.setManga_synopsis(request.getParameter("manga_synopsis"));
         manga.setManga_status(Boolean.parseBoolean(request.getParameter("manga_status")));
-        Part file = request.getPart("file");
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
         try(PreparedStatement pstm = con.prepareStatement(props.getValue("queryUManga"))) {
@@ -185,7 +184,6 @@ public class CRUDManga {
              pstm.setBoolean(3, manga.isManga_status());
              pstm.setInt(4, manga_id);
              pstm.executeUpdate();
-             uploadManga(file, props.getValue("direction"), manga_id);
              ServiceMethods.setResponse(res, 200, props.getValue("mangaUpdated"), null);
 
         } catch (SQLException e) {

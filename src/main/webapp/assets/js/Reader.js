@@ -46,7 +46,8 @@ child.children[1].classList.add("update-btn");
                 mainimg.setAttribute("src", filedir+"/"+ currentP+".png");
                 break;
             }
-            if (localStorage.user != null){startLikesC();}
+            startLikesC();
+           // if (localStorage.user != null){startLikesC();}
         }else{
             alert("este capitulo se encuentra vacio!")
             chapterfinished(localStorage.mangaid, getChapter_id(), currentP)
@@ -245,9 +246,9 @@ fetch("http://localhost:8080/NitroReader/TrackerChapterServl",init)
                 if (res.data.hasOwnProperty("comments")){
                     res.data.comments.forEach((element) => {
                         if (element.owned) {
-                            getComments(element.name, element.comment, true);
+                            getComments(element.name, element.comment, element.comment_id, true);
                         }else{
-                            getComments(element.name, element.comment, false);
+                            getComments(element.name, element.comment, -1, false);
                         }
                     })
                 }
@@ -256,7 +257,7 @@ fetch("http://localhost:8080/NitroReader/TrackerChapterServl",init)
                 document.getElementById("sndComment").setAttribute("data-target", "#notLogged");
                 if (res.data.hasOwnProperty("comments")){
                     res.data.comments.forEach((element) => {
-                        getComments(element.name, element.comment, false);
+                        getComments(element.name, element.comment, -1, false);
                     })
                 }
             }
@@ -269,7 +270,7 @@ fetch("http://localhost:8080/NitroReader/TrackerChapterServl",init)
 
 }
 document.getElementById("btnComments").addEventListener("click", showComments);
-function getComments(name, comment, condition){
+function getComments(name, comment, id, condition){
     if (condition) {
         let c = document.createElement("div");
         c.classList.add("comment");
@@ -280,7 +281,9 @@ function getComments(name, comment, condition){
         let e = document.createElement("div");
         let s = document.createElement("span");
         s.addEventListener("click", editComment);
+        s.id = id;
         let s2 = document.createElement("span");
+        s2.id = id;
         s2.addEventListener("click", deleteComment);
         let b = document.createElement("button");
         b.classList.add("btn");
@@ -321,9 +324,8 @@ function getComments(name, comment, condition){
         c.appendChild(p);
         document.getElementById("Comments").appendChild(c);
     }
-
 }
-function newComment(name, comment) {
+function newComment(name, comment, id) {
     let c = document.createElement("div");
     c.classList.add("comment");
     let n = document.createElement("div");
@@ -333,8 +335,10 @@ function newComment(name, comment) {
     let e = document.createElement("div");
     let s = document.createElement("span");
     s.addEventListener("click", editComment);
+    s.id = id;
     let s2 = document.createElement("span");
     s2.addEventListener("click", deleteComment);
+    s2.id = id;
     let b = document.createElement("button");
     b.classList.add("btn");
     b.classList.add("btn-link");
@@ -374,11 +378,9 @@ function sendComment() {
     };
     fetch("http://localhost:8080/NitroReader/CommentChapterServ", {method:'POST', body:JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
         .then(res => res.json()).then((resa) => {
-            var res = resa.data
-            console.log(res)
-            console.log(data)
-        if (res.status === 201) {
-            newComment(res.data.user_name, res.data.comment);
+            var res = resa.data;
+        if (res.status === 200) {
+            newComment(res.data.user_name, res.data.comment, res.data.comment_id);
             document.getElementById("sndComment").addEventListener("click", sendComment);
         }
     }).catch((error) => {
@@ -395,6 +397,7 @@ function editComment() {
     a = fragmentElement.cloneNode(true);
     a.children[0].value = comment.textContent;
     a.children[1].children[0].addEventListener("click", updateComment);
+    a.children[1].children[0].id = this.id;
     a.children[1].children[1].addEventListener("click", removeUpdate);
     p2.appendChild(a);
     this.removeEventListener("click", editComment);
@@ -434,7 +437,7 @@ function deleteComment() {
     let p1 = this.parentNode;
     let p2 = p1.parentNode;
     let p3 = p2.parentNode;
-    data = {user_id: localStorage.getItem("user_id"), chapter_id: localStorage.chapter_id, comment: p2.children[2].textContent};
+    data = {comment_id:this.id , chapter_id: localStorage.chapter_id, comment: p2.children[2].textContent};
     fetch("http://localhost:8080/NitroReader/CommentChapterServ", {method:'DELETE', body:JSON.stringify(data), headers:{'Content-Type': 'application/json'}})
         .then(res => res.json()).then((resa) => {
             var res = resa.data

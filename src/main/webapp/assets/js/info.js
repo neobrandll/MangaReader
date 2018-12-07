@@ -233,7 +233,6 @@ function sendComment() {
     .then(res => res.json()).then((res) => {
         if (res.status == 200) {
             newComment(res.data.user_name, res.data.comment, res.data.comment_id);
-
             document.getElementById("sndComment").addEventListener("click", sendComment);
         }
     }).catch((error) => {
@@ -376,7 +375,7 @@ function removeSubscription() {
 
 function deleteManga() {
     let data = {
-        manga_id: getUrlParameter('manga_id')
+        manga_id: getUrlParameter('manga')
     }
     fetch('/NitroReader/CRUDMangaServlet', {method:'DELETE', headers:{'Content-Type': 'application/json'}, body: JSON.stringify(data)})
     .then(res => res.json()).then(res => {
@@ -386,3 +385,9 @@ function deleteManga() {
     })
 }
 document.getElementById('delete').addEventListener('click', deleteManga);
+
+function toUpdate() {
+    localStorage.manga_id = getUrlParameter("manga");
+    window.location.href = "/NitroReader/CreateManga.html";
+}
+document.getElementById('toUpdate').addEventListener('click', toUpdate);

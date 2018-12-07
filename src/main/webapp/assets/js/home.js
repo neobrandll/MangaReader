@@ -47,3 +47,12 @@ function search(e) {
         window.location.href = '/NitroReader/Search.html';
     }
 }
+
+function toCreate() {
+    if (localStorage.getItem('user') != null){
+        window.location.href = '/NitroReader/CreateManga.html';
+    } else {
+        alert('no estas logeado');
+    }
+}
+document.getElementById('toCreate').addEventListener('click', toCreate);

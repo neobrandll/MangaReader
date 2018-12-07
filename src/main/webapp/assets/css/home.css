@@ -63,10 +63,10 @@ h3 {
     color: #424242;
     text-align: center;
     text-decoration-style: none;
+    padding-top: 10px;
     margin: 0;
     font-size: 20px;
     width: 100%;
-    text-align: justify;
     word-wrap: break-word;
 }
 a:hover {

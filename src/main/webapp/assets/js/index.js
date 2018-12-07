@@ -29,10 +29,3 @@ function putMangas(element) {
     document.getElementById('mangas').appendChild(li);
 }
 
-function toCreate() {
-    if (localStorage.getItem('user') != null){
-        window.location.href = '/NitroReader/CreateManga/html';
-    } else {
-        alert('no estas logeado');
-    }
-}

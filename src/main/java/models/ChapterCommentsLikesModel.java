@@ -21,6 +21,24 @@ public class ChapterCommentsLikesModel {
     private List<CommentsManga> comments;
     private boolean logged;
     private String switchState;
+    private int comment_id;
+    private boolean owned;
+
+    public boolean isOwned() {
+        return owned;
+    }
+
+    public void setOwned(boolean owned) {
+        this.owned = owned;
+    }
+
+    public int getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(int comment_id) {
+        this.comment_id = comment_id;
+    }
 
     public String getSwitchState() {
         return switchState;

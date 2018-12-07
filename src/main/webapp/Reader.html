@@ -129,5 +129,21 @@
                 $(document).ready(function(){
                 $('[data-toggle="tooltip"]').tooltip();});
           </script>
+<script>
+    document.getElementById('logoutbtn').addEventListener('click', function(){
+        fetch('http://localhost:8080/NitroReader/Session', {
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'same-origin',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json()).then(function(){
+            localStorage.clear();
+            window.location.replace("index.html");
+        })
+            .catch(error => console.error('Error:', error))
+    })
+</script>
 </body>
 </html>

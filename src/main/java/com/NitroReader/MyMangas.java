@@ -26,10 +26,7 @@ public class MyMangas extends HttpServlet {
         objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(false);
-        Response<Manga> res = new Response<>();
-        SearchService.myMangas(res, (int) session.getAttribute("id"));
-        String r = objM.writeValueAsString(res);
-        System.out.println(r);
-        out.print(r);
+        SearchService.myMangas(out, (int) session.getAttribute("id"));
+
     }
 }

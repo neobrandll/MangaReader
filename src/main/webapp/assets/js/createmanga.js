@@ -17,8 +17,7 @@ function fetchmanga(manga_request){
             if(arr[i].checked){
             form.append("genres_id",arr[i].value);
             }
-        } 
-        form.append("user_id", "2");
+        }
         let name = document.getElementById("name").value;
         form.append("manga_name", name);
         let synopsis = document.getElementById("synopsis").value;
@@ -29,11 +28,10 @@ function fetchmanga(manga_request){
         form.append("file", document.getElementById("file").files[0]);
         form.append("manga_request", manga_request);
     } else{
-        form.append("manga_id", "33");
+        form.append("manga_id", localStorage.manga_id);
         form.append("manga_name", document.getElementById("name").value);
         form.append("manga_synopsis", document.getElementById("synopsis").value);
         form.append("manga_status", document.getElementById("status").value);
-        form.append("file", document.getElementById("file").files);
         form.append("manga_request", manga_request);
     }
     init ={
@@ -44,7 +42,11 @@ function fetchmanga(manga_request){
     .then(function(res){
         return res.json()
     }).then(function(res){   
-        console.log(`${res.status} ${res.message}`);
+        if (res.status === 201) {
+            window.location.href = `/NitroReader/MangaInfo.html?manga=${res.data.manga_id}`;
+        }else if (res.status === 200) {
+            window.location.href = `/NitroReader/MangaInfo.html?manga=${localStorage.manga_id}`;
+        }
     })
 }
 

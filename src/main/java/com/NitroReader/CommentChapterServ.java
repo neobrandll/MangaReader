@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.stream.Collectors;
@@ -20,12 +21,14 @@ import java.util.stream.Collectors;
 public class CommentChapterServ extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ObjectMapper objM = new ObjectMapper();
+        HttpSession session = request.getSession(false);
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
         Response<ChapterCommentsLikesModel> res = new Response<>();
         PrintWriter out = response.getWriter();
         ChapterCommentsLikesModel ChapterC = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), ChapterCommentsLikesModel.class);
+        ChapterC.setUser_id((int) session.getAttribute("id"));
         CommentChapterService.createComment(ChapterC, res);
         ResBuilderService.BuildOk(res, out);
     }
@@ -46,10 +49,12 @@ public class CommentChapterServ extends HttpServlet {
     }
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ObjectMapper objM = new ObjectMapper();
+        HttpSession session = request.getSession(false);
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         ChapterCommentsLikesModel ChapterC = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), ChapterCommentsLikesModel.class);
         Response<ChapterCommentsLikesModel> res = new Response<>();
+        ChapterC.setUser_id((int) session.getAttribute("id"));
         PrintWriter out = response.getWriter();
 
         CommentChapterService.deleteComment(ChapterC, res);
@@ -58,10 +63,12 @@ public class CommentChapterServ extends HttpServlet {
     }
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ObjectMapper objM = new ObjectMapper();
+        HttpSession session = request.getSession(false);
         objM.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objM.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objM.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
         ChapterCommentsLikesModel ChapterC = objM.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), ChapterCommentsLikesModel.class);
+        ChapterC.setUser_id((int) session.getAttribute("id"));
         Response<ChapterCommentsLikesModel> res = new Response<>();
         PrintWriter out = response.getWriter();
 

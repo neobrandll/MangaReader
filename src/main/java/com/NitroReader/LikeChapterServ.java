@@ -61,14 +61,16 @@ public class LikeChapterServ extends HttpServlet {
         HttpSession session = request.getSession(false);
         ChapterCommentsLikesModel data = new ChapterCommentsLikesModel();
         int chapter_id = Integer.valueOf(request.getParameter("Chapter_id"));
-        int user_id = (int) session.getAttribute("id");
         Connection con = dbAccess.createConnection();
         try(
             PreparedStatement pstm3 = con.prepareStatement(props.getValue("querySLChapter"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             PreparedStatement pstm4 = con.prepareStatement(props.getValue("queryifLChapter"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
         ) {
             data.setLikesChapter(LikeChapterService.countLikesChapter(pstm3, chapter_id));
-            data.setLike(LikeChapterService.userLikeChapter(pstm4, chapter_id, user_id));
+            if((boolean) request.getAttribute("logged")){
+                int user_id= (int) session.getAttribute("id");
+                data.setLike(LikeChapterService.userLikeChapter(pstm4, chapter_id, user_id));
+            }
             ResBuilderService.BuildOk(data, out);
         } catch (SQLException e) {
             System.out.println(props.getValue("errorFetchManga") + e.getMessage());

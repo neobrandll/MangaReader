@@ -2,10 +2,12 @@ package com.NitroReader.services;
 
 import com.NitroReader.utilities.DBAccess;
 import com.NitroReader.utilities.PropertiesReader;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import models.Manga;
 import models.MangaOuter;
 import models.Response;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 public class SearchService {
 
     //METHOD FOR SEARCH MANGAS
-    public static void searchManga(String manga_name, Response<Manga> res){
+    public static void searchManga(String manga_name, PrintWriter out) throws JsonProcessingException {
         PropertiesReader props = PropertiesReader.getInstance();
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
@@ -36,13 +38,13 @@ public class SearchService {
                     mangas.add(info);
                 }
                 data.setSearchManga(mangas);
-                ServiceMethods.setResponse(res, 200, "OK", data);
+                ResBuilderService.BuildOk(data, out);
             }else{
-                ServiceMethods.setResponse(res, 404, props.getValue("mangaNotFound"), null);
+                ResBuilderService.BuildResError(out);
             }
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
-            ServiceMethods.setResponse(res, 404, props.getValue("mangaNotFound"), null);
+            ResBuilderService.BuildResError(out);
         } finally {
             if (con != null){
                 dbAccess.closeConnection(con);
@@ -59,7 +61,7 @@ public class SearchService {
     }
 
     //METHOD TO FETCH ALL MY MANGAS
-    public static void myMangas(Response<Manga> res, int user_id) {
+    public static void myMangas(PrintWriter out, int user_id) throws JsonProcessingException {
         PropertiesReader props = PropertiesReader.getInstance();
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
@@ -80,13 +82,13 @@ public class SearchService {
                     mangas.add(info);
                 }
                 data.setSearchManga(mangas);
-                ServiceMethods.setResponse(res, 200, "OK", data);
+                ResBuilderService.BuildOk(data, out);
             }else{
-                ServiceMethods.setResponse(res, 404, props.getValue("mangaNotFound"), null);
+                ResBuilderService.BuildResError(out);
             }
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
-            ServiceMethods.setResponse(res, 404, props.getValue("mangaNotFound"), null);
+            ResBuilderService.BuildResError(out);
         } finally {
             if (con != null){
                 dbAccess.closeConnection(con);
@@ -102,7 +104,7 @@ public class SearchService {
         }
     }
 
-    public static void homeSearch(Response<Manga> res) {
+    public static void homeSearch(PrintWriter out) throws JsonProcessingException {
         PropertiesReader props = PropertiesReader.getInstance();
         DBAccess dbAccess = DBAccess.getInstance();
         Connection con = dbAccess.createConnection();
@@ -121,13 +123,13 @@ public class SearchService {
                     mangas.add(info);
                 }
                 data.setSearchManga(mangas);
-                ServiceMethods.setResponse(res, 200, "OK", data);
+                ResBuilderService.BuildOk(data, out);
             }else{
-                ServiceMethods.setResponse(res, 404, props.getValue("mangaNotFound"), null);
+                ResBuilderService.BuildResError(out);
             }
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
-            ServiceMethods.setResponse(res, 404, props.getValue("mangaNotFound"), null);
+            ResBuilderService.BuildResError(out);
         } finally {
             if (con != null){
                 dbAccess.closeConnection(con);
