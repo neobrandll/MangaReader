@@ -1,0 +1,137 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* h1, h2, h4, p{
+    font-family: 'Fira Sans', sans-serif;
+} */
+h1{
+    /* margin-top: 40px; */
+    padding: 10px;
+    margin: 0;
+    border-radius: 5px;
+    color: red;
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 1.2;
+    /* background-color: #212529; */
+}
+ul, nav, li {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    text-align: center;
+}
+section{
+    font-family: 'Fira Sans', sans-serif;
+}
+div > small{
+    color: #6c757d;
+}
+.form-control:hover, .form-control:focus, .custom-select:hover, .custom-select:focus{
+    box-shadow: 0 0 0 0.25rem rgba(108,117,125,.5) !important;
+    border: 1px solid rgba(108,117,125,.5) !important;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+    background-color: black;
+    box-shadow: 0 0 0 0.25rem rgba(108,117,125,.5) !important;
+}
+.custom-checkbox .custom-control-input:focus~.custom-control-label::before{
+    box-shadow: 0 0 0 0.15rem rgba(108,117,125,.5);
+}
+.custom-file-input:focus~.custom-file-label{
+    border-color: rgba(108,117,125,.5) !important; 
+    box-shadow: 0 0 0 0.15rem rgba(108,117,125,.5) !important;
+}
+.custom-checkbox .custom-control-input:disabled~.custom-control-label{color:black}
+
+
+/* Main Styles */
+.main {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 8.5vh;
+}
+.main .background-image {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	z-index: -1;
+	/* background-color: #80a3db; */
+}
+.formgroup{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.formgroup > div{
+    display: flex;
+    flex-direction: row;
+}
+.formgroup > div > label{
+    flex: 1 1 30%;
+    font-weight: 700;
+    padding: 10px;
+}
+.formgroup > div > div{
+    flex: 2 2 70%;
+}
+.form-items{
+    margin: 10px;
+}
+
+.main-content{
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    flex-basis: 85%;
+    background: rgba(255, 255, 255, .95);
+    border: 1px solid rgba(0,0,0,.125);
+    padding: 10px;
+}
+
+/* Header Styles */
+header{
+    position: absolute;
+     width: 100%;
+}
+
+/* Check-box Styles */
+.form-checkbox{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-left: 20px;
+    /* min-width: 320px; */
+}
+.form-checkbox > div{
+    /* flex: 1 1 15%  !important; */
+    flex-basis: 20%;
+    padding: 5px;
+    /* margin-right: 20px; */
+}
+
+/* Form Buttons Style */
+.btn-form{
+    display: flex;
+    flex-direction: row !important;
+    width: 85%;
+    flex-basis: 85%;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0,0,0,.125);
+    justify-content: space-evenly;
+}
+.btn-form > button{
+    margin: 10px;
+}

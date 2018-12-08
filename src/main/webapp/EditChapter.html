@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NitroReader</title>
+    <link rel="shortcut icon" href="assets/css/images/Nitrolove.ico"/>
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" >
+   <link rel="stylesheet" href="assets/css/NitroCSS.css">
+   <link rel="stylesheet" href="assets/css/EditChapter.css">
+  </head>
+<body onload="main(); getimgs()">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a id="gohome" class="navbar-brand" href="#"><i class="fa fa-bolt" aria-hidden="true"></i> NitroReader</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <span class="nav-link" id="userspan"></span>
+                </li>
+            <li class="nav-item ">
+              <a id="homebtn" class="nav-link" href="#">Home </a>
+            </li>
+            <li class="nav-item">
+              <a  id="loginbtn" class="nav-link" href="#">Login</a>
+            </li>
+           
+            <li class="nav-item">
+              <a id="registerbtn" class="nav-link " href="#">Register</a>
+            </li>
+            <li class="nav-item">
+                <a id="logoutbtn" class="nav-link " href="#">Logout</a>
+              </li>
+          </ul>
+          
+        </div>
+      </nav>
+
+ <!-- aqui empieza el body -->
+ <div class="header-buttom">
+   <div id="gomangainfo" class="btn btn-danger">Go back to MangaInfo</div>
+   <div class="form-group form-inline">
+     <label class="label-chapter">
+       Chapter Title:
+      </label>
+      <input type="text"  class="form-control" id="title"/>
+    </div>
+   <div id="delchapter" class="rounded btn-danger">Delete Chapter</div>
+ </div>
+
+ 
+    <div id="div1" class="border rounded d" ondrop="drop(event)" ondragover="allowDrop(event)">  </div>
+    <div id="div2" class="border rounded d" ondrop="dropdiv2(event)" ondragover="allowDrop(event)"></div>
+    <!-- <input id="myfiles" class="rounded btn-danger" multiple type="file"/> -->
+    <label  id="myfileslabel" class="btn btn-danger btn-file">
+        Choose Files <input id="myfiles" multiple type="file" style="display: none;">
+    </label>
+    <div id="cargar" class="rounded btn-danger ">Load</div>
+    <div id="del" class="rounded btn-danger " ondrop="dropdel(event)" ondragover="allowDrop(event)" >Drag here <br> to delete</div>
+    <div id="enviar" class="rounded btn-danger ">Send</div>
+    
+
+
+
+              <script src="assets/js/EditChapter.js"></script>
+              <script src="assets/js/jquery-3.3.1.slim.js"></script>
+              <script src="assets/js/bootstrap.min.js" ></script>
+              <script src="assets/js/home.js"></script>
+</body>
+</html>

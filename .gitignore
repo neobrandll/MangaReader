@@ -10,4 +10,10 @@
 
 MangaReader\.iml
 
-/resources
+
+
+src/main/resources/
+
+src/main/webapp/library
+
+

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <!-- <link rel="shortcut icon" href="assets/css/images/Nitrolove.ico"/>
+    <link rel="stylesheet" href="assets/css/all.css" >
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    <link rel="shortcut icon" href="assets/css/images/Nitrolove.ico"/>
+    <link rel="stylesheet" href="assets/css/all.css">    
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <script src="assets/js/jquery-3.3.1.slim.js"></script>
+   <link rel="stylesheet" href="assets/css/MangaInfo.css">
+    <link rel="stylesheet" href="assets/css/searchForm.css">
+   
+</head>
+<body onload="load(); main(); getmangaid(); loadnumchapter();">
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+            <a id="gohome" class="navbar-brand" href="#"><i class="fa fa-bolt" aria-hidden="true"></i> NitroReader</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <form class="form-inline my-2 my-lg-0" style="margin-left: 50px;">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" id="searchInput" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" id="search">Search</button>
+            </form>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <span class="nav-link" id="userspan"></span>
+                    </li>
+                <li class="nav-item ">
+                  <a id="homebtn" class="nav-link" href="#">Home </a>
+                </li>
+                <li class="nav-item">
+                  <a  id="loginbtn" class="nav-link" href="#">Login</a>
+                </li>
+               
+                <li class="nav-item">
+                  <a id="registerbtn" class="nav-link " href="#">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a id="logoutbtn" class="nav-link " href="#">Logout</a>
+                  </li>
+              </ul>
+              
+            </div>
+          </nav>
+    </header>
+
+    <section class="main">
+        <div class="background-image" style="background-image: url(assets/css/images/881019.png);"></div>
+        
+        <div class="main-content">
+            <div class="grid image">
+                <div>
+                        <h2>Manga</h2>
+                        <img src="" alt="" id="mangaImage">
+                </div>            
+            </div>
+            <article class="grid descp">
+                <div>
+                    <div class="content1">
+                        <h1 id="mangaName"></h1>
+                        <p id="mangaSynopsis">
+                        </p>
+                    </div>
+                    <div class="content2">
+                        <h4>Genres</h4>
+                        <ul id="mangaGenres" class="genres">                                
+                        </ul>
+                        <h4>Status</h4>
+                        <span id="mangaStatuss"></span>
+                    </div>
+                    <span class="chapter hidde">
+                        <label for="numchap">Create or Update a chapter: <input id="numchap" type="number"></label> 
+                        <div class="btn-danger" id="crtchapter" >Send</div>
+                    </span>
+                    <div class="hidde" style="display:flex; flex-direction:row; justify-content:center;">
+                        <button id="toUpdate" class="">
+                            Update
+                        </button>
+                        <button id="delete">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </article>
+            <div class="grid aside">
+                <div class="navigation">
+                        <button type="button" class="btn btn-secondary" id="likeM" data-toggle="tooltip" data-placement="top" title="">
+                                Like
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="tracker" data-toggle="tooltip" data-placement="top" title="Tracker Status" >
+                            Not finished
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="subscribe" data-toggle="tooltip" data-placement="top" title="250">
+                                Subscribe
+                        </button>
+                        <div class="dropdown dropdown-chapter">
+                                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Leer Capitulo
+                                </button>
+                                <div id="dropmenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                
+                                </div>
+                        </div>
+                </div>                                                              
+            </div>  
+        </div>
+              
+    </section>
+    <section class="comments-area">
+        <button type="button" id="btnComments"  class="btn btn-danger">Show Comments</button>
+        <h2 class="hidde" id="titleComments">Comments</h2>
+        <div class="newComment hidde" id="NewComment">
+            <div class="name"></div>
+            <div class="form-group">
+                <textarea class="form-control" id="comment-text" rows="6"></textarea>
+                <div>
+                    <button type="button" class="btn btn-primary" id="sndComment">Share!</button>
+                </div>            
+            </div>
+        </div>
+        <div class="comments hidde" id="Comments">
+            <!--<div class="comment">-->
+                <!--<div class="name">Elvis  Araujo</div>-->
+                <!--<div class="editions">-->
+                    <!--<span><button type="button" class="btn btn-link" ><i class="fas fa-pencil-alt"></i> Edit</button></span>-->
+                    <!--<span><button type="button" class="btn btn-danger" ><i class="fas fa-times"></i></button></span>        -->
+                <!--</div>-->
+                <!--<p class="comment-content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta molestiae magni voluptates eveniet, exercitationem eius? Nam minima totam dolorem provident praesentium aut atque molestiae, exercitationem veritatis. Cumque et deserunt similique.-->
+                    <!--Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores veniam fugiat asperiores neque porro, magnam quas saepe ipsa aperiam laudantium quisquam fugit unde nisi quasi maiores. Velit accusantium ut eum.-->
+                <!--</p>-->
+            <!--</div>-->
+        </div>                
+    </section>
+    <div class="modal fade" id="notLogged" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Sorry!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    You have to be Logged to do this!
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery-3.3.1.slim.js"></script>
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script>
+        $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();});
+    </script>
+    <script src="assets/js/info.js"></script> 
+    <script src="assets/js/createchapter.js"></script>
+    <script src="assets/js/home.js"></script>
+</body>      
+</html>
